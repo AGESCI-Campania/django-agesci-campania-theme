@@ -1,6 +1,6 @@
 # django-agesci-theme
 
-[![build](https://github.com/agesci-campania/django-agesci-theme/actions/workflows/build.yml/badge.svg)](https://github.com/agesci-campania/django-agesci-theme/actions/workflows/build.yml)
+[![build](https://github.com/AGESCI-Campania/django-agesci-campania-theme/actions/workflows/build.yml/badge.svg)](https://github.com/AGESCI-Campania/django-agesci-campania-theme/actions/workflows/build.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/Django-6.0%2B-092E20.svg?logo=django&logoColor=white)](https://www.djangoproject.com/)
@@ -36,13 +36,13 @@ Il pacchetto si installa direttamente da GitHub.
 ### Con uv (consigliato)
 
 ```bash
-uv add "git+https://github.com/agesci-campania/django-agesci-theme.git"
+uv add "git+https://github.com/AGESCI-Campania/django-agesci-campania-theme.git"
 ```
 
 ### Con pip
 
 ```bash
-pip install "git+https://github.com/agesci-campania/django-agesci-theme.git"
+pip install "git+https://github.com/AGESCI-Campania/django-agesci-campania-theme.git"
 ```
 
 ## Configurazione

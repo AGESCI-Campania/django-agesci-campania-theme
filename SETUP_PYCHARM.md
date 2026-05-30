@@ -66,12 +66,15 @@ git init
 git add .
 git commit -m "Initial commit: tema AGESCI Campania"
 git branch -M main
-git remote add origin https://github.com/agesci-campania/django-agesci-theme.git
+git remote add origin https://github.com/AGESCI-Campania/django-agesci-campania-theme.git
 git push -u origin main
 ```
 
 Da quel momento, qualsiasi app potrà installarlo con:
 
 ```bash
-uv add "git+https://github.com/agesci-campania/django-agesci-theme.git"
+# con uv
+uv add "git+https://github.com/AGESCI-Campania/django-agesci-campania-theme.git"
+# con pip
+pip install "git+https://github.com/AGESCI-Campania/django-agesci-campania-theme.git"
 ```

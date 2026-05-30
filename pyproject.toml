@@ -23,8 +23,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/agesci-campania/django-agesci-theme"
-Repository = "https://github.com/agesci-campania/django-agesci-theme"
+Homepage = "https://github.com/AGESCI-Campania/django-agesci-campania-theme"
+Repository = "https://github.com/AGESCI-Campania/django-agesci-campania-theme"
 
 [dependency-groups]
 dev = [
