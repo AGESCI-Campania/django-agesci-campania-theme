@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "django-agesci-theme"
+version = "0.1.0"
+description = "Tema Bootstrap 5 per applicazioni Django dell'AGESCI Campania, con palette ufficiale e personalizzazione per branca."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "AGESCI Campania" }]
+keywords = ["django", "bootstrap", "agesci", "theme", "scout"]
+classifiers = [
+    "Framework :: Django",
+    "Framework :: Django :: 6.0",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+]
+dependencies = [
+    "Django>=6.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/agesci-campania/django-agesci-theme"
+Repository = "https://github.com/agesci-campania/django-agesci-theme"
+
+[dependency-groups]
+dev = [
+    "Django>=6.0",
+]
+
+[tool.uv]
+package = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["agesci_theme"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/agesci_theme",
+    "/README.md",
+    "/LICENSE",
+]

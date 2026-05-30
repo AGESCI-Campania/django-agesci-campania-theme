@@ -1,0 +1,40 @@
+{% extends "agesci_theme/base.html" %}
+{% load agesci_tags %}
+
+{% block title %}Home — {{ agesci_theme_nome }}{% endblock %}
+
+{% block nav_items %}
+  <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+  <li class="nav-item"><a class="nav-link" href="#">Eventi</a></li>
+  <li class="nav-item"><a class="nav-link" href="#">Contatti</a></li>
+{% endblock %}
+
+{% block content %}
+  <div class="p-5 mb-4 rounded-3 {% branca_bg %}">
+    <h1 class="display-5">{{ agesci_theme_nome }}</h1>
+    <p class="lead mb-0">Template di esempio basato su <code>django-agesci-theme</code>.
+       Cambia <code>AGESCI_THEME_BRANCA</code> in settings per ricolorare tutto.</p>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-6">
+      <h2>Pulsanti</h2>
+      <button class="btn btn-primary me-2">Primario</button>
+      <button class="btn btn-outline-primary">Outline</button>
+    </div>
+    <div class="col-md-6">
+      <h2>Emblema di Zona</h2>
+      {% emblema_zona "vesuvio" css_class="img-fluid" alt="Zona Vesuvio" %}
+    </div>
+  </div>
+
+  <h2 class="mt-5">Palette del manuale</h2>
+  <div class="d-flex flex-wrap gap-2 mt-3">
+    <span class="badge p-3 bg-ag-viola">Viola</span>
+    <span class="badge p-3 bg-ag-azzurro">Azzurro</span>
+    <span class="badge p-3 bg-ag-giallo-lc">Giallo L/C</span>
+    <span class="badge p-3 bg-ag-verde-eg">Verde E/G</span>
+    <span class="badge p-3 bg-ag-rosso-rs">Rosso R/S</span>
+    <span class="badge p-3 bg-ag-giallo-oro">Giallo oro</span>
+  </div>
+{% endblock %}

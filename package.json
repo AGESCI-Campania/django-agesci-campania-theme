@@ -1,0 +1,13 @@
+{
+  "name": "django-agesci-theme-build",
+  "version": "0.1.0",
+  "description": "Toolchain di build SCSS per il tema AGESCI Campania (solo sviluppo).",
+  "private": true,
+  "scripts": {
+    "build:css": "sass agesci_theme/static/agesci_theme/scss/agesci.scss agesci_theme/static/agesci_theme/css/agesci.css --style=expanded --no-source-map && sass agesci_theme/static/agesci_theme/scss/agesci.scss agesci_theme/static/agesci_theme/css/agesci.min.css --style=compressed --no-source-map",
+    "watch:css": "sass --watch agesci_theme/static/agesci_theme/scss/agesci.scss:agesci_theme/static/agesci_theme/css/agesci.css"
+  },
+  "devDependencies": {
+    "sass": "^1.77.0"
+  }
+}

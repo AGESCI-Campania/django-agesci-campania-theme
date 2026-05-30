@@ -1,0 +1,10 @@
+// =============================================================
+//  agesci.scss - entrypoint del tema AGESCI Campania
+//
+//  Questo file NON include Bootstrap: il tema e' pensato per essere
+//  caricato DOPO bootstrap.min.css e ne sovrascrive le variabili.
+//  Compilare con:  npm run build:css   (vedi package.json)
+// =============================================================
+@use "palette";
+@use "branche";
+@use "bootstrap-overrides";
