@@ -77,11 +77,13 @@ example_project/               # progetto Django demo per testare il tema
 
 ## Installazione del pacchetto
 
+Il pacchetto è pubblicato su PyPI:
+
 ```bash
 # con uv (consigliato)
-uv add "git+https://github.com/AGESCI-Campania/django-agesci-campania-theme.git"
+uv add django-agesci-campania-theme
 # con pip
-pip install "git+https://github.com/AGESCI-Campania/django-agesci-campania-theme.git"
+pip install django-agesci-campania-theme
 ```
 
 ## Integrazione in un progetto Django

@@ -31,17 +31,24 @@ necessario: basta cambiare una setting.
 
 ## Installazione
 
-Il pacchetto si installa direttamente da GitHub.
+Il pacchetto è disponibile su [PyPI](https://pypi.org/project/django-agesci-campania-theme/).
 
 ### Con uv (consigliato)
 
 ```bash
-uv add "git+https://github.com/AGESCI-Campania/django-agesci-campania-theme.git"
+uv add django-agesci-campania-theme
 ```
 
 ### Con pip
 
 ```bash
+pip install django-agesci-campania-theme
+```
+
+### Da GitHub (ultima versione non rilasciata)
+
+```bash
+uv add "git+https://github.com/AGESCI-Campania/django-agesci-campania-theme.git"
 pip install "git+https://github.com/AGESCI-Campania/django-agesci-campania-theme.git"
 ```
 

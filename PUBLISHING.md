@@ -20,14 +20,24 @@ Questa guida spiega come rilasciare `django-agesci-campania-theme` su
 
 Il modo più sicuro è usare un **API token** per ciascun repository.
 
-### Con uv (file `~/.config/uv/credentials.toml` o variabili d'ambiente)
+### Con uv
+
+Il modo più diretto è passare il token esplicitamente al comando (uv non legge
+il `credentials.toml` automaticamente fuori da ambienti CI):
 
 ```bash
-# imposta il token per PyPI (prefisso obbligatorio "pypi-")
-export UV_PUBLISH_TOKEN=pypi-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+uv publish --token pypi-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
-Oppure crea `~/.config/uv/credentials.toml`:
+In alternativa, esporta la variabile d'ambiente prima di lanciare `uv publish`:
+
+```bash
+export UV_PUBLISH_TOKEN=pypi-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+uv publish
+```
+
+Puoi conservare i token in `~/.config/uv/credentials.toml` come riferimento,
+ma dovrai comunque passarli via `--token` o variabile d'ambiente:
 
 ```toml
 [pypi]

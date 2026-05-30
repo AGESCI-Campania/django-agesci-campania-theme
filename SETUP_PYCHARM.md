@@ -73,8 +73,10 @@ git push -u origin main
 Da quel momento, qualsiasi app potrà installarlo con:
 
 ```bash
-# con uv
+# da PyPI (consigliato)
+uv add django-agesci-campania-theme
+pip install django-agesci-campania-theme
+# da GitHub (ultima versione non rilasciata)
 uv add "git+https://github.com/AGESCI-Campania/django-agesci-campania-theme.git"
-# con pip
 pip install "git+https://github.com/AGESCI-Campania/django-agesci-campania-theme.git"
 ```
