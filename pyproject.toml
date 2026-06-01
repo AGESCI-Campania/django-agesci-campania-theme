@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "django-agesci-campania-theme"
-version = "1.0.0"
+version = "1.1.0"
 description = "Tema Bootstrap 5 per applicazioni Django dell'AGESCI Campania, con palette ufficiale e personalizzazione per branca."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -22,6 +22,13 @@ dependencies = [
     "Django>=6.0",
 ]
 
+[project.optional-dependencies]
+# Supporto icone Bootstrap Icons tramite django-bootstrap-icons.
+# Installazione: uv add "django-agesci-campania-theme[icons]"
+# Aggiungere "bootstrap_icons" a INSTALLED_APPS e impostare BS_ICONS_CACHE
+# per le prestazioni (vedi README).
+icons = ["django-bootstrap-icons>=0.9"]
+
 [project.urls]
 Homepage = "https://github.com/AGESCI-Campania/django-agesci-campania-theme"
 Repository = "https://github.com/AGESCI-Campania/django-agesci-campania-theme"
@@ -29,6 +36,7 @@ Repository = "https://github.com/AGESCI-Campania/django-agesci-campania-theme"
 [dependency-groups]
 dev = [
     "Django>=6.0",
+    "django-bootstrap-icons>=0.9",
 ]
 
 [tool.uv]

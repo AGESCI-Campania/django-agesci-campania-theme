@@ -1,0 +1,17 @@
+{% if subnav_items %}
+<div class="subnav-agesci">
+  <div class="container">
+    <ul class="nav nav-pills py-2" role="tablist">
+      {% for item in subnav_items %}
+        <li class="nav-item" role="presentation">
+          <a class="nav-link{% if item.active %} active{% endif %}"
+             href="{{ item.url }}"
+             {% if item.active %}aria-current="page"{% endif %}>
+            {{ item.label }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endif %}

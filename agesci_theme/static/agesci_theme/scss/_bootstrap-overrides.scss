@@ -5,6 +5,20 @@
 // =============================================================
 @use "palette" as p;
 
+// --- Layout applicazione (navbar e footer sempre visibili, solo il main scorre)
+// body usa d-flex flex-column nel markup; qui fissiamo l'altezza al viewport.
+body {
+  height: 100vh;
+  overflow: hidden;
+}
+
+// min-height: 0 è indispensabile: senza di esso un flex-item non scende
+// sotto la dimensione del suo contenuto e lo scroll non parte mai.
+main {
+  min-height: 0;
+  overflow-y: auto;
+}
+
 // --- Tipografia --------------------------------------------------------------
 $ag-font-sans: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 $ag-font-head: "Montserrat", "Open Sans", system-ui, sans-serif;
@@ -88,6 +102,31 @@ a:hover { color: var(--ag-primary-hover); }
 .form-select:focus {
   border-color: var(--ag-primary);
   box-shadow: 0 0 0 .25rem rgba(var(--bs-primary-rgb), .25);
+}
+
+// --- Breadcrumb --------------------------------------------------------------
+.breadcrumb-agesci {
+  background-color: var(--ag-primary-subtle);
+  border-bottom: 1px solid rgba(0, 0, 0, .06);
+
+  .breadcrumb-item + .breadcrumb-item::before { color: var(--ag-primary); }
+  .breadcrumb-item.active { color: var(--ag-primary); font-weight: 600; }
+  a { color: var(--ag-primary); }
+  a:hover { color: var(--ag-primary-hover); }
+}
+
+// --- Subnav secondaria -------------------------------------------------------
+.subnav-agesci {
+  background-color: var(--ag-primary-subtle);
+  border-bottom: 1px solid rgba(0, 0, 0, .08);
+
+  .nav-link {
+    color: var(--ag-primary);
+    border-radius: .375rem;
+
+    &:hover { background-color: rgba(var(--bs-primary-rgb), .12); color: var(--ag-primary); }
+    &.active { background-color: var(--ag-primary); color: var(--ag-on-primary); }
+  }
 }
 
 // --- Footer ------------------------------------------------------------------

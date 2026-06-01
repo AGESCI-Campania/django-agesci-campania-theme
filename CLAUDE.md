@@ -21,6 +21,10 @@ Django dell'AGESCI Campania.
   Dopo ogni modifica allo SCSS rigeneralo con `npm run build:css` e committa.
 - Bootstrap 5 è caricato da CDN in `base.html`; `agesci.min.css` va caricato
   **dopo** di esso e sovrascrive le sue custom properties.
+- **Layout viewport fisso**: `body { height: 100vh; overflow: hidden }` e
+  `main { min-height: 0; overflow-y: auto }` sono definiti in
+  `_bootstrap-overrides.scss`. NON usare `min-vh-100` sul body — renderebbe
+  il body crescere oltre il viewport e il footer non sarebbe più fisso.
 
 ## Comandi (uv)
 
@@ -72,8 +76,15 @@ example_project/               # progetto Django demo per testare il tema
   `agesci_tags._BRANCA_BG`, poi ricompila il CSS.
 - Mantieni la retrocompatibilità dei blocchi template di `base.html`: altre app
   ne dipendono. Blocchi esposti: `title`, `extra_head`, `navbar`, `brand_url`,
-  `brand_text`, `nav_items`, `main_class`, `messages`, `content`, `footer`,
-  `footer_text`, `footer_links`, `extra_js`.
+  `brand_text`, `nav_items`, `breadcrumb`, `subnav`, `main_class`, `messages`,
+  `content`, `footer`, `footer_text`, `footer_links`, `extra_js`.
+- `breadcrumb` e `subnav` si attivano passando rispettivamente `breadcrumb_items`
+  e `subnav_items` dal contesto della view (liste di dizionari con chiavi
+  `label`/`url` e, per subnav, anche `active`). Altrimenti si sovrascrive il blocco.
+- **Icone Bootstrap (opzionale)**: `django-bootstrap-icons` è una dipendenza
+  opzionale (`[icons]`). App name: `django_bootstrap_icons`. Templatetag:
+  `{% load bootstrap_icons %}` poi `{% bs_icon "nome" %}`. Raccomandare sempre
+  `BS_ICONS_CACHE` in settings per le prestazioni.
 
 ## Installazione del pacchetto
 

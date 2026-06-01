@@ -17,6 +17,8 @@ db.sqlite3
 /staticfiles/
 media/
 .env
+# Cache icone Bootstrap (generata a runtime da django-bootstrap-icons)
+.bs-icons-cache/
 # IDE
 .idea/
 .vscode/

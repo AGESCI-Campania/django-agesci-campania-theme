@@ -6,14 +6,15 @@
 [![Django](https://img.shields.io/badge/Django-6.0%2B-092E20.svg?logo=django&logoColor=white)](https://www.djangoproject.com/)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3.svg?logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 [![uv](https://img.shields.io/badge/packaged%20with-uv-DE5FE9.svg?logo=uv&logoColor=white)](https://github.com/astral-sh/uv)
-[![Version](https://img.shields.io/badge/version-0.1.0-informational.svg)](pyproject.toml)
+[![Version](https://img.shields.io/badge/version-1.1.0-informational.svg)](pyproject.toml)
 [![Code style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Tema **Bootstrap 5** riusabile per le applicazioni **Django** dell'**AGESCI Campania**.
 
-Fornisce un `base.html` pronto all'uso, navbar e footer brandizzati, la palette
-ufficiale del *Manuale Immagine Coordinata AGESCI 2011*, gli emblemi associativi
-e regionali, e la **personalizzazione per branca** tramite un singolo parametro.
+Fornisce un `base.html` pronto all'uso, navbar, footer sticky, breadcrumb e
+sub-navbar brandizzati, la palette ufficiale del *Manuale Immagine Coordinata
+AGESCI 2011*, gli emblemi associativi e regionali, e la **personalizzazione per
+branca** tramite un singolo parametro.
 
 | Ambito | Colore dominante | `data-branca` |
 |---|---|---|
@@ -120,9 +121,92 @@ STATIC_URL = "static/"
 
 ### Blocchi disponibili in `base.html`
 
-`title`, `extra_head`, `navbar`, `brand_url`, `brand_text`, `nav_items`,
-`main_class`, `messages`, `content`, `footer`, `footer_text`, `footer_links`,
-`extra_js`.
+| Blocco | Posizione |
+|---|---|
+| `title` | `<title>` della pagina |
+| `extra_head` | fine del `<head>`, prima di `</head>` |
+| `navbar` | barra di navigazione principale |
+| `brand_url` | URL del brand nella navbar |
+| `brand_text` | testo del brand nella navbar |
+| `nav_items` | voci `<li>` all'interno del menu |
+| `breadcrumb` | barra breadcrumb (sotto la navbar) |
+| `subnav` | barra di navigazione secondaria |
+| `main_class` | classi CSS del tag `<main>` |
+| `messages` | messaggi Django (alert Bootstrap) |
+| `content` | contenuto principale della pagina |
+| `footer` | footer della pagina |
+| `footer_text` | testo al centro del footer |
+| `footer_links` | link a destra nel footer |
+| `extra_js` | script prima di `</body>` |
+
+### Layout applicazione (viewport fisso)
+
+Il `base.html` imposta `body { height: 100vh; overflow: hidden }` e
+`main { flex-grow: 1; min-height: 0; overflow-y: auto }` tramite il CSS del tema.
+Il risultato è un layout a **viewport fisso**: navbar, breadcrumb, sub-navbar e
+footer occupano la loro altezza naturale e rimangono sempre visibili; solo il
+`<main>` scorre internamente quando il contenuto supera lo spazio disponibile.
+
+### Breadcrumb
+
+Passa `breadcrumb_items` dal contesto della view (lista di dizionari
+`{"label": "...", "url": "..."}`). L'ultimo elemento è automaticamente marcato
+come `active` senza link.
+
+```python
+# views.py
+def my_view(request):
+    return render(request, "mia_app/pagina.html", {
+        "breadcrumb_items": [
+            {"label": "Home", "url": "/"},
+            {"label": "Sezione", "url": "/sezione/"},
+            {"label": "Pagina corrente", "url": ""},
+        ]
+    })
+```
+
+In alternativa, sovrascrivi il blocco `{% block breadcrumb %}` nel template.
+
+### Sub-navbar
+
+Funziona come la breadcrumb ma mostra una barra di navigazione secondaria con
+pill colorate secondo la branca. Passa `subnav_items` (lista di
+`{"label": "...", "url": "...", "active": True/False}`):
+
+```python
+"subnav_items": [
+    {"label": "Panoramica", "url": "/sezione/", "active": True},
+    {"label": "Elenco",     "url": "/sezione/lista/", "active": False},
+]
+```
+
+### Icone Bootstrap (opzionale)
+
+Supporto tramite [`django-bootstrap-icons`](https://pypi.org/project/django-bootstrap-icons/).
+Installazione con l'extra `icons`:
+
+```bash
+uv add "django-agesci-campania-theme[icons]"
+# oppure
+pip install "django-agesci-campania-theme[icons]"
+```
+
+Aggiungi in `settings.py`:
+
+```python
+INSTALLED_APPS = [..., "agesci_theme", "django_bootstrap_icons"]
+
+# Consigliato: abilita la cache per non scaricare gli SVG a ogni richiesta
+BS_ICONS_CACHE = BASE_DIR / ".bs-icons-cache"
+```
+
+Uso nei template:
+
+```django
+{% load bootstrap_icons %}
+{% bs_icon "house" %}
+{% bs_icon "calendar-event" size="1.5em" %}
+```
 
 ### Template tag (`{% load agesci_tags %}`)
 
@@ -137,6 +221,30 @@ poseidonia, salerno, samnium, vesuvio, volturno`.
 
 `bg-ag-viola`, `bg-ag-azzurro`, `bg-ag-giallo-lc`, `bg-ag-verde-eg`,
 `bg-ag-rosso-rs`, `bg-ag-giallo-oro` e i corrispettivi `text-ag-*`.
+
+---
+
+## Progetto demo
+
+Il repository include un progetto Django di esempio che mostra navbar, breadcrumb,
+sub-navbar, footer sticky, palette e zone. Per avviarlo:
+
+```bash
+# 1. Clona il repository e installa le dipendenze (crea .venv automaticamente)
+git clone https://github.com/AGESCI-Campania/django-agesci-campania-theme.git
+cd django-agesci-campania-theme
+uv sync
+
+# 2. Crea il database e avvia il server
+uv run python example_project/manage.py migrate
+uv run python example_project/manage.py runserver
+```
+
+Apri `http://127.0.0.1:8000/` nel browser.
+
+Per provare le diverse branche modifica `AGESCI_THEME_BRANCA` in
+`example_project/config/settings.py` (`generico`, `capi`, `lc`, `eg`, `rs`)
+e ricarica la pagina — nessun ricompilo necessario.
 
 ---
 

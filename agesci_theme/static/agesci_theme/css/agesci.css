@@ -97,6 +97,16 @@
 }
 
 body {
+  height: 100vh;
+  overflow: hidden;
+}
+
+main {
+  min-height: 0;
+  overflow-y: auto;
+}
+
+body {
   font-family: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   color: #343a40;
 }
@@ -184,6 +194,41 @@ a:hover {
   box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
 }
 
+.breadcrumb-agesci {
+  background-color: var(--ag-primary-subtle);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+.breadcrumb-agesci .breadcrumb-item + .breadcrumb-item::before {
+  color: var(--ag-primary);
+}
+.breadcrumb-agesci .breadcrumb-item.active {
+  color: var(--ag-primary);
+  font-weight: 600;
+}
+.breadcrumb-agesci a {
+  color: var(--ag-primary);
+}
+.breadcrumb-agesci a:hover {
+  color: var(--ag-primary-hover);
+}
+
+.subnav-agesci {
+  background-color: var(--ag-primary-subtle);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.subnav-agesci .nav-link {
+  color: var(--ag-primary);
+  border-radius: 0.375rem;
+}
+.subnav-agesci .nav-link:hover {
+  background-color: rgba(var(--bs-primary-rgb), 0.12);
+  color: var(--ag-primary);
+}
+.subnav-agesci .nav-link.active {
+  background-color: var(--ag-primary);
+  color: var(--ag-on-primary);
+}
+
 .footer-agesci {
   background-color: #343a40;
   color: rgba(255, 255, 255, 0.8);
@@ -247,5 +292,3 @@ a:hover {
 .text-ag-rosso-rs {
   color: #ef3340 !important;
 }
-
-/*# sourceMappingURL=agesci.css.map */

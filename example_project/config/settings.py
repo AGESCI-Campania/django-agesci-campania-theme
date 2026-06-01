@@ -16,6 +16,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # tema AGESCI
     "agesci_theme",
+    # Icone Bootstrap (opzionale in produzione; qui abilitato per il demo).
+    # In un progetto reale: uv add "django-agesci-campania-theme[icons]"
+    "django_bootstrap_icons",
     # app locale
     "app",
 ]
@@ -75,3 +78,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AGESCI_THEME_BRANCA = "eg"          # generico | capi | lc | eg | rs
 AGESCI_THEME_NOME = "Demo AGESCI Campania"
 AGESCI_THEME_NAVBAR_TESTO_SCURO = False
+
+# =========================================================
+#  Icone Bootstrap — cache consigliata per le prestazioni.
+#  Evita di scaricare i SVG da GitHub a ogni richiesta.
+#  In produzione: BASE_DIR / ".bs-icons-cache" (fuori da STATIC_ROOT).
+# =========================================================
+BS_ICONS_CACHE = BASE_DIR / ".bs-icons-cache"

@@ -1,12 +1,48 @@
 {% extends "agesci_theme/base.html" %}
 {% load agesci_tags %}
+{% load bootstrap_icons %}
 
 {% block title %}Home — {{ agesci_theme_nome }}{% endblock %}
 
 {% block nav_items %}
-  <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
-  <li class="nav-item"><a class="nav-link" href="#">Eventi</a></li>
-  <li class="nav-item"><a class="nav-link" href="#">Contatti</a></li>
+  <li class="nav-item">
+    <a class="nav-link active" href="/">{% bs_icon "house-fill" %} Home</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">{% bs_icon "calendar-event" %} Eventi</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">{% bs_icon "envelope" %} Contatti</a>
+  </li>
+{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="percorso" class="breadcrumb-agesci">
+  <div class="container">
+    <ol class="breadcrumb mb-0 py-2">
+      <li class="breadcrumb-item"><a href="/">{% bs_icon "house" %} Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Demo</li>
+    </ol>
+  </div>
+</nav>
+{% endblock %}
+
+{% block subnav %}
+<div class="subnav-agesci">
+  <div class="container">
+    <ul class="nav nav-pills py-2">
+      <li class="nav-item">
+        <a class="nav-link active" href="#">{% bs_icon "grid" %} Panoramica</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">{% bs_icon "palette" %} Palette</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">{% bs_icon "puzzle" %} Componenti</a>
+      </li>
+    </ul>
+  </div>
+</div>
 {% endblock %}
 
 {% block content %}
@@ -19,8 +55,12 @@
   <div class="row g-4">
     <div class="col-md-6">
       <h2>Pulsanti</h2>
-      <button class="btn btn-primary me-2">Primario</button>
-      <button class="btn btn-outline-primary">Outline</button>
+      <button class="btn btn-primary me-2">
+        {% bs_icon "check-circle" %} Primario
+      </button>
+      <button class="btn btn-outline-primary">
+        {% bs_icon "x-circle" %} Outline
+      </button>
     </div>
     <div class="col-md-6">
       <h2>Emblema di Zona</h2>
@@ -28,7 +68,7 @@
     </div>
   </div>
 
-  <h2 class="mt-5">Palette del manuale</h2>
+  <h2 class="mt-4">Palette del manuale</h2>
   <div class="d-flex flex-wrap gap-2 mt-3">
     <span class="badge p-3 bg-ag-viola">Viola</span>
     <span class="badge p-3 bg-ag-azzurro">Azzurro</span>
@@ -36,5 +76,34 @@
     <span class="badge p-3 bg-ag-verde-eg">Verde E/G</span>
     <span class="badge p-3 bg-ag-rosso-rs">Rosso R/S</span>
     <span class="badge p-3 bg-ag-giallo-oro">Giallo oro</span>
+  </div>
+
+  <h2 class="mt-4">Icone Bootstrap Icons</h2>
+  <p class="text-muted small">
+    Rese disponibili da <code>django-bootstrap-icons</code> con cache SVG locale
+    (<code>BS_ICONS_CACHE</code>). Uso: <code>{% templatetag openblock %} load bootstrap_icons {% templatetag closeblock %}</code>
+    poi <code>{% templatetag openblock %} bs_icon "nome-icona" {% templatetag closeblock %}</code>.
+  </p>
+  <div class="d-flex flex-wrap gap-3 mt-3 fs-4">
+    <span title="house-fill">{% bs_icon "house-fill" %}</span>
+    <span title="calendar-event">{% bs_icon "calendar-event" %}</span>
+    <span title="people-fill">{% bs_icon "people-fill" %}</span>
+    <span title="geo-alt-fill">{% bs_icon "geo-alt-fill" %}</span>
+    <span title="flag-fill">{% bs_icon "flag-fill" %}</span>
+    <span title="star-fill">{% bs_icon "star-fill" %}</span>
+    <span title="envelope-fill">{% bs_icon "envelope-fill" %}</span>
+    <span title="bell-fill">{% bs_icon "bell-fill" %}</span>
+    <span title="shield-fill">{% bs_icon "shield-fill" %}</span>
+    <span title="award-fill">{% bs_icon "award-fill" %}</span>
+  </div>
+
+  <h2 class="mt-4">Zone della Regione Campania</h2>
+  <div class="row row-cols-3 row-cols-md-6 g-2 mt-2">
+    {% for zona in zone_list %}
+      <div class="col text-center">
+        {% emblema_zona zona css_class="img-fluid" %}
+        <div class="small mt-1 text-muted">{{ zona|capfirst }}</div>
+      </div>
+    {% endfor %}
   </div>
 {% endblock %}

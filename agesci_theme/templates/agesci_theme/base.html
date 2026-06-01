@@ -20,10 +20,14 @@
 
   {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body class="d-flex flex-column">
   {% block navbar %}{% include "agesci_theme/partials/navbar.html" %}{% endblock %}
 
-  <main class="{% block main_class %}container py-4{% endblock %}">
+  {% block breadcrumb %}{% include "agesci_theme/partials/breadcrumb.html" %}{% endblock %}
+
+  {% block subnav %}{% include "agesci_theme/partials/subnav.html" %}{% endblock %}
+
+  <main class="flex-grow-1 {% block main_class %}container py-4{% endblock %}">
     {% block messages %}
       {% if messages %}
         {% for message in messages %}
