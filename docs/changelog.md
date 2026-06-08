@@ -5,6 +5,14 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
+## [1.2.3] — 2026-06-08
+
+### Modificato
+- Layout mobile/tablet: breakpoint `body { height: 100vh }` e `main { overflow-y: auto }` alzato da md (768px) a lg (992px). Il footer ora scorre naturalmente con il contenuto su smartphone e tablet.
+- `.footer-agesci`: padding ridotto da `2rem 0` a `0.5rem 0`.
+
+---
+
 ## [1.2.2] — 2026-06-08
 
 ### Corretto

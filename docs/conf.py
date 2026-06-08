@@ -1,7 +1,13 @@
+import tomllib
+from pathlib import Path
+
+_pyproject = tomllib.loads((Path(__file__).parent.parent / "pyproject.toml").read_text())
+release = _pyproject["project"]["version"]
+version = ".".join(release.split(".")[:2])
+
 project = "django-agesci-campania-theme"
 copyright = "AGESCI Campania"
 author = "AGESCI Campania"
-release = "1.2.2"
 
 extensions = [
     "myst_parser",
