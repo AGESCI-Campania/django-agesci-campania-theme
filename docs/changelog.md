@@ -5,6 +5,13 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
+## [1.2.1] — 2026-06-08
+
+### Corretto
+- Aggiunta dipendenza `Pillow>=10.0` in `docs/requirements.txt` (richiesta da rinohtype per la generazione PDF).
+
+---
+
 ## [1.2.0] — 2026-06-08
 
 ### Aggiunto

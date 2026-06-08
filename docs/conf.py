@@ -1,7 +1,7 @@
 project = "django-agesci-campania-theme"
 copyright = "AGESCI Campania"
 author = "AGESCI Campania"
-release = "1.2.0"
+release = "1.2.1"
 
 extensions = [
     "myst_parser",
