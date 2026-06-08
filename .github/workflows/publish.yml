@@ -50,3 +50,30 @@ jobs:
 
       - name: Pubblica su PyPI
         run: uv publish --trusted-publishing automatic
+
+  build-docs-pdf:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # necessario per caricare asset nella release
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installa dipendenze documentazione
+        run: pip install -r docs/requirements.txt
+
+      - name: Genera PDF documentazione
+        run: sphinx-build -b rinoh docs/ docs/_build/pdf/ -W --keep-going
+
+      - name: Carica PDF nella release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${{ github.ref_name }}" \
+            "docs/_build/pdf/django-agesci-campania-theme.pdf" \
+            --clobber

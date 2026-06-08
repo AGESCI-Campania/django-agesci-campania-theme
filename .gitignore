@@ -19,6 +19,8 @@ media/
 .env
 # Cache icone Bootstrap (generata a runtime da django-bootstrap-icons)
 .bs-icons-cache/
+# Documentazione (build locale)
+docs/_build/
 # IDE
 .idea/
 .vscode/

@@ -96,14 +96,18 @@
   --bs-btn-focus-shadow-rgb: 122, 30, 153;
 }
 
-body {
-  height: 100vh;
-  overflow: hidden;
+@media (min-width: 768px) {
+  body {
+    height: 100vh;
+    overflow: hidden;
+  }
 }
 
-main {
-  min-height: 0;
-  overflow-y: auto;
+@media (min-width: 768px) {
+  main {
+    min-height: 0;
+    overflow-y: auto;
+  }
 }
 
 body {

@@ -7,16 +7,22 @@
 
 // --- Layout applicazione (navbar e footer sempre visibili, solo il main scorre)
 // body usa d-flex flex-column nel markup; qui fissiamo l'altezza al viewport.
+// Su mobile (< md) il layout torna al flusso normale: la pagina scorre per intero
+// e il footer si trova in fondo al contenuto, non incollato al viewport.
 body {
-  height: 100vh;
-  overflow: hidden;
+  @media (min-width: 768px) {
+    height: 100vh;
+    overflow: hidden;
+  }
 }
 
 // min-height: 0 è indispensabile: senza di esso un flex-item non scende
 // sotto la dimensione del suo contenuto e lo scroll non parte mai.
 main {
-  min-height: 0;
-  overflow-y: auto;
+  @media (min-width: 768px) {
+    min-height: 0;
+    overflow-y: auto;
+  }
 }
 
 // --- Tipografia --------------------------------------------------------------
