@@ -96,14 +96,14 @@
   --bs-btn-focus-shadow-rgb: 122, 30, 153;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   body {
     height: 100vh;
     overflow: hidden;
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   main {
     min-height: 0;
     overflow-y: auto;
@@ -236,7 +236,7 @@ a:hover {
 .footer-agesci {
   background-color: #343a40;
   color: rgba(255, 255, 255, 0.8);
-  padding: 2rem 0;
+  padding: 0.5rem 0;
 }
 .footer-agesci a {
   color: #fff;
