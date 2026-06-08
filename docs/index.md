@@ -1,8 +1,5 @@
 # django-agesci-campania-theme
 
-[![build](https://github.com/AGESCI-Campania/django-agesci-campania-theme/actions/workflows/build.yml/badge.svg)](https://github.com/AGESCI-Campania/django-agesci-campania-theme/actions/workflows/build.yml)
-[![PyPI](https://img.shields.io/pypi/v/django-agesci-campania-theme)](https://pypi.org/project/django-agesci-campania-theme/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/AGESCI-Campania/django-agesci-campania-theme/blob/main/LICENSE)
 
 Tema **Bootstrap 5** riusabile per le applicazioni **Django** dell'**AGESCI Campania**.
 

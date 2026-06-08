@@ -5,6 +5,14 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
+## [1.2.2] — 2026-06-08
+
+### Corretto
+- Fix build PDF GitHub Actions: rimossi badge SVG da `index.md` (non supportati da rinohtype),
+  aggiunto `rinoh_documents` in `conf.py`, rimosso `-W` dal comando sphinx-build.
+
+---
+
 ## [1.2.1] — 2026-06-08
 
 ### Corretto

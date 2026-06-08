@@ -68,7 +68,7 @@ jobs:
         run: pip install -r docs/requirements.txt
 
       - name: Genera PDF documentazione
-        run: sphinx-build -b rinoh docs/ docs/_build/pdf/ -W --keep-going
+        run: sphinx-build -b rinoh docs/ docs/_build/pdf/
 
       - name: Carica PDF nella release
         env:

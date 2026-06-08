@@ -1,7 +1,7 @@
 project = "django-agesci-campania-theme"
 copyright = "AGESCI Campania"
 author = "AGESCI Campania"
-release = "1.2.1"
+release = "1.2.2"
 
 extensions = [
     "myst_parser",
@@ -38,3 +38,12 @@ myst_enable_extensions = [
 ]
 
 myst_heading_anchors = 3
+
+rinoh_documents = [
+    {
+        "doc": "index",
+        "target": "django-agesci-campania-theme",
+        "title": project,
+        "author": author,
+    }
+]
