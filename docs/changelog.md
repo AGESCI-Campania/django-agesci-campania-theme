@@ -5,6 +5,14 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
+## [1.2.4] — 2026-06-08
+
+### Corretto
+- `docs/conf.py`: versione letta dinamicamente da `pyproject.toml` via `tomllib` (non più hardcoded).
+- `build.yml`: rimosso job publish duplicato (la pubblicazione è gestita da `publish.yml` su GitHub Release).
+
+---
+
 ## [1.2.3] — 2026-06-08
 
 ### Modificato
