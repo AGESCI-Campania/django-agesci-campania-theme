@@ -4,3 +4,4 @@ furo>=2024.8.6
 sphinx-copybutton>=0.5
 sphinx-design>=0.6
 rinohtype>=0.5.4
+Pillow>=10.0
