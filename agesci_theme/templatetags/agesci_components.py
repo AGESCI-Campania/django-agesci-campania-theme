@@ -43,8 +43,8 @@ def ag_feature_grid(items, cols=3):
     items: lista di dict con chiavi title, description, icon, variant (opzionale)
     cols: numero di colonne su desktop (2, 3 o 4)
     """
-    col_class = {2: "col-md-6", 3: "col-md-4", 4: "col-md-3"}.get(cols, "col-md-4")
-    return {"items": items, "col_class": col_class}
+    row_cols_class = {2: "row-cols-md-2", 3: "row-cols-md-3", 4: "row-cols-md-4"}.get(cols, "row-cols-md-3")
+    return {"items": items, "row_cols_class": row_cols_class}
 
 
 @register.inclusion_tag("agesci_theme/components/jumbotron.html")
