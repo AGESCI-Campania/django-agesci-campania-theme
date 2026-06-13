@@ -5,6 +5,58 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
+## [2.0.0] — in sviluppo (branch `v2`)
+
+### ⚠ Breaking changes
+
+- `base.html` completamente riprogettato: i blocchi `navbar`, `nav_items`,
+  `brand_url`, `brand_text`, `breadcrumb` e `subnav` **non esistono più**.
+  Sostituiti dai nuovi blocchi dell'header a due barre (vedi sotto).
+- `partials/navbar.html` rimosso → sostituito da `partials/header.html`.
+- Footer ridisegnato: nuovi blocchi al posto delle sole tre colonne della v1.
+
+### Aggiunto
+
+**Header a due barre con offcanvas mobile**
+- Barra superiore (`ag-header-top`): logo + voci di navigazione con icona
+  sopra e testo sotto (stile Bootstrap "headers", ultimo esempio).
+- Barra inferiore (`ag-header-bottom`): campo di ricerca opzionale + pulsanti
+  azione.
+- Su mobile/tablet: hamburger → pannello offcanvas Bootstrap.
+- Nuovi blocchi: `header`, `brand_url`, `brand_text`, `header_nav`,
+  `offcanvas_nav`, `header_search`, `header_actions`.
+
+**Sidebar collapsible**
+- Nuovo partial `partials/sidebar.html`: sidebar che si riduce a sole icone
+  via toggle, stato salvato in `localStorage`.
+- Varianti: `dark` (sfondo primario) e `light` (sfondo chiaro).
+- Attivata sovrascrivendo il blocco `sidebar` in `base.html`; nessuna
+  modifica al layout se il blocco rimane vuoto.
+- Nuovo blocco: `sidebar_items`.
+
+**Footer ridisegnato**
+- Struttura con colonna logo, due colonne di link personalizzabili e
+  riga copyright/link legali (stile Bootstrap "footers", primo esempio).
+- Il blocco `footer_text` è **mantenuto** per compatibilità con chi già
+  lo sovrascriveva dalla v1.
+- Nuovi blocchi: `footer_brand_text`, `footer_columns`, `footer_col1_title`,
+  `footer_col1_links`, `footer_col2_title`, `footer_col2_links`,
+  `footer_copyright`.
+
+**Componenti opzionali via templatetag**
+- Nuovo modulo `{% load agesci_components %}` con 11 tag `inclusion_tag`:
+  `ag_hero`, `ag_feature_card`, `ag_feature_grid`, `ag_jumbotron`,
+  `ag_badge`, `ag_button`, `ag_breadcrumb`, `ag_dropdown`, `ag_list_group`,
+  `ag_modal_trigger`, `ag_masonry_grid`.
+- Template sovrascrivibili in `templates/agesci_theme/components/`.
+- Supporto Masonry tramite CDN (istruzioni nel tag `ag_masonry_grid`).
+
+**SCSS**
+- Quattro nuovi partial: `_header.scss`, `_sidebar.scss`, `_footer.scss`,
+  `_components.scss`.
+
+---
+
 ## [1.2.4] — 2026-06-08
 
 ### Corretto

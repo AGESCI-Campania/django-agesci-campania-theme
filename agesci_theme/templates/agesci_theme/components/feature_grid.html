@@ -1,0 +1,6 @@
+{% load agesci_components %}
+<div class="row row-cols-1 {{ col_class|default:'col-md-4' }} g-4 mb-4">
+  {% for item in items %}
+    {% ag_feature_card title=item.title description=item.description icon=item.icon variant=item.variant|default:'' %}
+  {% endfor %}
+</div>

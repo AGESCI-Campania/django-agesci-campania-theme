@@ -1,161 +1,166 @@
 # Componenti UI
 
-## Navbar
+## Header
 
-La navbar è inclusa automaticamente da `base.html`. Il suo colore di sfondo
-segue `--ag-primary` (cioè la branca impostata) e si adatta senza alcuna
-modifica CSS.
+L'header a due barre è incluso automaticamente da `base.html` tramite
+`partials/header.html`. Il colore di sfondo della barra superiore segue
+`--ag-primary` (branca impostata).
+
+### Struttura
+
+```
+┌─────────────────────────────────────────────────┐
+│ [Logo] [NomeApp]   [Nav desktop con icone]  [☰] │  ← ag-header-top (colore branca)
+├─────────────────────────────────────────────────┤
+│ [Campo ricerca ────────────────] [Accedi] [Reg] │  ← ag-header-bottom (sfondo chiaro)
+└─────────────────────────────────────────────────┘
+```
+
+Su mobile/tablet (< lg) il menu desktop è nascosto: l'hamburger apre un
+pannello offcanvas Bootstrap con i link del blocco `offcanvas_nav`.
 
 ### Personalizzazione via blocchi
 
 ```django
 {% extends "agesci_theme/base.html" %}
+{% load bootstrap_icons %}
 
 {% block brand_url %}{% url 'home' %}{% endblock %}
 {% block brand_text %}Zona Vesuvio{% endblock %}
 
-{% block nav_items %}
-  <li class="nav-item">
-    <a class="nav-link active" href="/">Home</a>
-  </li>
-  <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-      Sezioni
+{# Nav desktop: icona sopra + etichetta sotto #}
+{% block header_nav %}
+  <li>
+    <a href="/" class="nav-link active">
+      <span class="ag-nav-icon">{% bs_icon "house-fill" %}</span>
+      Home
     </a>
-    <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="/eventi/">Eventi</a></li>
-      <li><a class="dropdown-item" href="/documenti/">Documenti</a></li>
-    </ul>
   </li>
+  <li>
+    <a href="/eventi/" class="nav-link">
+      <span class="ag-nav-icon">{% bs_icon "calendar-event" %}</span>
+      Eventi
+    </a>
+  </li>
+{% endblock %}
+
+{# Ricerca nella barra inferiore #}
+{% block header_search %}
+  <form class="col-12 col-lg-auto me-lg-auto" role="search">
+    <input type="search" class="form-control" placeholder="Cerca..." aria-label="Cerca">
+  </form>
+{% endblock %}
+
+{# Pulsanti azione nella barra inferiore #}
+{% block header_actions %}
+  <a href="{% url 'login' %}" class="btn btn-light text-dark">Accedi</a>
+  <a href="{% url 'register' %}" class="btn btn-primary">Registrati</a>
+{% endblock %}
+
+{# Nav mobile nel pannello offcanvas #}
+{% block offcanvas_nav %}
+  <li><a href="/" class="nav-link active">{% bs_icon "house-fill" %} Home</a></li>
+  <li><a href="/eventi/" class="nav-link">{% bs_icon "calendar-event" %} Eventi</a></li>
 {% endblock %}
 ```
 
-### Navbar con testo scuro
-
-Per le branche a colore chiaro (es. `lc` = giallo) il testo bianco è
-illeggibile. Imposta in `settings.py`:
-
-```python
-AGESCI_THEME_NAVBAR_TESTO_SCURO = True
-```
-
-Questo aggiunge la classe `.text-dark` alla navbar, che sovrascrive
-automaticamente tutti i colori dei link.
-
 ---
 
-(breadcrumb)=
-## Breadcrumb
+(sidebar)=
+## Sidebar
 
-La breadcrumb appare sotto la navbar quando viene passata la variabile di
-contesto `breadcrumb_items` dalla view. Se la variabile è assente o vuota il
-blocco non viene renderizzato.
+La sidebar collapsible è **opzionale**: appare solo quando il blocco `sidebar`
+viene popolato. Quando è vuoto (default) il layout rimane a colonna singola.
 
-### Uso dalla view
-
-```python
-# views.py
-def dettaglio_evento(request, pk):
-    evento = get_object_or_404(Evento, pk=pk)
-    return render(request, "eventi/dettaglio.html", {
-        "evento": evento,
-        "breadcrumb_items": [
-            {"label": "Home",    "url": "/"},
-            {"label": "Eventi",  "url": "/eventi/"},
-            {"label": evento.titolo, "url": ""},   # stringa vuota = elemento attivo
-        ],
-    })
-```
-
-L'ultimo elemento con `url` vuota viene automaticamente marcato come `active`
-e non genera un link.
-
-### Struttura di `breadcrumb_items`
-
-```python
-breadcrumb_items = [
-    {"label": "Testo del link", "url": "/percorso/"},  # elemento con link
-    {"label": "Pagina corrente", "url": ""},            # elemento attivo (no link)
-]
-```
-
-### Override del blocco
-
-Se hai esigenze particolari puoi sovrascrivere il blocco nel template:
+### Attivazione
 
 ```django
-{% block breadcrumb %}
-  <nav aria-label="percorso" class="breadcrumb-agesci px-3 py-2">
-    <ol class="breadcrumb mb-0">
-      <li class="breadcrumb-item"><a href="/">Home</a></li>
-      <li class="breadcrumb-item active">Pagina custom</li>
-    </ol>
-  </nav>
+{% extends "agesci_theme/base.html" %}
+
+{% block sidebar %}
+  {% include "agesci_theme/partials/sidebar.html" with variant="dark" %}
+{% endblock %}
+
+{% block sidebar_items %}
+  <li>
+    <a href="/" class="ag-sidebar__nav-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5v-5h3v5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354z"/>
+      </svg>
+      <span class="ag-sidebar__label">Home</span>
+    </a>
+  </li>
+  <li>
+    <a href="/impostazioni/" class="ag-sidebar__nav-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
+        <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.892 3.433-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.892-1.64-.901-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52z"/>
+      </svg>
+      <span class="ag-sidebar__label">Impostazioni</span>
+    </a>
+  </li>
 {% endblock %}
 ```
 
----
+### Varianti
 
-(sub-navbar)=
-## Sub-navbar
+| `variant` | Sfondo | Uso tipico |
+|---|---|---|
+| `"dark"` (default) | `var(--ag-primary)` — colore branca | App gestionali, dashboard |
+| `"light"` | `#f8f9fa` con bordo | Portali pubblici, app chiare |
 
-La sub-navbar è una barra di navigazione secondaria con pill colorate secondo
-la branca. Appare tra la breadcrumb e il contenuto principale.
+### Comportamento collapsibile
 
-### Uso dalla view
+Il toggle in cima alla sidebar comprime la barra a sola icona (64 px).
+Lo stato viene salvato in `localStorage` con chiave `ag-sidebar-collapsed`,
+così viene ricordato tra i refresh della pagina.
 
-```python
-# views.py
-def sezione(request):
-    return render(request, "mia_app/sezione.html", {
-        "subnav_items": [
-            {"label": "Panoramica", "url": "/sezione/",         "active": True},
-            {"label": "Elenco",     "url": "/sezione/lista/",   "active": False},
-            {"label": "Impostazioni", "url": "/sezione/impostazioni/", "active": False},
-        ],
-    })
+### Titoli di sezione
+
+Per aggiungere separatori tra gruppi di voci usa la classe
+`ag-sidebar__section-title`:
+
+```html
+<li class="ag-sidebar__section-title">Gestione</li>
+<li><a href="..." class="ag-sidebar__nav-link">...</a></li>
 ```
-
-### Struttura di `subnav_items`
-
-```python
-subnav_items = [
-    {
-        "label":  "Testo voce",    # obbligatorio
-        "url":    "/percorso/",    # obbligatorio
-        "active": True,            # True per la voce corrente
-    },
-    ...
-]
-```
-
-La voce con `"active": True` riceve la classe `.active` della pill colorata
-nel colore della branca.
 
 ---
 
 ## Footer
 
-Il footer è incluso automaticamente. Mostra:
-
-- **Sinistra:** logo navbar o emblema.
-- **Centro:** nome dell'app (`AGESCI_THEME_NOME`) e testo personalizzabile.
-- **Destra:** colonna link.
+Il footer è incluso automaticamente da `base.html`. La struttura di default
+ha colonna logo, due colonne link personalizzabili, testo centrale e riga
+copyright.
 
 ### Personalizzazione via blocchi
 
 ```django
-{% block footer_text %}
-  <p class="mb-1 fw-semibold">Zona Vesuvio</p>
-  <p class="mb-0 small opacity-75">AGESCI Campania — Regione Campania</p>
+{% block footer_brand_text %}Zona Vesuvio — AGESCI Campania{% endblock %}
+
+{% block footer_col1_title %}Associazione{% endblock %}
+{% block footer_col1_links %}
+  <li><a href="/chi-siamo/">Chi siamo</a></li>
+  <li><a href="/branche/">Le branche</a></li>
+  <li><a href="/zone/">Zone</a></li>
 {% endblock %}
 
+{% block footer_col2_title %}Risorse{% endblock %}
+{% block footer_col2_links %}
+  <li><a href="https://www.agesci.it" target="_blank" rel="noopener">agesci.it</a></li>
+  <li><a href="/documenti/">Documenti</a></li>
+{% endblock %}
+
+{% block footer_text %}
+  <strong>{{ agesci_theme_nome }}</strong><br>
+  Associazione Guide e Scouts Cattolici Italiani
+{% endblock %}
+
+{% block footer_copyright %}© 2025 AGESCI Campania{% endblock %}
+
 {% block footer_links %}
-  <ul class="list-unstyled mb-0 small">
-    <li><a href="/privacy/">Privacy Policy</a></li>
-    <li><a href="/accessibilita/">Accessibilità</a></li>
-    <li><a href="mailto:zona@esempio.it">Contatti</a></li>
-  </ul>
+  <li><a href="/privacy/">Privacy</a></li>
+  <li><a href="/accessibilita/">Accessibilità</a></li>
 {% endblock %}
 ```
 
@@ -175,9 +180,6 @@ def mia_view(request):
     messages.warning(request, "Attenzione: l'evento è quasi pieno.")
     return redirect("home")
 ```
-
-Il tag del messaggio (`success`, `warning`, `error`, `info`) viene usato come
-classe Bootstrap dell'alert (`alert-success`, `alert-warning`, ecc.).
 
 ---
 
@@ -200,10 +202,9 @@ uv add "django-agesci-campania-theme[icons]"
 INSTALLED_APPS = [
     # ...
     "agesci_theme",
-    "django_bootstrap_icons",  # deve seguire agesci_theme
+    "django_bootstrap_icons",
 ]
 
-# Consigliato: cache locale degli SVG per evitare richieste HTTP a ogni render
 BS_ICONS_CACHE = BASE_DIR / ".bs-icons-cache"
 ```
 
@@ -212,19 +213,31 @@ BS_ICONS_CACHE = BASE_DIR / ".bs-icons-cache"
 ```django
 {% load bootstrap_icons %}
 
-{# Icona inline SVG #}
 {% bs_icon "house" %}
 {% bs_icon "calendar-event" %}
 {% bs_icon "person-circle" size="1.5em" %}
 {% bs_icon "gear" class="text-primary" extra_attrs='aria-hidden="true"' %}
 ```
 
-Vedi la [libreria completa delle icone](https://icons.getbootstrap.com/) per
-i nomi disponibili.
+---
+
+## Componenti opzionali
+
+I componenti opzionali si caricano con:
+
+```django
+{% load agesci_components %}
+```
+
+Tutti usano `inclusion_tag` con template in `agesci_theme/components/`:
+sono sovrascrivibili creando un file con lo stesso percorso nel progetto figlio.
+
+Vedi [Template tag — agesci_components](templatetags.md#agesci-components)
+per la documentazione completa di ogni tag.
 
 ---
 
-## Pulsanti e componenti Bootstrap
+## Pulsanti e componenti Bootstrap nativi
 
 Tutti i componenti Bootstrap che usano il colore `primary` ereditano
 automaticamente il colore della branca. Non occorre nessuna classe aggiuntiva:
@@ -234,8 +247,7 @@ automaticamente il colore della branca. Non occorre nessuna classe aggiuntiva:
 <button class="btn btn-outline-primary">Outline</button>
 <span class="badge text-bg-primary">Badge</span>
 <div class="alert alert-primary">Alert</div>
-<div class="progress-bar bg-primary" style="width: 60%"></div>
 ```
 
-Questo funziona grazie alla rimappatura automatica di `--bs-primary` operata
-da `_bootstrap-overrides.scss` verso `--ag-primary`.
+Questo funziona grazie alla rimappatura automatica di `--bs-primary` verso
+`--ag-primary` operata da `_bootstrap-overrides.scss`.

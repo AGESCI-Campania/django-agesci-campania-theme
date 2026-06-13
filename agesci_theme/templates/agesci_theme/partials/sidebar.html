@@ -1,0 +1,55 @@
+{% load static %}
+{#
+  Sidebar collapsible v2.
+
+  Utilizzo in un template figlio:
+    {% block sidebar %}
+      {% include "agesci_theme/partials/sidebar.html" with variant="dark" %}
+    {% endblock %}
+    {% block sidebar_items %}
+      <li>
+        <a href="/" class="ag-sidebar__nav-link {% if request.path == '/' %}active{% endif %}">
+          <svg ...>...</svg>
+          <span class="ag-sidebar__label">Home</span>
+        </a>
+      </li>
+    {% endblock %}
+
+  variant: "dark" (default) | "light"
+#}
+<nav class="ag-sidebar ag-sidebar--{{ variant|default:'dark' }}"
+     id="agSidebar"
+     aria-label="Menu laterale">
+  <button class="ag-sidebar__toggle"
+          id="agSidebarToggle"
+          aria-label="Comprimi menu laterale"
+          aria-expanded="true"
+          aria-controls="agSidebar">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M0 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm5-1v12h9a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zM4 2H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h2z"/>
+    </svg>
+    <span class="ag-sidebar__toggle-label ms-2">Menu</span>
+  </button>
+
+  <ul class="ag-sidebar__nav">
+    {% block sidebar_items %}{% endblock %}
+  </ul>
+</nav>
+
+<script>
+(function () {
+  var sidebar = document.getElementById('agSidebar');
+  var toggle  = document.getElementById('agSidebarToggle');
+  var key     = 'ag-sidebar-collapsed';
+  if (!sidebar || !toggle) return;
+  if (localStorage.getItem(key) === '1') {
+    sidebar.classList.add('ag-sidebar--collapsed');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+  toggle.addEventListener('click', function () {
+    var collapsed = sidebar.classList.toggle('ag-sidebar--collapsed');
+    localStorage.setItem(key, collapsed ? '1' : '0');
+    toggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+  });
+}());
+</script>

@@ -1,0 +1,17 @@
+{#
+  Griglia Masonry.
+
+  Richiede masonry-layout JS nel blocco extra_js del template:
+    {% block extra_js %}{{ block.super }}
+    <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4/dist/masonry.pkgd.min.js" defer></script>
+    {% endblock %}
+#}
+<div class="ag-masonry-grid">
+  <div class="row" data-masonry='{"percentPosition": true}'>
+    {% for item in items %}
+      <div class="{{ col_class }} mb-4">
+        {{ item.content }}
+      </div>
+    {% endfor %}
+  </div>
+</div>

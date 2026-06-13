@@ -10,7 +10,7 @@ Tutti i template della tua applicazione devono estendere il base template del te
 
 Il `base.html` carica automaticamente Bootstrap 5 (via CDN), i font del Manuale
 Immagine Coordinata (Montserrat e Open Sans), il CSS del tema AGESCI e i partial
-di navbar e footer.
+di header e footer.
 
 ---
 
@@ -22,13 +22,14 @@ di navbar e footer.
     Bootstrap CSS · Font · agesci.min.css · [extra_head]
   </head>
   <body class="d-flex flex-column">
-    [navbar]
-    [breadcrumb]
-    [subnav]
-    <main class="flex-grow-1 container py-4">
-      [messages]
-      [content]
-    </main>
+    [header]                   ← barra superiore + barra inferiore + offcanvas
+    <div class="d-flex flex-grow-1 overflow-hidden">
+      [sidebar]                ← vuoto di default; attivare con il blocco sidebar
+      <main class="flex-grow-1 [main_class]">
+        [messages]
+        [content]
+      </main>
+    </div>
     [footer]
     Bootstrap JS · [extra_js]
   </body>
@@ -37,40 +38,16 @@ di navbar e footer.
 
 ---
 
-## Riferimento dei blocchi
+## Blocchi dell'header
 
-### `title`
+### `header`
 
-Testo del tag `<title>`. Il default è il valore di `AGESCI_THEME_NOME`.
-
-```django
-{% block title %}Home — {{ agesci_theme_nome }}{% endblock %}
-```
-
----
-
-### `extra_head`
-
-Inserisce contenuto alla fine del `<head>`, prima di `</head>`.
-Utile per CSS aggiuntivi, meta tag o script asincroni.
+Sostituisce l'intera testata (entrambe le barre + offcanvas). Normalmente non
+si sovrascrive questo blocco: si usano i sotto-blocchi specifici.
 
 ```django
-{% block extra_head %}
-  <link rel="stylesheet" href="{% static 'mia_app/css/custom.css' %}">
-{% endblock %}
-```
-
----
-
-### `navbar`
-
-Sostituisce l'intera barra di navigazione principale. Normalmente non si
-sovrascrive questo blocco: si usano invece i sotto-blocchi `brand_url`,
-`brand_text` e `nav_items`.
-
-```django
-{% block navbar %}
-  {# navbar completamente custom #}
+{% block header %}
+  {# testata completamente custom #}
 {% endblock %}
 ```
 
@@ -78,7 +55,7 @@ sovrascrive questo blocco: si usano invece i sotto-blocchi `brand_url`,
 
 ### `brand_url`
 
-URL cliccabile del brand nella navbar. Default: `/`.
+URL cliccabile del brand nella barra superiore. Default: `/`.
 
 ```django
 {% block brand_url %}{% url 'home' %}{% endblock %}
@@ -88,80 +65,138 @@ URL cliccabile del brand nella navbar. Default: `/`.
 
 ### `brand_text`
 
-Testo mostrato accanto al logo nella navbar. Default: `agesci_theme_nome`.
+Testo mostrato accanto al logo nella barra superiore. Default: `agesci_theme_nome`.
 
 ```django
-{% block brand_text %}Zona Vesuvio — Intranet{% endblock %}
+{% block brand_text %}Zona Vesuvio{% endblock %}
 ```
 
 ---
 
-### `nav_items`
+### `header_nav`
 
-Voci `<li>` all'interno del menu di navigazione. Inserisci elementi Bootstrap
-`nav-item`.
+Voci di navigazione nella barra superiore, visibili **solo su desktop** (≥ lg).
+Ogni voce è tipicamente un `<li>` con icona centrata sopra e testo sotto,
+secondo il pattern Bootstrap "headers":
 
 ```django
-{% block nav_items %}
-  <li class="nav-item">
-    <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
-       href="{% url 'home' %}">Home</a>
+{% block header_nav %}
+  <li>
+    <a href="/" class="nav-link active">
+      <span class="ag-nav-icon">{% bs_icon "house-fill" %}</span>
+      Home
+    </a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="{% url 'eventi' %}">Eventi</a>
+  <li>
+    <a href="/eventi/" class="nav-link">
+      <span class="ag-nav-icon">{% bs_icon "calendar-event" %}</span>
+      Eventi
+    </a>
   </li>
+{% endblock %}
+```
+
+La classe `ag-nav-icon` con `display: block` centra l'icona sopra l'etichetta.
+
+---
+
+### `offcanvas_nav`
+
+Voci di navigazione nel pannello offcanvas, visibili **solo su mobile/tablet**
+(< lg). Struttura consigliata: semplici `<li>` con `nav-link`:
+
+```django
+{% block offcanvas_nav %}
+  <li><a href="/" class="nav-link active">{% bs_icon "house-fill" %} Home</a></li>
+  <li><a href="/eventi/" class="nav-link">{% bs_icon "calendar-event" %} Eventi</a></li>
 {% endblock %}
 ```
 
 ---
 
-### `breadcrumb`
+### `header_search`
 
-Barra breadcrumb visualizzata sotto la navbar. Il modo consigliato è passare
-`breadcrumb_items` dal contesto della view (vedi [Breadcrumb](componenti.md#breadcrumb)).
-In alternativa si sovrascrive il blocco:
+Campo di ricerca nella barra inferiore dell'header, posizionato a sinistra.
+Vuoto di default (la barra inferiore non viene nascosta ma rimane libera).
 
 ```django
-{% block breadcrumb %}
-  {# breadcrumb completamente custom o vuoto per nasconderla #}
+{% block header_search %}
+  <form class="col-12 col-lg-auto me-lg-auto" role="search">
+    <input type="search" class="form-control" placeholder="Cerca..." aria-label="Cerca">
+  </form>
 {% endblock %}
 ```
 
 ---
 
-### `subnav`
+### `header_actions`
 
-Barra di navigazione secondaria, visualizzata tra breadcrumb e main. Il modo
-consigliato è passare `subnav_items` (vedi [Sub-navbar](componenti.md#sub-navbar)).
+Pulsanti o link nella barra inferiore, posizionati a destra.
 
 ```django
-{% block subnav %}{% endblock %}  {# sovrascrivere per nasconderla #}
+{% block header_actions %}
+  <a href="{% url 'login' %}" class="btn btn-light text-dark">Accedi</a>
+  <a href="{% url 'register' %}" class="btn btn-primary">Registrati</a>
+{% endblock %}
 ```
 
 ---
+
+## Blocco sidebar
+
+### `sidebar`
+
+Vuoto di default → layout a colonna singola. Quando viene popolato, appare
+una colonna laterale a sinistra del `<main>`. Il modo più semplice è includere
+il partial dedicato:
+
+```django
+{% block sidebar %}
+  {% include "agesci_theme/partials/sidebar.html" with variant="dark" %}
+{% endblock %}
+
+{% block sidebar_items %}
+  <li>
+    <a href="/" class="ag-sidebar__nav-link {% if request.path == '/' %}active{% endif %}">
+      <svg ...>...</svg>
+      <span class="ag-sidebar__label">Home</span>
+    </a>
+  </li>
+  <li>
+    <a href="/impostazioni/" class="ag-sidebar__nav-link">
+      <svg ...>...</svg>
+      <span class="ag-sidebar__label">Impostazioni</span>
+    </a>
+  </li>
+{% endblock %}
+```
+
+`variant` accetta `"dark"` (sfondo `--ag-primary`, default) oppure `"light"`
+(sfondo chiaro con bordo).
+
+Vedi [Sidebar](componenti.md#sidebar) per dettagli ed esempi.
+
+---
+
+## Blocchi del contenuto principale
 
 ### `main_class`
 
-Classi CSS applicate al tag `<main>`. Il default è `container py-4`, che centra
-il contenuto e aggiunge padding verticale.
+Classi CSS applicate al tag `<main>`. Default: `container py-4`.
 
 ```django
-{# Layout a tutta larghezza senza padding #}
+{# Tutta larghezza senza padding (es. mappa o dashboard) #}
 {% block main_class %}container-fluid p-0{% endblock %}
-
-{# Main personalizzato con classe aggiuntiva #}
-{% block main_class %}container py-4 mia-classe{% endblock %}
 ```
 
 ---
 
 ### `messages`
 
-Mostra i messaggi Django come alert Bootstrap 5 con pulsante di chiusura.
-Raramente va sovrascritto; se vuoi nascondere i messaggi:
+Mostra i messaggi Django come alert Bootstrap 5. Raramente va sovrascritto.
 
 ```django
-{% block messages %}{% endblock %}
+{% block messages %}{% endblock %}  {# nasconde tutti i messaggi #}
 ```
 
 ---
@@ -179,9 +214,11 @@ Raramente va sovrascritto; se vuoi nascondere i messaggi:
 
 ---
 
+## Blocchi del footer
+
 ### `footer`
 
-Sostituisce l'intero footer. Normalmente si usano i sotto-blocchi:
+Sostituisce l'intero footer.
 
 ```django
 {% block footer %}
@@ -191,28 +228,113 @@ Sostituisce l'intero footer. Normalmente si usano i sotto-blocchi:
 
 ---
 
+### `footer_brand_text`
+
+Breve testo mostrato sotto il logo nella colonna sinistra del footer.
+Default: `agesci_theme_nome`.
+
+```django
+{% block footer_brand_text %}
+  Zona Vesuvio — AGESCI Campania
+{% endblock %}
+```
+
+---
+
+### `footer_columns`
+
+Blocco contenitore delle due colonne di link. Sovrascrivilo per aggiungere
+più colonne o cambiarne la struttura.
+
+```django
+{% block footer_columns %}
+  <div class="col-6 col-md-2">
+    <h5>{% block footer_col1_title %}Sezione{% endblock %}</h5>
+    <ul class="ag-footer__nav">{% block footer_col1_links %}{% endblock %}</ul>
+  </div>
+  <div class="col-6 col-md-2">
+    <h5>{% block footer_col2_title %}Contatti{% endblock %}</h5>
+    <ul class="ag-footer__nav">{% block footer_col2_links %}{% endblock %}</ul>
+  </div>
+{% endblock %}
+```
+
+---
+
+### `footer_col1_title` / `footer_col2_title`
+
+Titoli delle due colonne di link predefinite.
+
+```django
+{% block footer_col1_title %}Associazione{% endblock %}
+{% block footer_col2_title %}Risorse{% endblock %}
+```
+
+---
+
+### `footer_col1_links` / `footer_col2_links`
+
+Voci `<li>` nelle due colonne di link.
+
+```django
+{% block footer_col1_links %}
+  <li><a href="/chi-siamo/">Chi siamo</a></li>
+  <li><a href="/branche/">Le branche</a></li>
+{% endblock %}
+
+{% block footer_col2_links %}
+  <li><a href="https://www.agesci.it" target="_blank" rel="noopener">agesci.it</a></li>
+  <li><a href="/documenti/">Documenti</a></li>
+{% endblock %}
+```
+
+---
+
 ### `footer_text`
 
-Testo al centro del footer (sotto l'emblema). Default: nome dell'associazione.
+Testo nella colonna centrale del footer. Mantenuto dalla v1 per compatibilità.
 
 ```django
 {% block footer_text %}
-  <p class="mb-0">Zona Vesuvio — AGESCI Campania</p>
+  <strong>Zona Vesuvio</strong><br>
+  AGESCI Campania
 {% endblock %}
+```
+
+---
+
+### `footer_copyright`
+
+Testo del copyright nella riga in fondo al footer. Default: `© AGESCI Campania`.
+
+```django
+{% block footer_copyright %}© {{ year }} Zona Vesuvio{% endblock %}
 ```
 
 ---
 
 ### `footer_links`
 
-Link visualizzati nella colonna destra del footer.
+Link legali nella riga in fondo al footer (a destra del copyright).
 
 ```django
 {% block footer_links %}
-  <ul class="list-unstyled mb-0">
-    <li><a href="/privacy/">Privacy</a></li>
-    <li><a href="/contatti/">Contatti</a></li>
-  </ul>
+  <li><a href="/privacy/">Privacy</a></li>
+  <li><a href="/accessibilita/">Accessibilità</a></li>
+{% endblock %}
+```
+
+---
+
+## Blocchi testa e coda
+
+### `extra_head`
+
+Inserisce contenuto alla fine del `<head>`.
+
+```django
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'mia_app/css/custom.css' %}">
 {% endblock %}
 ```
 
@@ -223,10 +345,13 @@ Link visualizzati nella colonna destra del footer.
 Inserisce script prima di `</body>`, dopo Bootstrap JS.
 
 ```django
-{% block extra_js %}
+{% block extra_js %}{{ block.super }}
   <script src="{% static 'mia_app/js/custom.js' %}"></script>
 {% endblock %}
 ```
+
+Usa `{{ block.super }}` per mantenere eventuali script già definiti da blocchi
+parent (es. la libreria Masonry quando usi `ag_masonry_grid`).
 
 ---
 
@@ -236,24 +361,40 @@ Inserisce script prima di `</body>`, dopo Bootstrap JS.
 |---|---|---|
 | `title` | `<title>` | Titolo pagina |
 | `extra_head` | fine `<head>` | CSS, meta aggiuntivi |
-| `navbar` | barra principale | Sostituzione completa navbar |
-| `brand_url` | link brand navbar | URL homepage custom |
-| `brand_text` | testo brand navbar | Nome sezione/zona |
-| `nav_items` | voci menu `<li>` | Voci di navigazione |
-| `breadcrumb` | sotto navbar | Override breadcrumb |
-| `subnav` | sotto breadcrumb | Override sub-navbar |
+| `header` | intera testata | Sostituzione completa |
+| `brand_url` | link brand | URL homepage custom |
+| `brand_text` | nome brand | Nome sezione/zona |
+| `header_nav` | nav desktop (con icone) | Voci menu desktop |
+| `offcanvas_nav` | nav mobile offcanvas | Voci menu mobile |
+| `header_search` | barra inferiore — sx | Campo di ricerca |
+| `header_actions` | barra inferiore — dx | Pulsanti login/azioni |
+| `sidebar` | colonna laterale sx | Sidebar collapsible |
 | `main_class` | classi `<main>` | Layout a tutta larghezza |
 | `messages` | sopra content | Nascondere i flash |
 | `content` | corpo pagina | **Contenuto principale** |
-| `footer` | fondo pagina | Sostituzione completa footer |
-| `footer_text` | centro footer | Nome / slogan |
-| `footer_links` | colonna destra footer | Link policy/contatti |
+| `footer` | fondo pagina | Sostituzione completa |
+| `footer_brand_text` | colonna logo footer | Testo sotto il logo |
+| `footer_columns` | colonne link footer | Struttura colonne |
+| `footer_col1_title` | titolo colonna 1 | Nome sezione |
+| `footer_col1_links` | link colonna 1 | `<li>` link |
+| `footer_col2_title` | titolo colonna 2 | Nome sezione |
+| `footer_col2_links` | link colonna 2 | `<li>` link |
+| `footer_text` | testo centrale footer | Nome / slogan |
+| `footer_copyright` | riga copyright | Anno e nome |
+| `footer_links` | link legali footer | Privacy, contatti |
 | `extra_js` | fine `<body>` | Script custom |
 
 ---
 
-## Note sulla retrocompatibilità
+## Migrazione dalla v1.x
 
-I nomi dei blocchi sono stabili: applicazioni che già estendono `base.html`
-continueranno a funzionare senza modifiche al passaggio a versioni successive
-del tema.
+I blocchi rimossi nella v2 e il loro equivalente:
+
+| Blocco v1 (rimosso) | Equivalente v2 |
+|---|---|
+| `navbar` | `header` |
+| `nav_items` | `header_nav` + `offcanvas_nav` |
+| `brand_url` | `brand_url` (invariato, ora in `header.html`) |
+| `brand_text` | `brand_text` (invariato, ora in `header.html`) |
+| `breadcrumb` | tag `{% ag_breadcrumb %}` nel blocco `content` |
+| `subnav` | tag personalizzato nel blocco `content` |

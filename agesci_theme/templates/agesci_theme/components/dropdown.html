@@ -1,0 +1,32 @@
+<div class="{% if direction %}{{ direction }} {% endif %}d-inline-block">
+  {% if split %}
+    <div class="btn-group">
+      <button type="button" class="btn btn-{{ variant }}">{{ label }}</button>
+      <button type="button" class="btn btn-{{ variant }} dropdown-toggle dropdown-toggle-split"
+              data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="visually-hidden">Apri menu</span>
+      </button>
+  {% else %}
+    <button class="btn btn-{{ variant }} dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false">
+      {{ label }}
+    </button>
+  {% endif %}
+    <ul class="dropdown-menu">
+      {% for item in items %}
+        {% if item.divider %}
+          <li><hr class="dropdown-divider"></li>
+        {% else %}
+          <li>
+            <a class="dropdown-item{% if item.active %} active{% endif %}{% if item.disabled %} disabled{% endif %}"
+               href="{{ item.url|default:'#' }}">
+              {{ item.label }}
+            </a>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  {% if split %}</div>{% endif %}
+</div>

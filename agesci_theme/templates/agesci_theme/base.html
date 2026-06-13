@@ -21,26 +21,27 @@
   {% block extra_head %}{% endblock %}
 </head>
 <body class="d-flex flex-column">
-  {% block navbar %}{% include "agesci_theme/partials/navbar.html" %}{% endblock %}
 
-  {% block breadcrumb %}{% include "agesci_theme/partials/breadcrumb.html" %}{% endblock %}
+  {% block header %}{% include "agesci_theme/partials/header.html" %}{% endblock %}
 
-  {% block subnav %}{% include "agesci_theme/partials/subnav.html" %}{% endblock %}
+  <div class="d-flex flex-grow-1 overflow-hidden">
+    {% block sidebar %}{% endblock %}
 
-  <main class="flex-grow-1 {% block main_class %}container py-4{% endblock %}">
-    {% block messages %}
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Chiudi"></button>
-          </div>
-        {% endfor %}
-      {% endif %}
-    {% endblock %}
+    <main class="flex-grow-1 {% block main_class %}container py-4{% endblock %}">
+      {% block messages %}
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Chiudi"></button>
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endblock %}
 
-    {% block content %}{% endblock %}
-  </main>
+      {% block content %}{% endblock %}
+    </main>
+  </div>
 
   {% block footer %}{% include "agesci_theme/partials/footer.html" %}{% endblock %}
 
