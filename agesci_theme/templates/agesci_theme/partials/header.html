@@ -1,0 +1,66 @@
+{% load static %}
+<header>
+  {# ── Barra superiore: logo + nav icone (desktop) + hamburger (mobile) ── #}
+  <div class="ag-header-top px-3 py-2">
+    <div class="container d-flex flex-wrap align-items-center">
+
+      <a href="{% block brand_url %}/{% endblock %}" class="ag-header-brand my-2 my-lg-0">
+        <img src="{% static agesci_theme_logo_navbar %}" alt="{{ agesci_theme_nome }}">
+        <span class="d-none d-sm-inline">{% block brand_text %}{{ agesci_theme_nome }}{% endblock %}</span>
+      </a>
+
+      {# Nav desktop: icona (sopra) + etichetta (sotto), visibile solo da lg #}
+      <ul class="ag-header-nav nav col-12 col-lg-auto my-2 justify-content-center my-lg-0 text-small d-none d-lg-flex ms-lg-auto">
+        {% block header_nav %}{% endblock %}
+      </ul>
+
+      {# Hamburger → offcanvas (visibile solo su mobile/tablet) #}
+      <button class="ag-header-toggler d-lg-none ms-auto"
+              type="button"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#agOffcanvas"
+              aria-controls="agOffcanvas"
+              aria-label="Apri menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+          <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  {# ── Barra inferiore: ricerca + azioni ── #}
+  <div class="ag-header-bottom px-3 py-2">
+    <div class="container d-flex flex-wrap align-items-center justify-content-center gap-2">
+      {% block header_search %}{% endblock %}
+      <div class="ms-auto d-flex gap-2">
+        {% block header_actions %}{% endblock %}
+      </div>
+    </div>
+  </div>
+
+  {# ── Offcanvas: menu mobile/tablet ── #}
+  <div class="offcanvas offcanvas-start d-lg-none"
+       id="agOffcanvas"
+       tabindex="-1"
+       aria-labelledby="agOffcanvasLabel">
+    <div class="ag-offcanvas-header">
+      <span class="ag-offcanvas-title" id="agOffcanvasLabel">
+        <img src="{% static agesci_theme_logo_navbar %}" alt="{{ agesci_theme_nome }}">
+        {{ agesci_theme_nome }}
+      </span>
+      <button type="button"
+              class="ag-offcanvas-close"
+              data-bs-dismiss="offcanvas"
+              aria-label="Chiudi">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z"/>
+        </svg>
+      </button>
+    </div>
+    <div class="offcanvas-body p-0">
+      <ul class="navbar-nav px-1 py-2">
+        {% block offcanvas_nav %}{% endblock %}
+      </ul>
+    </div>
+  </div>
+</header>

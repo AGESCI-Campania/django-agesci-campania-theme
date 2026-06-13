@@ -3,10 +3,11 @@
 
 Tema **Bootstrap 5** riusabile per le applicazioni **Django** dell'**AGESCI Campania**.
 
-Fornisce un `base.html` pronto all'uso, navbar, footer, breadcrumb e sub-navbar
-brandizzati con la **palette ufficiale** del *Manuale Immagine Coordinata AGESCI 2011*,
-gli emblemi associativi e regionali, e la **personalizzazione per branca** tramite
-un singolo parametro di configurazione.
+Fornisce un `base.html` pronto all'uso con **header a due barre**, footer,
+sidebar collapsible e una libreria di **componenti opzionali** (`ag_hero`,
+`ag_feature_grid`, `ag_jumbotron`, `ag_dropdown`, ecc.) — il tutto brandizzato
+con la **palette ufficiale** del *Manuale Immagine Coordinata AGESCI 2011* e
+con **personalizzazione per branca** tramite un singolo parametro di configurazione.
 
 ---
 

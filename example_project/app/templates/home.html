@@ -1,100 +1,141 @@
 {% extends "agesci_theme/base.html" %}
 {% load agesci_tags %}
+{% load agesci_components %}
 {% load bootstrap_icons %}
 
 {% block title %}Home — {{ agesci_theme_nome }}{% endblock %}
 
-{% block nav_items %}
-  <li class="nav-item">
-    <a class="nav-link active" href="/">{% bs_icon "house-fill" %} Home</a>
+{# ── Header: nav desktop (icona sopra + etichetta sotto) ── #}
+{% block header_nav %}
+  <li>
+    <a href="/" class="nav-link active">
+      <span class="ag-nav-icon">{% bs_icon "house-fill" %}</span>
+      Home
+    </a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">{% bs_icon "calendar-event" %} Eventi</a>
+  <li>
+    <a href="#" class="nav-link">
+      <span class="ag-nav-icon">{% bs_icon "calendar-event" %}</span>
+      Eventi
+    </a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">{% bs_icon "envelope" %} Contatti</a>
+  <li>
+    <a href="#" class="nav-link">
+      <span class="ag-nav-icon">{% bs_icon "people-fill" %}</span>
+      Gruppi
+    </a>
+  </li>
+  <li>
+    <a href="#" class="nav-link">
+      <span class="ag-nav-icon">{% bs_icon "envelope-fill" %}</span>
+      Contatti
+    </a>
   </li>
 {% endblock %}
 
-{% block breadcrumb %}
-<nav aria-label="percorso" class="breadcrumb-agesci">
-  <div class="container">
-    <ol class="breadcrumb mb-0 py-2">
-      <li class="breadcrumb-item"><a href="/">{% bs_icon "house" %} Home</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Demo</li>
-    </ol>
-  </div>
-</nav>
+{# ── Header: barra inferiore ── #}
+{% block header_search %}
+  <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto" role="search">
+    <input type="search" class="form-control" placeholder="Cerca..." aria-label="Cerca">
+  </form>
 {% endblock %}
 
-{% block subnav %}
-<div class="subnav-agesci">
-  <div class="container">
-    <ul class="nav nav-pills py-2">
-      <li class="nav-item">
-        <a class="nav-link active" href="#">{% bs_icon "grid" %} Panoramica</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">{% bs_icon "palette" %} Palette</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">{% bs_icon "puzzle" %} Componenti</a>
-      </li>
-    </ul>
-  </div>
-</div>
+{% block header_actions %}
+  <a href="#" class="btn btn-light text-dark">Accedi</a>
+  <a href="#" class="btn btn-primary">Registrati</a>
 {% endblock %}
 
+{# ── Header: nav offcanvas (mobile) ── #}
+{% block offcanvas_nav %}
+  <li><a href="/" class="nav-link active">{% bs_icon "house-fill" %} Home</a></li>
+  <li><a href="#" class="nav-link">{% bs_icon "calendar-event" %} Eventi</a></li>
+  <li><a href="#" class="nav-link">{% bs_icon "people-fill" %} Gruppi</a></li>
+  <li><a href="#" class="nav-link">{% bs_icon "envelope-fill" %} Contatti</a></li>
+{% endblock %}
+
+{# ── Footer ── #}
+{% block footer_col1_title %}Associazione{% endblock %}
+{% block footer_col1_links %}
+  <li><a href="#">Chi siamo</a></li>
+  <li><a href="#">Le branche</a></li>
+  <li><a href="#">Le zone</a></li>
+{% endblock %}
+{% block footer_col2_title %}Risorse{% endblock %}
+{% block footer_col2_links %}
+  <li><a href="https://www.agesci.it" target="_blank" rel="noopener">agesci.it</a></li>
+  <li><a href="#">Documenti</a></li>
+{% endblock %}
+{% block footer_copyright %}© AGESCI Campania{% endblock %}
+
+{# ── Contenuto principale ── #}
 {% block content %}
-  <div class="p-5 mb-4 rounded-3 {% branca_bg %}">
-    <h1 class="display-5">{{ agesci_theme_nome }}</h1>
-    <p class="lead mb-0">Template di esempio basato su <code>django-agesci-theme</code>.
-       Cambia <code>AGESCI_THEME_BRANCA</code> in settings per ricolorare tutto.</p>
-  </div>
 
-  <div class="row g-4">
+  {# Hero #}
+  {% ag_hero title=agesci_theme_nome subtitle="Associazione Guide e Scouts Cattolici Italiani — Regione Campania" cta_text="Scopri di più" cta_url="#" variant="subtle" %}
+
+  {# Breadcrumb come componente #}
+  {% ag_breadcrumb items=breadcrumb_items|default:'' %}
+  {% if not breadcrumb_items %}
+    {% ag_breadcrumb items=demo_breadcrumb %}
+  {% endif %}
+
+  {# Feature grid #}
+  <h2 class="mt-5 mb-3">Cosa facciamo</h2>
+  {% ag_feature_grid items=demo_features cols=3 %}
+
+  {# Jumbotron #}
+  {% ag_jumbotron title="Unisciti a noi" lead="Entra nel movimento scout più grande d'Italia." cta_text="Contattaci" cta_url="#" %}
+
+  <div class="row g-4 mt-2">
     <div class="col-md-6">
-      <h2>Pulsanti</h2>
-      <button class="btn btn-primary me-2">
-        {% bs_icon "check-circle" %} Primario
-      </button>
-      <button class="btn btn-outline-primary">
-        {% bs_icon "x-circle" %} Outline
-      </button>
+      <h2>Palette del manuale</h2>
+      <div class="d-flex flex-wrap gap-2 mt-3">
+        {% ag_badge text="Viola" variant="secondary" %}
+        <span class="badge p-2 bg-ag-viola">Viola</span>
+        <span class="badge p-2 bg-ag-azzurro">Azzurro</span>
+        <span class="badge p-2 bg-ag-giallo-lc">Giallo L/C</span>
+        <span class="badge p-2 bg-ag-verde-eg">Verde E/G</span>
+        <span class="badge p-2 bg-ag-rosso-rs">Rosso R/S</span>
+        <span class="badge p-2 bg-ag-giallo-oro">Giallo oro</span>
+      </div>
     </div>
+
+    <div class="col-md-6">
+      <h2>Bottoni</h2>
+      <div class="d-flex flex-wrap gap-2 mt-3">
+        {% ag_button label="Primario" variant="primary" %}
+        {% ag_button label="Outline" variant="primary" outline=True %}
+        {% ag_button label="Small" variant="secondary" size="sm" %}
+        {% ag_button label="Link esterno" variant="primary" href="#" %}
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <h2>Dropdown</h2>
+      <div class="mt-3">
+        {% ag_dropdown label="Azioni" items=demo_dropdown %}
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <h2>List group</h2>
+      <div class="mt-3">
+        {% ag_list_group items=demo_list_group %}
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <h2>Modal</h2>
+      <div class="mt-3">
+        {% ag_modal_trigger modal_id="demoModal" label="Apri modal" %}
+        {% include "agesci_theme/components/modal.html" with modal_id="demoModal" title="Esempio modal" body="<p>Contenuto del modal di esempio.</p>" %}
+      </div>
+    </div>
+
     <div class="col-md-6">
       <h2>Emblema di Zona</h2>
       {% emblema_zona "vesuvio" css_class="img-fluid" alt="Zona Vesuvio" %}
     </div>
-  </div>
-
-  <h2 class="mt-4">Palette del manuale</h2>
-  <div class="d-flex flex-wrap gap-2 mt-3">
-    <span class="badge p-3 bg-ag-viola">Viola</span>
-    <span class="badge p-3 bg-ag-azzurro">Azzurro</span>
-    <span class="badge p-3 bg-ag-giallo-lc">Giallo L/C</span>
-    <span class="badge p-3 bg-ag-verde-eg">Verde E/G</span>
-    <span class="badge p-3 bg-ag-rosso-rs">Rosso R/S</span>
-    <span class="badge p-3 bg-ag-giallo-oro">Giallo oro</span>
-  </div>
-
-  <h2 class="mt-4">Icone Bootstrap Icons</h2>
-  <p class="text-muted small">
-    Rese disponibili da <code>django-bootstrap-icons</code> con cache SVG locale
-    (<code>BS_ICONS_CACHE</code>). Uso: <code>{% templatetag openblock %} load bootstrap_icons {% templatetag closeblock %}</code>
-    poi <code>{% templatetag openblock %} bs_icon "nome-icona" {% templatetag closeblock %}</code>.
-  </p>
-  <div class="d-flex flex-wrap gap-3 mt-3 fs-4">
-    <span title="house-fill">{% bs_icon "house-fill" %}</span>
-    <span title="calendar-event">{% bs_icon "calendar-event" %}</span>
-    <span title="people-fill">{% bs_icon "people-fill" %}</span>
-    <span title="geo-alt-fill">{% bs_icon "geo-alt-fill" %}</span>
-    <span title="flag-fill">{% bs_icon "flag-fill" %}</span>
-    <span title="star-fill">{% bs_icon "star-fill" %}</span>
-    <span title="envelope-fill">{% bs_icon "envelope-fill" %}</span>
-    <span title="bell-fill">{% bs_icon "bell-fill" %}</span>
-    <span title="shield-fill">{% bs_icon "shield-fill" %}</span>
-    <span title="award-fill">{% bs_icon "award-fill" %}</span>
   </div>
 
   <h2 class="mt-4">Zone della Regione Campania</h2>
@@ -106,4 +147,5 @@
       </div>
     {% endfor %}
   </div>
+
 {% endblock %}

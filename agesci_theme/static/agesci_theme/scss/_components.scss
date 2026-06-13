@@ -1,0 +1,57 @@
+// =============================================================
+//  _components.scss — Componenti opzionali v2
+// =============================================================
+
+// ── Feature icon ──────────────────────────────────────────────────────────────
+.ag-feature-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: .5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--ag-primary-subtle);
+  color: var(--ag-primary);
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+// ── Hero ──────────────────────────────────────────────────────────────────────
+.ag-hero {
+  padding: 4rem 1.5rem;
+  border-radius: .5rem;
+
+  &--centered { text-align: center; }
+
+  &--primary {
+    background-color: var(--ag-primary);
+    color: var(--ag-on-primary);
+
+    a:not(.btn) { color: var(--ag-on-primary); }
+    .lead { opacity: .9; }
+  }
+
+  &--subtle { background-color: var(--ag-primary-subtle); }
+
+  &--dark {
+    background-color: #212529;
+    color: #fff;
+  }
+}
+
+// ── Jumbotron ─────────────────────────────────────────────────────────────────
+.ag-jumbotron {
+  padding: 4rem 2rem;
+  border-radius: .75rem;
+  background-color: var(--ag-primary-subtle);
+
+  &--primary {
+    background-color: var(--ag-primary);
+    color: var(--ag-on-primary);
+  }
+}
+
+// ── Masonry ───────────────────────────────────────────────────────────────────
+.ag-masonry-grid {
+  [data-masonry] { transition-duration: .3s; }
+}

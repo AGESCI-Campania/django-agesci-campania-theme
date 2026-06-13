@@ -1,0 +1,18 @@
+<div class="ag-hero ag-hero--{{ variant }}{% if variant == 'centered' %} ag-hero--centered{% endif %} mb-4">
+  {% if image_url %}
+  <div class="row align-items-center g-4">
+    <div class="col-lg-6">
+  {% endif %}
+      {% if title %}<h1 class="display-5 fw-bold">{{ title }}</h1>{% endif %}
+      {% if subtitle %}<p class="lead">{{ subtitle }}</p>{% endif %}
+      {% if cta_text %}
+      <a href="{{ cta_url }}" class="btn btn-primary btn-lg">{{ cta_text }}</a>
+      {% endif %}
+  {% if image_url %}
+    </div>
+    <div class="col-lg-6">
+      <img src="{{ image_url }}" class="img-fluid rounded" alt="">
+    </div>
+  </div>
+  {% endif %}
+</div>

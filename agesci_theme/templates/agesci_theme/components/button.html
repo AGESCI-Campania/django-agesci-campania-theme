@@ -1,0 +1,11 @@
+{% if href %}
+<a href="{{ href }}"
+   class="btn btn-{% if outline %}outline-{% endif %}{{ variant }}{% if size %} btn-{{ size }}{% endif %}">
+  {{ label }}
+</a>
+{% else %}
+<button type="{{ type }}"
+        class="btn btn-{% if outline %}outline-{% endif %}{{ variant }}{% if size %} btn-{{ size }}{% endif %}">
+  {{ label }}
+</button>
+{% endif %}
