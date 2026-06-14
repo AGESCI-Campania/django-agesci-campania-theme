@@ -10,6 +10,8 @@
   flex-shrink: 0;
   transition: width .2s ease, min-width .2s ease;
   overflow: hidden;
+  position: relative;
+  z-index: 2;
 
   // Collassata: solo icone visibili
   &--collapsed {

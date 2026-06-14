@@ -5,10 +5,9 @@
 // =============================================================
 @use "palette" as p;
 
-// --- Layout applicazione (navbar e footer sempre visibili, solo il main scorre)
+// --- Layout applicazione (header e sidebar fissi, solo l'area contenuto scorre)
 // body usa d-flex flex-column nel markup; qui fissiamo l'altezza al viewport.
-// Su mobile e tablet (< lg / 992px) il layout torna al flusso normale: la pagina
-// scorre per intero e il footer si trova in fondo al contenuto, non incollato al viewport.
+// Su mobile e tablet (< lg / 992px) il layout torna al flusso normale.
 body {
   @media (min-width: 992px) {
     height: 100vh;
@@ -16,9 +15,13 @@ body {
   }
 }
 
-// min-height: 0 è indispensabile: senza di esso un flex-item non scende
-// sotto la dimensione del suo contenuto e lo scroll non parte mai.
-main {
+// ag-scroll-area: unico scroll container dell'area contenuto.
+// È un blocco semplice (non flex), così overflow-y: auto funziona
+// senza i quirk dei flex container con item flex-grow.
+// Contiene <main> + <footer> come fratelli: il footer prende tutta
+// la larghezza del wrapper (viewport − sidebar), senza essere vincolato
+// dal max-width del .container che si applica solo a <main>.
+.ag-scroll-area {
   @media (min-width: 992px) {
     min-height: 0;
     overflow-y: auto;

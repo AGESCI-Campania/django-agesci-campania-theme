@@ -21,10 +21,13 @@ Django dell'AGESCI Campania.
   Dopo ogni modifica allo SCSS rigeneralo con `npm run build:css` e committa.
 - Bootstrap 5 è caricato da CDN in `base.html`; `agesci.min.css` va caricato
   **dopo** di esso e sovrascrive le sue custom properties.
-- **Layout viewport fisso**: `body { height: 100vh; overflow: hidden }` e
-  `main { min-height: 0; overflow-y: auto }` sono definiti in
-  `_bootstrap-overrides.scss`. NON usare `min-vh-100` sul body — renderebbe
-  il body crescere oltre il viewport e il footer non sarebbe più fisso.
+- **Layout viewport fisso**: `body { height: 100vh; overflow: hidden }` è
+  definito in `_bootstrap-overrides.scss`. Lo scroll avviene su `.ag-scroll-area`
+  (il wrapper flex che contiene `<main>` + `<footer>` come fratelli), non su
+  `main` direttamente. NON usare `min-vh-100` sul body. NON rimettere
+  `overflow-y: auto` su `main` — lo scroll deve stare su `.ag-scroll-area`
+  così il footer occupa tutta la larghezza del wrapper indipendentemente dal
+  `.container` di `<main>`.
 
 ## Comandi (uv)
 

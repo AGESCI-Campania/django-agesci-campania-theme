@@ -1,22 +1,30 @@
 {% load static %}
-{#
+{% comment %}
   Sidebar collapsible v2.
 
-  Utilizzo in un template figlio:
+  Questo partial va incluso tramite {% include %}, che NON partecipa
+  all'ereditarietà dei blocchi Django. I link di navigazione devono
+  essere inseriti dentro {% block sidebar_items %} che si trova qui.
+  Poiché il partial è sempre incluso (non esteso), il modo corretto
+  di personalizzare i link è sovrascrivere l'intero {% block sidebar %}
+  nel template figlio, replicando la struttura HTML della <nav>:
+
     {% block sidebar %}
-      {% include "agesci_theme/partials/sidebar.html" with variant="dark" %}
-    {% endblock %}
-    {% block sidebar_items %}
-      <li>
-        <a href="/" class="ag-sidebar__nav-link {% if request.path == '/' %}active{% endif %}">
-          <svg ...>...</svg>
-          <span class="ag-sidebar__label">Home</span>
-        </a>
-      </li>
+    {% load static %}
+    <nav class="ag-sidebar ag-sidebar--dark" id="agSidebar" aria-label="Menu laterale">
+      <button class="ag-sidebar__toggle" id="agSidebarToggle"
+              aria-label="Comprimi menu laterale" aria-expanded="true" aria-controls="agSidebar">
+        ...
+      </button>
+      <ul class="ag-sidebar__nav">
+        <li><a href="/" class="ag-sidebar__nav-link active">...</a></li>
+      </ul>
+    </nav>
+    <script src="{% static 'agesci_theme/js/sidebar.js' %}" defer></script>
     {% endblock %}
 
   variant: "dark" (default) | "light"
-#}
+{% endcomment %}
 <nav class="ag-sidebar ag-sidebar--{{ variant|default:'dark' }}"
      id="agSidebar"
      aria-label="Menu laterale">

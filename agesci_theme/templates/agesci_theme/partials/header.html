@@ -28,14 +28,18 @@
     </div>
   </div>
 
-  {# ── Barra inferiore: ricerca + azioni ── #}
-  <div class="ag-header-bottom px-3 py-2">
-    <div class="container d-flex flex-wrap align-items-center justify-content-center gap-2">
-      {% block header_search %}{% endblock %}
-      <div class="ms-auto d-flex gap-2">
-        {% block header_actions %}{% endblock %}
+  {# ── Barra inferiore: breadcrumb (se presente) oppure ricerca + azioni ── #}
+  <div class="ag-header-bottom{% if not breadcrumb_items %} px-3 py-2{% endif %}">
+    {% if breadcrumb_items %}
+      {% include "agesci_theme/partials/breadcrumb.html" with items=breadcrumb_items %}
+    {% else %}
+      <div class="container d-flex flex-wrap align-items-center justify-content-center gap-2">
+        {% block header_search %}{% endblock %}
+        <div class="ms-auto d-flex gap-2">
+          {% block header_actions %}{% endblock %}
+        </div>
       </div>
-    </div>
+    {% endif %}
   </div>
 
   {# ── Offcanvas: menu mobile/tablet ── #}

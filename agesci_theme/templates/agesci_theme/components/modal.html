@@ -1,4 +1,4 @@
-{#
+{% comment %}
   Template per modal Bootstrap v2.
 
   Utilizzo:
@@ -10,7 +10,7 @@
     body     (safe HTML str): contenuto — usare mark_safe() nella view
     size     (str): "" | "sm" | "lg" | "xl" | "fullscreen"
     centered (bool): True per centratura verticale
-#}
+{% endcomment %}
 <div class="modal fade"
      id="{{ modal_id }}"
      tabindex="-1"
