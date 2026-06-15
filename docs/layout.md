@@ -13,10 +13,10 @@ visibili; solo il `<main>` scorre internamente.
 │ Header (barra sup. + barra inf.)     │  fisso
 ├──────────────────────────────────────┤
 │                                      │
-│  <main> — scorre                     │  flex-grow-1, overflow-y: auto
+│  .ag-scroll-area — scorre ↕          │  flex-grow-1, overflow-y: auto
+│    <main class="container …">        │  larghezza max limitata da .container
+│    <footer>                          │  larghezza completa dell'area
 │                                      │
-├──────────────────────────────────────┤
-│ Footer                               │  fisso
 └──────────────────────────────────────┘
 ```
 
@@ -27,12 +27,11 @@ visibili; solo il `<main>` scorre internamente.
 │ Header                               │  fisso
 ├──────────┬───────────────────────────┤
 │          │                           │
-│ Sidebar  │  <main> — scorre          │
-│ (240px)  │                           │
+│ Sidebar  │  .ag-scroll-area — scorre │
+│ (240px)  │    <main>                 │
+│  fisso   │    <footer>               │
 │          │                           │
-├──────────┴───────────────────────────┤
-│ Footer                               │  fisso
-└──────────────────────────────────────┘
+└──────────┴───────────────────────────┘
 ```
 
 La sidebar è attivata sovrascrivendo il blocco `sidebar` (vuoto di default).
@@ -59,16 +58,19 @@ Il CSS in `_bootstrap-overrides.scss` applica le regole di viewport solo da lg:
 ```css
 /* ≥ 992px */
 body { height: 100vh; overflow: hidden; }
-main { min-height: 0; overflow-y: auto; }
+.ag-scroll-area { min-height: 0; overflow-y: auto; }
 ```
 
-Il `body` usa `d-flex flex-column` nel markup HTML; `main` ha `flex-grow-1`
-per occupare tutto lo spazio disponibile nella zona centrale.
+Il `body` usa `d-flex flex-column` nel markup HTML. La `<div class="d-flex flex-grow-1">` interna
+affianca sidebar e area contenuto; `.ag-scroll-area` usa `flex-grow-1` per occupare tutto lo
+spazio disponibile. `<main>` e `<footer>` sono fratelli all'interno di `.ag-scroll-area`: il
+footer occupa tutta la larghezza dell'area (viewport − sidebar) indipendentemente dal `max-width`
+del `.container` applicato solo a `<main>`.
 
-### Perché `min-height: 0` su `<main>`?
+### Perché `min-height: 0` su `.ag-scroll-area`?
 
 Senza di esso un flex-item non può scendere sotto la sua dimensione naturale:
-il contenuto spingerebbe `<main>` oltre il viewport e `overflow-y: auto` non
+`.ag-scroll-area` supererebbe il viewport e `overflow-y: auto` non
 partirebbe mai. `min-height: 0` rimuove questo vincolo.
 
 ### Non usare `min-vh-100` sul body

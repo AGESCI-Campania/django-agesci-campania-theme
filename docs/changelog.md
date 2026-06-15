@@ -5,7 +5,31 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
-## [2.0.0] — in sviluppo (branch `v2`)
+## [2.1.0] — 2026-06-14
+
+### Corretto
+
+- **RecursionError / TemplateSyntaxError**: convertiti i commenti `{# … #}` multi-riga in `{% comment %} … {% endcomment %}` in `modal.html`, `masonry_grid.html` e `sidebar.html`. Django non supporta `{# #}` su più righe: i tag `{% %}` interni venivano valutati causando errori a runtime.
+- Typo `descriptio n` → `description` in `pyproject.toml`.
+- `feature_grid.html`: `col_class` spostato dalla colonna al `.row` con `row-cols-md-*` (pattern Bootstrap-idiomatic, compatibile con `<div class="col">` nei figli).
+- `sidebar.html`: script JS inline estratto in `static/agesci_theme/js/sidebar.js` e caricato con `<script src defer>` per compatibilità CSP e caching.
+
+### Modificato
+
+- `.ag-scroll-area` introdotto come unico container con scroll verticale, sostituendo `overflow-y: auto` su `<main>`. Il footer è ora fratello di `<main>` all'interno di `.ag-scroll-area` e occupa tutta la larghezza (viewport − sidebar), indipendentemente dal `max-width` del `.container` di `<main>`.
+- `ag-sidebar`: aggiunto `position: relative; z-index: 2` per sovrastare visivamente il footer quando si trovano in prossimità.
+- Blocco `{% block breadcrumb %}` rimosso da `.ag-scroll-area`; la breadcrumb viene ora resa in `ag-header-bottom` di `header.html` quando `breadcrumb_items` è presente nel contesto (altrimenti mostra `header_search` / `header_actions` come fallback).
+
+### Demo (`example_project`)
+
+- Sidebar visibile nella home con link alla nuova pagina `/components/`.
+- Nuova pagina `/components/` con tutti gli 11 componenti opzionali: Hero (4 varianti), Breadcrumb, Feature Grid, Jumbotron, Badge, Button, Dropdown, List group, Modal (sm/default/lg), Masonry Grid.
+- `breadcrumb_items` passato da entrambe le view per mostrare la breadcrumb nell'header su ogni pagina.
+- `mark_safe()` sui contenuti HTML del masonry grid per evitare escape indesiderato.
+
+---
+
+## [2.0.0] — 2026-06-13
 
 ### ⚠ Breaking changes
 

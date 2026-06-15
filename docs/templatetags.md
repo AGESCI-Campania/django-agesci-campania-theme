@@ -259,6 +259,13 @@ breadcrumb_items = [
 {% ag_breadcrumb items=breadcrumb_items %}
 ```
 
+:::{tip}
+Se passi `breadcrumb_items` come variabile di contesto dalla view, l'header
+la mostra automaticamente nella barra inferiore (`ag-header-bottom`), senza
+bisogno del tag `{% ag_breadcrumb %}` nel contenuto. Usa questo tag solo se
+preferisci posizionare la breadcrumb manualmente all'interno del blocco `content`.
+:::
+
 ---
 
 ### `ag_dropdown`

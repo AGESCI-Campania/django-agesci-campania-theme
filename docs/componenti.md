@@ -64,6 +64,29 @@ pannello offcanvas Bootstrap con i link del blocco `offcanvas_nav`.
 {% endblock %}
 ```
 
+### Breadcrumb automatica nell'header
+
+Quando la view passa `breadcrumb_items` nel contesto, la barra inferiore
+(`ag-header-bottom`) mostra automaticamente la breadcrumb al posto di
+`header_search` / `header_actions`:
+
+```python
+# views.py
+def mia_view(request):
+    return render(request, "...", {
+        "breadcrumb_items": [
+            {"label": "Home",    "url": "/"},
+            {"label": "Sezione", "url": "/sezione/"},
+            {"label": "Pagina corrente"},   # ultimo elemento: active, nessun url
+        ]
+    })
+```
+
+Se `breadcrumb_items` non è presente nel contesto, la barra inferiore mostra
+normalmente `header_search` e `header_actions`. Per posizionare la breadcrumb
+manualmente nel corpo della pagina usa invece `{% ag_breadcrumb %}` nel blocco
+`content` (vedi [Template tag](templatetags.md#ag-breadcrumb)).
+
 ---
 
 (sidebar)=

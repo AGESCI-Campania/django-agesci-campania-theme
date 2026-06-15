@@ -40,9 +40,13 @@ L'entrypoint è `agesci.scss`, che include i file nell'ordine fisso seguente:
 
 ```
 agesci.scss
-├── _palette.scss            ← variabili $agesci-* (Pantone ufficiali)
-├── _branche.scss            ← genera le --ag-* custom properties per branca
-└── _bootstrap-overrides.scss ← rimappa i token Bootstrap, layout, componenti
+├── _palette.scss              ← variabili $agesci-* (Pantone ufficiali)
+├── _branche.scss              ← genera le --ag-* custom properties per branca
+├── _bootstrap-overrides.scss  ← rimappa i token Bootstrap, layout (.ag-scroll-area), utility
+├── _header.scss               ← stili header a due barre e offcanvas
+├── _sidebar.scss              ← sidebar collapsible
+├── _footer.scss               ← footer
+└── _components.scss           ← componenti opzionali (hero, jumbotron, ecc.)
 ```
 
 ### `_palette.scss`
@@ -64,7 +68,7 @@ deve essere nero o bianco in base alla luminosità HSL (soglia 62%).
 ### `_bootstrap-overrides.scss`
 
 - Rimappa `--bs-primary` e i token dei componenti Bootstrap verso `--ag-*`.
-- Definisce il **layout viewport fisso** (solo su desktop ≥ 768px).
+- Definisce il **layout viewport fisso** via `.ag-scroll-area` (solo su desktop ≥ 992px, breakpoint `lg`).
 - Stila navbar, breadcrumb, sub-navbar, footer con le custom properties del tema.
 - Definisce le classi utility `bg-ag-*` e `text-ag-*`.
 

@@ -22,15 +22,17 @@ di header e footer.
     Bootstrap CSS · Font · agesci.min.css · [extra_head]
   </head>
   <body class="d-flex flex-column">
-    [header]                   ← barra superiore + barra inferiore + offcanvas
+    [header]                         ← barra superiore + barra inferiore + offcanvas
     <div class="d-flex flex-grow-1 overflow-hidden">
-      [sidebar]                ← vuoto di default; attivare con il blocco sidebar
-      <main class="flex-grow-1 [main_class]">
-        [messages]
-        [content]
-      </main>
+      [sidebar]                      ← vuoto di default; attivare con il blocco sidebar
+      <div class="ag-scroll-area flex-grow-1">
+        <main class="[main_class]">
+          [messages]
+          [content]
+        </main>
+        [footer]                     ← larghezza completa (non vincolata da .container)
+      </div>
     </div>
-    [footer]
     Bootstrap JS · [extra_js]
   </body>
 </html>
@@ -396,5 +398,5 @@ I blocchi rimossi nella v2 e il loro equivalente:
 | `nav_items` | `header_nav` + `offcanvas_nav` |
 | `brand_url` | `brand_url` (invariato, ora in `header.html`) |
 | `brand_text` | `brand_text` (invariato, ora in `header.html`) |
-| `breadcrumb` | tag `{% ag_breadcrumb %}` nel blocco `content` |
+| `breadcrumb` | passare `breadcrumb_items` dal contesto della view (resa automaticamente in `ag-header-bottom`) oppure `{% ag_breadcrumb %}` nel blocco `content` |
 | `subnav` | tag personalizzato nel blocco `content` |

@@ -134,7 +134,7 @@ Il repository include un progetto Django completo che mostra header, sidebar,
 footer, palette, componenti e zone:
 
 ```bash
-git clone -b v2 https://github.com/AGESCI-Campania/django-agesci-campania-theme.git
+git clone https://github.com/AGESCI-Campania/django-agesci-campania-theme.git
 cd django-agesci-campania-theme
 uv sync
 uv run python example_project/manage.py migrate

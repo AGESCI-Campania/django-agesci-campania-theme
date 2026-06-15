@@ -48,7 +48,7 @@ Vedi la sezione [Icone Bootstrap](componenti.md#icone-bootstrap) per la configur
 
 ## Da GitHub (versione di sviluppo)
 
-Per installare la versione stabile più recente (branch `main`, serie 1.x):
+Per installare l'ultima versione dal branch `main` (serie 2.x attuale):
 
 ```bash
 # uv
@@ -58,19 +58,10 @@ uv add "git+https://github.com/AGESCI-Campania/django-agesci-campania-theme.git"
 pip install "git+https://github.com/AGESCI-Campania/django-agesci-campania-theme.git"
 ```
 
-Per installare la versione v2 (in sviluppo, branch `v2`):
-
-```bash
-# uv
-uv add "git+https://github.com/AGESCI-Campania/django-agesci-campania-theme.git@v2"
-
-# pip
-pip install "git+https://github.com/AGESCI-Campania/django-agesci-campania-theme.git@v2"
-```
-
 :::{note}
-La v2 introduce **breaking changes** rispetto alla v1.x. Consulta la
-[guida di migrazione](template.md#migrazione-dalla-v1x) prima di aggiornare.
+La serie 2.x introduce **breaking changes** rispetto alla v1.x. Consulta la
+[guida di migrazione](template.md#migrazione-dalla-v1x) prima di aggiornare
+da una versione 1.x.
 :::
 
 ---
