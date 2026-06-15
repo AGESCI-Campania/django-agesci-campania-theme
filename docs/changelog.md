@@ -5,6 +5,14 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
+## [2.2.1] — 2026-06-15
+
+### Corretto
+
+- **Blocchi header non funzionanti** (`header_nav`, `offcanvas_nav`, `header_search`, `header_actions`): l'HTML dell'header è stato spostato da `partials/header.html` direttamente in `base.html`. `{% include %}` crea un `render_context` separato che non partecipa all'ereditarietà dei blocchi Django: i blocchi definiti in un template figlio erano orfani silenziosi e non venivano mai renderizzati. `header.html` è mantenuto come riferimento strutturale con commento esplicativo.
+
+---
+
 ## [2.2.0] — 2026-06-15
 
 ### Aggiunto
