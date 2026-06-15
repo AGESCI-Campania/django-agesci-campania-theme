@@ -6,7 +6,7 @@
 [![Django](https://img.shields.io/badge/Django-6.0%2B-092E20.svg?logo=django&logoColor=white)](https://www.djangoproject.com/)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3.svg?logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 [![uv](https://img.shields.io/badge/packaged%20with-uv-DE5FE9.svg?logo=uv&logoColor=white)](https://github.com/astral-sh/uv)
-[![Version](https://img.shields.io/badge/version-2.1.0-informational.svg)](pyproject.toml)
+[![Version](https://img.shields.io/badge/version-2.2.0-informational.svg)](pyproject.toml)
 [![Code style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Tema **Bootstrap 5** riusabile per le applicazioni **Django** dell'**AGESCI Campania**.
@@ -78,7 +78,7 @@ TEMPLATES = [{
 }]
 
 # --- Personalizzazione tema (tutte opzionali) ---
-AGESCI_THEME_BRANCA = "eg"            # generico | capi | lc | eg | rs | viola
+AGESCI_THEME_BRANCA = "generico"      # generico | capi | lc | eg | rs | viola
 AGESCI_THEME_NOME = "Zona Vesuvio"     # mostrato in navbar/footer/title
 # Navbar con testo scuro: utile per branca chiara (es. lc = giallo)
 AGESCI_THEME_NAVBAR_TESTO_SCURO = False
@@ -153,6 +153,7 @@ STATIC_URL = "static/"
 | `header_actions` | pulsanti azione in barra inferiore |
 | `sidebar` | sidebar collapsible (vuota = assente) |
 | `sidebar_items` | voci `<li>` della sidebar |
+| `sidebar_user` | dropdown utente in fondo alla sidebar (default: `request.user` se autenticato) |
 | `main_class` | classi CSS del `<main>` (default: `container py-4`) |
 | `messages` | messaggi Django (alert Bootstrap) |
 | `content` | **contenuto principale** |
@@ -268,9 +269,9 @@ uv run python example_project/manage.py runserver
 
 Apri `http://127.0.0.1:8000/` nel browser.
 
-Per provare le diverse branche modifica `AGESCI_THEME_BRANCA` in
-`example_project/config/settings.py` (`generico`, `capi`, `lc`, `eg`, `rs`)
-e ricarica la pagina — nessun ricompilo necessario.
+Il demo include un **selettore di branca** nella barra dell'header: il dropdown
+permette di passare in tempo reale tra `generico`, `capi`, `lc`, `eg`, `rs` e
+`viola` senza ricaricare la pagina, con la scelta persistita in `localStorage`.
 
 ---
 

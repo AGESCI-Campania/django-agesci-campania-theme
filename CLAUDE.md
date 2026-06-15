@@ -28,6 +28,11 @@ Django dell'AGESCI Campania.
   `overflow-y: auto` su `main` — lo scroll deve stare su `.ag-scroll-area`
   così il footer occupa tutta la larghezza del wrapper indipendentemente dal
   `.container` di `<main>`.
+- **Header e breadcrumb full-width**: `ag-header-top`, `ag-header-bottom` e
+  `breadcrumb.html` NON hanno più un `<div class="container">` annidato. Il
+  contenuto si estende a tutta la larghezza; il padding laterale `px-3` è
+  applicato direttamente sull'elemento esterno. Non reintrodurre `.container`
+  dentro le barre dell'header.
 
 ## Comandi (uv)
 
@@ -90,10 +95,10 @@ example_project/               # progetto Django demo (/, /components/)
 - Mantieni la retrocompatibilità dei blocchi template di `base.html`: altre app
   ne dipendono. Blocchi esposti: `title`, `extra_head`, `header`, `brand_url`,
   `brand_text`, `header_nav`, `offcanvas_nav`, `header_search`, `header_actions`,
-  `sidebar`, `sidebar_items`, `main_class`, `messages`, `content`, `footer`,
-  `footer_brand_text`, `footer_columns`, `footer_col1_title`, `footer_col1_links`,
-  `footer_col2_title`, `footer_col2_links`, `footer_text`, `footer_copyright`,
-  `footer_links`, `extra_js`.
+  `sidebar`, `sidebar_items`, `sidebar_user`, `main_class`, `messages`, `content`,
+  `footer`, `footer_brand_text`, `footer_columns`, `footer_col1_title`,
+  `footer_col1_links`, `footer_col2_title`, `footer_col2_links`, `footer_text`,
+  `footer_copyright`, `footer_links`, `extra_js`.
 - `breadcrumb_items` nel contesto della view attiva la breadcrumb automaticamente
   nella barra inferiore dell'header (`ag-header-bottom`). Lista di dict
   `{"label": "...", "url": "..."}` — l'ultimo elemento è `active` senza link.

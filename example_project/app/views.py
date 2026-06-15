@@ -49,8 +49,19 @@ def components(request):
     return render(request, "components.html", context)
 
 
+_BRANCHE = [
+    ("generico", "Generico"),
+    ("capi", "Capi"),
+    ("lc", "L/C"),
+    ("eg", "E/G"),
+    ("rs", "R/S"),
+    ("viola", "Viola"),
+]
+
+
 def home(request):
     context = {
+        "branche": _BRANCHE,
         "breadcrumb_items": [
             {"label": "Demo AGESCI Campania", "url": "/"},
             {"label": "Home"},

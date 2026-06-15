@@ -5,6 +5,13 @@
 
 {% block title %}Home — {{ agesci_theme_nome }}{% endblock %}
 
+{# Ripristina subito la branca salvata per evitare il flash di colore sbagliato #}
+{% block extra_head %}
+<script>
+(function(){var b=localStorage.getItem('ag-demo-branca');if(b)document.documentElement.dataset.branca=b;})();
+</script>
+{% endblock %}
+
 {# ── Sidebar: i link vanno nel blocco, include non eredita i blocchi ── #}
 {% block sidebar %}
 {% load static %}
@@ -59,6 +66,29 @@
       </a>
     </li>
   </ul>
+
+  {# Dropdown utente in fondo alla sidebar #}
+  <div class="ag-sidebar__user">
+    <div class="dropdown dropup">
+      <a href="#" class="ag-sidebar__user-toggle dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="ag-sidebar__user-avatar" aria-hidden="true">
+          {% if request.user.is_authenticated %}{{ request.user.get_full_name|default:request.user.username|first|upper }}{% else %}C{% endif %}
+        </span>
+        <span class="ag-sidebar__label">
+          {% if request.user.is_authenticated %}{{ request.user.get_full_name|default:request.user.username }}{% else %}Capo Scout{% endif %}
+        </span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-dark shadow">
+        <li>
+          <span class="dropdown-item-text small">
+            <strong>{% if request.user.is_authenticated %}{{ request.user.get_full_name|default:request.user.username }}{% else %}Capo Scout{% endif %}</strong>
+          </span>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="#">Esci</a></li>
+      </ul>
+    </div>
+  </div>
 </nav>
 <script src="{% static 'agesci_theme/js/sidebar.js' %}" defer></script>
 {% endblock %}
@@ -99,8 +129,18 @@
 {% endblock %}
 
 {% block header_actions %}
-  <a href="#" class="btn btn-light text-dark">Accedi</a>
-  <a href="#" class="btn btn-primary">Registrati</a>
+  <div class="dropdown">
+    <button class="btn btn-light btn-sm dropdown-toggle" type="button"
+            data-bs-toggle="dropdown" aria-expanded="false"
+            title="Cambia tema branca">
+      {% bs_icon "palette" %} <span id="agBrancaLabel">{{ agesci_theme_branca|capfirst }}</span>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end">
+      {% for valore, etichetta in branche %}
+      <li><a class="dropdown-item ag-demo-branca" href="#" data-branca="{{ valore }}">{{ etichetta }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
 {% endblock %}
 
 {# ── Header: nav offcanvas (mobile) ── #}
@@ -124,6 +164,33 @@
   <li><a href="#">Documenti</a></li>
 {% endblock %}
 {% block footer_copyright %}© AGESCI Campania{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+  var labels = {% autoescape off %}{"generico":"Generico","capi":"Capi","lc":"L/C","eg":"E/G","rs":"R/S","viola":"Viola"}{% endautoescape %};
+
+  function applyBranca(branca) {
+    document.documentElement.dataset.branca = branca;
+    var lbl = document.getElementById('agBrancaLabel');
+    if (lbl) lbl.textContent = labels[branca] || branca;
+  }
+
+  // Ripristina etichetta se la branca era salvata
+  var saved = localStorage.getItem('ag-demo-branca');
+  if (saved) applyBranca(saved);
+
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest('.ag-demo-branca');
+    if (!el) return;
+    e.preventDefault();
+    var branca = el.dataset.branca;
+    applyBranca(branca);
+    localStorage.setItem('ag-demo-branca', branca);
+  });
+})();
+</script>
+{% endblock %}
 
 {# ── Contenuto principale ── #}
 {% block content %}

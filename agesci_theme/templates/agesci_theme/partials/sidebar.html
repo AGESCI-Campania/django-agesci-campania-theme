@@ -19,6 +19,21 @@
       <ul class="ag-sidebar__nav">
         <li><a href="/" class="ag-sidebar__nav-link active">...</a></li>
       </ul>
+      {% block sidebar_user %}
+      {% if request.user.is_authenticated %}
+      <div class="ag-sidebar__user">
+        <div class="dropdown dropup">
+          <a href="#" class="ag-sidebar__user-toggle dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="ag-sidebar__user-avatar" aria-hidden="true">...</span>
+            <span class="ag-sidebar__label">{{ request.user.get_full_name|default:request.user.username }}</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark shadow">
+            <li><a class="dropdown-item" href="{% url 'logout' %}">Esci</a></li>
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+      {% endblock %}
     </nav>
     <script src="{% static 'agesci_theme/js/sidebar.js' %}" defer></script>
     {% endblock %}
@@ -42,6 +57,29 @@
   <ul class="ag-sidebar__nav">
     {% block sidebar_items %}{% endblock %}
   </ul>
+
+  {% block sidebar_user %}
+  {% if request.user.is_authenticated %}
+  <div class="ag-sidebar__user">
+    <div class="dropdown dropup">
+      <a href="#" class="ag-sidebar__user-toggle dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="ag-sidebar__user-avatar" aria-hidden="true">{{ request.user.get_full_name|default:request.user.username|first|upper }}</span>
+        <span class="ag-sidebar__label">{{ request.user.get_full_name|default:request.user.username }}</span>
+      </a>
+      <ul class="dropdown-menu {% if variant|default:'dark' == 'dark' %}dropdown-menu-dark{% endif %} shadow">
+        <li>
+          <span class="dropdown-item-text small">
+            <strong>{{ request.user.get_full_name|default:request.user.username }}</strong>
+            {% if request.user.email %}<br><span class="text-muted">{{ request.user.email }}</span>{% endif %}
+          </span>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="#">Esci</a></li>
+      </ul>
+    </div>
+  </div>
+  {% endif %}
+  {% endblock %}
 </nav>
 
 <script src="{% static 'agesci_theme/js/sidebar.js' %}" defer></script>

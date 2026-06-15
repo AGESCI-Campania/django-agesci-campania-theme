@@ -10,11 +10,16 @@ L'header a due barre è incluso automaticamente da `base.html` tramite
 
 ```
 ┌─────────────────────────────────────────────────┐
-│ [Logo] [NomeApp]   [Nav desktop con icone]  [☰] │  ← ag-header-top (colore branca)
+│ [Logo] [NomeApp]   [Nav desktop con icone]  [☰] │  ← ag-header-top (colore branca, full-width)
 ├─────────────────────────────────────────────────┤
-│ [Campo ricerca ────────────────] [Accedi] [Reg] │  ← ag-header-bottom (sfondo chiaro)
+│ [Campo ricerca ────────────────] [Accedi] [Reg] │  ← ag-header-bottom (sfondo chiaro, full-width)
 └─────────────────────────────────────────────────┘
 ```
+
+Entrambe le barre sono **full-width**: il contenuto si estende a tutta la
+larghezza del viewport (nessun `<div class="container">` interno). Il padding
+laterale `px-3` è applicato direttamente sull'elemento `ag-header-top` /
+`ag-header-bottom`.
 
 Su mobile/tablet (< lg) il menu desktop è nascosto: l'hamburger apre un
 pannello offcanvas Bootstrap con i link del blocco `offcanvas_nav`.
@@ -137,6 +142,24 @@ viene popolato. Quando è vuoto (default) il layout rimane a colonna singola.
 Il toggle in cima alla sidebar comprime la barra a sola icona (64 px).
 Lo stato viene salvato in `localStorage` con chiave `ag-sidebar-collapsed`,
 così viene ricordato tra i refresh della pagina.
+
+### Dropdown utente in fondo alla sidebar
+
+Il partial include di default una sezione `ag-sidebar__user` con avatar a
+iniziali circolari, nome e link "Esci". Appare automaticamente quando
+`request.user.is_authenticated` è `True`. Quando la sidebar è collassata
+rimane visibile solo l'avatar.
+
+Comportamento per variante:
+
+| Variante | Avatar | Bordo superiore |
+|---|---|---|
+| `dark` | `rgba(0,0,0,.25)` su sfondo primario | `rgba(255,255,255,.15)` |
+| `light` | `var(--ag-primary-subtle)` | `var(--bs-border-color)` |
+
+Per personalizzare i link (es. URL di logout) occorre sovrascrivere il blocco
+`sidebar` riproducendo la struttura del partial e aggiungendo il blocco
+`sidebar_user` personalizzato (vedi [Template e blocchi](template.md#sidebar_user)).
 
 ### Titoli di sezione
 

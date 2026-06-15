@@ -75,7 +75,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # =========================================================
 #  Personalizzazione tema AGESCI - cambia qui per provare!
 # =========================================================
-AGESCI_THEME_BRANCA = "eg"          # generico | capi | lc | eg | rs
+AGESCI_THEME_BRANCA = "generico"    # generico | capi | lc | eg | rs
 AGESCI_THEME_NOME = "Demo AGESCI Campania"
 AGESCI_THEME_NAVBAR_TESTO_SCURO = False
 

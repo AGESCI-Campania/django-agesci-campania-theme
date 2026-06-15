@@ -1,15 +1,13 @@
 {% if breadcrumb_items %}
 <nav aria-label="percorso" class="breadcrumb-agesci">
-  <div class="container">
-    <ol class="breadcrumb mb-0 py-2">
-      {% for item in breadcrumb_items %}
-        {% if forloop.last %}
-          <li class="breadcrumb-item active" aria-current="page">{{ item.label }}</li>
-        {% else %}
-          <li class="breadcrumb-item"><a href="{{ item.url }}">{{ item.label }}</a></li>
-        {% endif %}
-      {% endfor %}
-    </ol>
-  </div>
+  <ol class="breadcrumb mb-0 py-2 px-3">
+    {% for item in breadcrumb_items %}
+      {% if forloop.last %}
+        <li class="breadcrumb-item active" aria-current="page">{{ item.label }}</li>
+      {% else %}
+        <li class="breadcrumb-item"><a href="{{ item.url }}">{{ item.label }}</a></li>
+      {% endif %}
+    {% endfor %}
+  </ol>
 </nav>
 {% endif %}

@@ -5,6 +5,24 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
+## [2.2.0] — 2026-06-15
+
+### Aggiunto
+
+- **Dropdown utente in fondo alla sidebar** (`ag-sidebar__user`): sezione fissa con avatar a iniziali circolari, nome completo, email e link "Esci". Si attiva automaticamente quando `request.user.is_authenticated`. Adatta stile e colori alle varianti `dark` e `light`. Nuovo blocco `sidebar_user` per personalizzare i link (es. URL di logout).
+
+### Corretto
+
+- **Header e breadcrumb full-width**: rimosso il wrapper `<div class="container">` da `ag-header-top`, `ag-header-bottom` e `breadcrumb.html`. Il contenuto delle barre ora si estende a tutta la larghezza del viewport; il padding laterale `px-3` garantisce l'allineamento con il logo.
+
+### Demo (`example_project`)
+
+- **Selettore branca** nel blocco `header_actions`: dropdown con le 6 branche disponibili che aggiorna `data-branca` su `<html>` in tempo reale (nessun reload). La scelta è persistita in `localStorage`; un micro-script in `<head>` evita il flash di colore al caricamento.
+- Branca di default cambiata da `"eg"` a `"generico"`.
+- Dropdown utente demo in fondo alla sidebar (mostra `request.user` se autenticato, altrimenti "Capo Scout" come placeholder).
+
+---
+
 ## [2.1.0] — 2026-06-14
 
 ### Corretto

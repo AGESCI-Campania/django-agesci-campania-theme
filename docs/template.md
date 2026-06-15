@@ -176,6 +176,40 @@ il partial dedicato:
 `variant` accetta `"dark"` (sfondo `--ag-primary`, default) oppure `"light"`
 (sfondo chiaro con bordo).
 
+### `sidebar_user`
+
+Dropdown utente in fondo alla sidebar (avatar con iniziali + nome + link "Esci").
+Visibile di default se `request.user.is_authenticated`. Sovrascrivibile per
+cambiare i link (es. URL di logout specifico del progetto):
+
+```django
+{% block sidebar %}
+{% load static %}
+<nav class="ag-sidebar ag-sidebar--dark" id="agSidebar" ...>
+  ...
+  {% block sidebar_user %}
+  {% if request.user.is_authenticated %}
+  <div class="ag-sidebar__user">
+    <div class="dropdown dropup">
+      <a href="#" class="ag-sidebar__user-toggle dropdown-toggle" data-bs-toggle="dropdown">
+        <span class="ag-sidebar__user-avatar">{{ request.user.username|first|upper }}</span>
+        <span class="ag-sidebar__label">{{ request.user.get_full_name|default:request.user.username }}</span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-dark shadow">
+        <li><a class="dropdown-item" href="{% url 'account_logout' %}">Esci</a></li>
+      </ul>
+    </div>
+  </div>
+  {% endif %}
+  {% endblock %}
+</nav>
+{% endblock %}
+```
+
+> **Nota**: `sidebar_user` è definito all'interno del partial `sidebar.html`,
+> ma poiché `{% include %}` non partecipa all'ereditarietà dei blocchi Django,
+> per personalizzarlo occorre sovrascrivere l'intero blocco `sidebar`.
+
 Vedi [Sidebar](componenti.md#sidebar) per dettagli ed esempi.
 
 ---
