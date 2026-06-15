@@ -56,7 +56,11 @@ npm run watch:css    # ricompila lo SCSS in tempo reale
    per ciascuna branca via `@each` + mixin `tema-primario`. La funzione
    `on-color()` sceglie testo nero/bianco in base alla luminosità del primario.
 3. `_bootstrap-overrides.scss` — rimappa i token Bootstrap 5 (`--bs-primary`,
-   link, pulsanti) alle variabili `--ag-*`.
+   link, pulsanti) alle variabili `--ag-*`; definisce `.ag-scroll-area`.
+4. `_header.scss` — stili dell'header a due barre e del pannello offcanvas.
+5. `_sidebar.scss` — sidebar collapsible con stato persistito in `localStorage`.
+6. `_footer.scss` — footer con colonne e riga copyright.
+7. `_components.scss` — componenti opzionali (hero, jumbotron, ecc.).
 
 ## Struttura
 
@@ -64,11 +68,17 @@ npm run watch:css    # ricompila lo SCSS in tempo reale
 agesci_theme/                  # il package Python distribuibile
   static/agesci_theme/scss/    # sorgenti SCSS (vedi sezione sopra)
   static/agesci_theme/css/     # CSS compilato (committato)
+  static/agesci_theme/js/      # script JS (sidebar.js)
   static/agesci_theme/img/     # loghi, emblemi, zone, favicon
-  templates/agesci_theme/      # base.html, navbar, footer (partials)
-  templatetags/agesci_tags.py  # emblema_zona, branca_bg, zone_disponibili
+  templates/agesci_theme/
+    base.html                  # template base da estendere
+    partials/                  # header.html, sidebar.html, footer.html, breadcrumb.html
+    components/                # 11 template dei componenti opzionali
+  templatetags/
+    agesci_tags.py             # emblema_zona, branca_bg, zone_disponibili
+    agesci_components.py       # 11 inclusion tag (ag_hero, ag_feature_grid, ecc.)
   context_processors.py        # espone le settings AGESCI_THEME_* ai template
-example_project/               # progetto Django demo per testare il tema
+example_project/               # progetto Django demo (/, /components/)
 ```
 
 ## Convenzioni
@@ -78,12 +88,16 @@ example_project/               # progetto Django demo per testare il tema
   aggiornala in TRE punti: `_branche.scss`, `context_processors.BRANCHE_VALIDE`,
   `agesci_tags._BRANCA_BG`, poi ricompila il CSS.
 - Mantieni la retrocompatibilità dei blocchi template di `base.html`: altre app
-  ne dipendono. Blocchi esposti: `title`, `extra_head`, `navbar`, `brand_url`,
-  `brand_text`, `nav_items`, `breadcrumb`, `subnav`, `main_class`, `messages`,
-  `content`, `footer`, `footer_text`, `footer_links`, `extra_js`.
-- `breadcrumb` e `subnav` si attivano passando rispettivamente `breadcrumb_items`
-  e `subnav_items` dal contesto della view (liste di dizionari con chiavi
-  `label`/`url` e, per subnav, anche `active`). Altrimenti si sovrascrive il blocco.
+  ne dipendono. Blocchi esposti: `title`, `extra_head`, `header`, `brand_url`,
+  `brand_text`, `header_nav`, `offcanvas_nav`, `header_search`, `header_actions`,
+  `sidebar`, `sidebar_items`, `main_class`, `messages`, `content`, `footer`,
+  `footer_brand_text`, `footer_columns`, `footer_col1_title`, `footer_col1_links`,
+  `footer_col2_title`, `footer_col2_links`, `footer_text`, `footer_copyright`,
+  `footer_links`, `extra_js`.
+- `breadcrumb_items` nel contesto della view attiva la breadcrumb automaticamente
+  nella barra inferiore dell'header (`ag-header-bottom`). Lista di dict
+  `{"label": "...", "url": "..."}` — l'ultimo elemento è `active` senza link.
+  In alternativa usa `{% ag_breadcrumb %}` nel blocco `content`.
 - **Icone Bootstrap (opzionale)**: `django-bootstrap-icons` è una dipendenza
   opzionale (`[icons]`). App name: `django_bootstrap_icons`. Templatetag:
   `{% load bootstrap_icons %}` poi `{% bs_icon "nome" %}`. Raccomandare sempre
