@@ -33,6 +33,11 @@ Django dell'AGESCI Campania.
   contenuto si estende a tutta la larghezza; il padding laterale `px-3` è
   applicato direttamente sull'elemento esterno. Non reintrodurre `.container`
   dentro le barre dell'header.
+- **L'HTML dell'header è in `base.html`, non in `header.html`**: i blocchi
+  `header_nav`, `offcanvas_nav`, `header_search`, `header_actions` funzionano
+  con l'ereditarietà Django solo perché sono definiti DIRETTAMENTE in `base.html`.
+  `{% include %}` crea un `render_context` separato che NON eredita i blocchi del
+  template figlio: non spostare mai questi blocchi in un file incluso via `{% include %}`.
 
 ## Comandi (uv)
 

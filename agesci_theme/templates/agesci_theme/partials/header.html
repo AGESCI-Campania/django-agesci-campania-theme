@@ -1,4 +1,12 @@
 {% load static %}
+{% comment %}
+  ATTENZIONE: questo partial NON viene più incluso da base.html.
+  Il contenuto è stato spostato direttamente in base.html (v2.2.1) in modo che
+  i blocchi header_nav, offcanvas_nav, header_search, header_actions funzionino
+  correttamente con l'ereditarietà Django ({% include %} crea un render_context
+  separato che non eredita i blocchi del template figlio).
+  Questo file è mantenuto solo come riferimento strutturale.
+{% endcomment %}
 <header>
   {# ── Barra superiore: logo + nav icone (desktop) + hamburger (mobile) ── #}
   <div class="ag-header-top px-3 py-2 d-flex flex-wrap align-items-center">
