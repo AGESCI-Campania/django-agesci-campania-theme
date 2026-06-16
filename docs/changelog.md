@@ -5,6 +5,14 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
+## [2.2.2] — 2026-06-16
+
+### Corretto
+
+- **Overflow orizzontale su mobile** (`ag-scroll-area`): aggiunto `min-width: 0` al flex item `.ag-scroll-area`. Il valore di default `auto` di `min-width` nei flex item permetteva all'area di espandersi oltre il viewport su breakpoint mobile (< 992 px) quando il contenuto interno era più largo. Fixes [#3](https://github.com/AGESCI-Campania/django-agesci-campania-theme/issues/3).
+
+---
+
 ## [2.2.1] — 2026-06-15
 
 ### Corretto

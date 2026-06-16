@@ -103,6 +103,9 @@
   }
 }
 
+.ag-scroll-area {
+  min-width: 0;
+}
 @media (min-width: 992px) {
   .ag-scroll-area {
     min-height: 0;
