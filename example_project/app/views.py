@@ -1,6 +1,7 @@
 from django import forms
 from django.shortcuts import render
 from django.utils.safestring import mark_safe
+from agesci_theme.forms import SelectMultiploADiscesa
 from agesci_theme.templatetags.agesci_tags import ZONE
 
 
@@ -58,6 +59,17 @@ class DemoForm(forms.Form):
     nome = forms.CharField(label="Nome", max_length=100)
     email = forms.EmailField(label="Email")
     password = forms.CharField(label="Password", widget=forms.PasswordInput)
+    interessi = forms.MultipleChoiceField(
+        label="Interessi",
+        choices=[
+            ("scautismo", "Scautismo"),
+            ("formazione", "Formazione"),
+            ("territorio", "Territorio"),
+            ("internazionale", "Internazionale"),
+        ],
+        required=False,
+        widget=SelectMultiploADiscesa(placeholder="Nessuno"),
+    )
 
 
 def form_demo(request):

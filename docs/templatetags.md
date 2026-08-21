@@ -447,3 +447,37 @@ Con un form Django, passa i valori dal campo esplicitamente:
    label=form.password.label value=form.password.value
    errors=form.password.errors required=form.password.field.required %}
 ```
+
+---
+
+### `ag_multiselect_dropdown`
+
+Tendina Bootstrap chiusa con checkbox multiple (bottone + menu dropdown,
+`data-bs-auto-close="outside"`). Utilizzabile in qualsiasi form scritto a
+mano, **senza** bisogno di attivare `FORM_RENDERER` — vedi
+[Form e validazione](forms.md) per il widget equivalente
+`SelectMultiploADiscesa`, di cui questo componente condivide il markup del
+menu.
+
+```
+{% ag_multiselect_dropdown name [id=""] [label=""] [choices=None]
+                            [selected=None] [placeholder=""]
+                            [help_text=""] [errors=None] [required=False] %}
+```
+
+| Parametro | Default | Descrizione |
+|---|---|---|
+| `name` | — | Attributo `name` di ogni `<input type="checkbox">` |
+| `id` | `"id_" + name` | Id del bottone, per l'associazione con `<label>` |
+| `label` | `""` | Etichetta (non mostrata se vuota) |
+| `choices` | `None` | Lista di tuple `(value, label)`, come le `choices` di Django |
+| `selected` | `None` | Lista di `value` già selezionati |
+| `placeholder` | `""` | Testo del bottone quando nessuna opzione è selezionata |
+| `errors` | `None` | Lista di messaggi d'errore: se non vuota, mostra `is-invalid` + `invalid-feedback` |
+| `required` | `False` | Aggiunge `*` all'etichetta |
+
+```django
+{% load agesci_components %}
+{% ag_multiselect_dropdown name="gruppo" label="Gruppo"
+   choices=lista_gruppi placeholder="Tutti" %}
+```

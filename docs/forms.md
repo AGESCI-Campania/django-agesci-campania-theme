@@ -148,3 +148,50 @@ opzionale `[icons]` (e un `{% load bootstrap_icons %}` condizionale non è
 gestibile in un template). L'SVG inline evita anche una differenza visiva
 tra il widget renderizzato via `FORM_RENDERER` e il tag standalone
 `{% ag_password_field %}`, che condividono lo stesso partial.
+
+---
+
+## Il widget `SelectMultiploADiscesa`
+
+`agesci_theme.forms.SelectMultiploADiscesa` è un `CheckboxSelectMultiple`
+renderizzato come tendina Bootstrap chiusa (bottone + menu con checkbox),
+non come elenco checkbox sempre aperto:
+
+```python
+from agesci_theme.forms import SelectMultiploADiscesa
+
+interessi = forms.MultipleChoiceField(
+    choices=SCELTE,
+    required=False,
+    widget=SelectMultiploADiscesa(placeholder="Nessuno"),
+)
+```
+
+A differenza degli altri override di questo documento, **non richiede**
+`FORM_RENDERER = "agesci_theme.forms.AgesciFormRenderer"`: i suoi template
+vivono in un namespace proprio (`agesci_theme/forms/...`, non
+`django/forms/widgets/...`), quindi vengono trovati anche dal renderer di
+default di Django, che ha già `APP_DIRS=True` — basta che `agesci_theme`
+sia in `INSTALLED_APPS`. È un widget opt-in per singolo campo: le altre
+`CheckboxSelectMultiple` del progetto non cambiano comportamento.
+
+Il menu resta aperto durante la selezione di più checkbox
+(`data-bs-auto-close="outside"`, Bootstrap 5.2+) e l'etichetta del bottone
+si aggiorna via JS (`agesci_theme/static/agesci_theme/js/multiselect-dropdown.js`,
+caricato globalmente da `base.html`): placeholder se nessuna opzione è
+selezionata, l'etichetta della singola opzione se una sola, altrimenti
+"N selezionati".
+
+Il tema espone anche un inclusion tag standalone equivalente, per form
+scritti a mano senza passare da `MultipleChoiceField`:
+
+```django
+{% load agesci_components %}
+{% ag_multiselect_dropdown name="gruppo" label="Gruppo"
+   choices=lista_gruppi placeholder="Tutti" %}
+```
+
+Widget e tag condividono lo stesso partial di markup
+(`components/_multiselect_dropdown_menu.html`), stessa dualità di
+`ag_password_field`/`password.html`. Riferimento completo dei parametri in
+[Template tag → `ag_multiselect_dropdown`](templatetags.md).

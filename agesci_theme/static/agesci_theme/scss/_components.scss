@@ -55,3 +55,20 @@
 .ag-masonry-grid {
   [data-masonry] { transition-duration: .3s; }
 }
+
+// ── Multiselect dropdown ─────────────────────────────────────────────────────
+.ag-multiselect__menu {
+  max-height: 16rem;
+  overflow-y: auto;
+  min-width: 100%;
+}
+
+.ag-multiselect__toggle {
+  cursor: pointer;
+}
+
+.ag-multiselect__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

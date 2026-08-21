@@ -1,0 +1,33 @@
+{# Partial interno (non un entry-point pubblico, come i parziali SCSS #}
+{# "_foo.scss"): markup del bottone/menu della tendina, condiviso da #}
+{# agesci_theme/forms/select_multiplo_a_discesa.html (widget #}
+{# SelectMultiploADiscesa) e dal tag ag_multiselect_dropdown #}
+{# (agesci_theme/components/multiselect_dropdown.html). Il contesto atteso #}
+{# è "name", "id", "placeholder" e "options" — lista di dict con chiavi #}
+{# value, label, checked. Comportamento in #}
+{# agesci_theme/static/agesci_theme/js/multiselect-dropdown.js. #}
+<div class="dropdown ag-multiselect">
+  <button type="button"
+          id="{{ id }}"
+          class="form-select ag-multiselect__toggle text-start{% if errors %} is-invalid{% endif %}"
+          data-bs-toggle="dropdown"
+          data-bs-auto-close="outside"
+          aria-expanded="false">
+    <span class="ag-multiselect__label" data-placeholder="{{ placeholder }}">{{ placeholder }}</span>
+  </button>
+  <ul class="dropdown-menu ag-multiselect__menu p-2">
+    {% for option in options %}
+      <li>
+        <div class="form-check">
+          <input type="checkbox"
+                 class="form-check-input ag-multiselect__checkbox"
+                 name="{{ name }}"
+                 value="{{ option.value }}"
+                 id="{{ id }}_{{ forloop.counter0 }}"
+                 {% if option.checked %}checked{% endif %}>
+          <label class="form-check-label" for="{{ id }}_{{ forloop.counter0 }}">{{ option.label }}</label>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>

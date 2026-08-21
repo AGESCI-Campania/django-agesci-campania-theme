@@ -282,6 +282,13 @@ Tra questi, `{% ag_password_field %}` è un campo password con pulsante
 mostra/nascondi, utilizzabile in qualsiasi form scritto a mano — vedi
 [Form e validazione](forms.md#il-componente-ag-password-field).
 
+`{% ag_multiselect_dropdown %}` è una tendina Bootstrap chiusa con checkbox
+multiple (bottone + menu che resta aperto durante la selezione),
+utilizzabile in qualsiasi form scritto a mano — vedi
+[Form e validazione](forms.md#il-widget-selectmultiploadiscesa) per il
+widget Django equivalente `SelectMultiploADiscesa`, con cui condivide il
+markup.
+
 Vedi [Template tag — agesci_components](templatetags.md#agesci-components)
 per la documentazione completa di ogni tag.
 

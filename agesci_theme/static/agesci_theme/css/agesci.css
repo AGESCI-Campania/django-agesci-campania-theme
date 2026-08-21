@@ -709,3 +709,19 @@ a:hover {
 .ag-masonry-grid [data-masonry] {
   transition-duration: 0.3s;
 }
+
+.ag-multiselect__menu {
+  max-height: 16rem;
+  overflow-y: auto;
+  min-width: 100%;
+}
+
+.ag-multiselect__toggle {
+  cursor: pointer;
+}
+
+.ag-multiselect__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

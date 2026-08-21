@@ -196,3 +196,50 @@ def ag_password_field(
         "required": required,
         "autocomplete": autocomplete,
     }
+
+
+@register.inclusion_tag("agesci_theme/components/multiselect_dropdown.html")
+def ag_multiselect_dropdown(
+    name,
+    id="",
+    label="",
+    choices=None,
+    selected=None,
+    placeholder="",
+    help_text="",
+    errors=None,
+    required=False,
+):
+    """Tendina Bootstrap chiusa con checkbox multiple (bottone + dropdown).
+
+    Utilizzabile in qualsiasi form, anche senza attivare FORM_RENDERER —
+    non dipende dal meccanismo AgesciFormRenderer (vedi agesci_theme.forms):
+
+        {% ag_multiselect_dropdown name="gruppo" label="Gruppo"
+           choices=lista_gruppi placeholder="Tutti" %}
+
+    choices: lista di tuple (value, label), come le choices di Django.
+    selected: lista di value già selezionati.
+
+    Condivide il markup del bottone/menu con l'override
+    agesci_theme/forms/select_multiplo_a_discesa.html usato dal widget
+    SelectMultiploADiscesa (vedi
+    components/_multiselect_dropdown_menu.html): un'unica fonte di markup,
+    così un campo disegnato con questo tag e uno renderizzato via
+    SelectMultiploADiscesa sono visivamente identici.
+    """
+    selected = set(selected or [])
+    options = [
+        {"value": value, "label": choice_label, "checked": str(value) in {str(s) for s in selected}}
+        for value, choice_label in (choices or [])
+    ]
+    return {
+        "name": name,
+        "id": id or f"id_{name}",
+        "label": label,
+        "options": options,
+        "placeholder": placeholder,
+        "help_text": help_text,
+        "errors": errors or [],
+        "required": required,
+    }

@@ -1,0 +1,12 @@
+<div class="mb-3">
+  {% if label %}
+    <label class="form-label">{{ label }}{% if required %} *{% endif %}</label>
+  {% endif %}
+  {% include "agesci_theme/components/_multiselect_dropdown_menu.html" %}
+  {% if errors %}
+    <div class="invalid-feedback">
+      {% for error in errors %}{{ error }}{% if not forloop.last %}<br>{% endif %}{% endfor %}
+    </div>
+  {% endif %}
+  {% if help_text %}<span class="helptext">{{ help_text|safe }}</span>{% endif %}
+</div>

@@ -125,12 +125,12 @@ agesci_theme/                  # il package Python distribuibile
   templates/agesci_theme/
     base.html                  # template base da estendere
     partials/                  # header.html, sidebar.html, footer.html, breadcrumb.html
-    components/                # 12 template dei componenti opzionali
+    components/                # 13 template dei componenti opzionali
   templates/django/forms/      # override Bootstrap 5 per AgesciFormRenderer (opt-in)
   templates/allauth/           # override Bootstrap 5 per django-allauth (opt-in)
   templatetags/
     agesci_tags.py             # emblema_zona, branca_bg, zone_disponibili
-    agesci_components.py       # 12 inclusion tag (ag_hero, ag_feature_grid, ag_password_field, ecc.)
+    agesci_components.py       # 13 inclusion tag (ag_hero, ag_feature_grid, ag_password_field, ag_multiselect_dropdown, ecc.)
   forms.py                     # AgesciFormRenderer — vedi docs/forms.md
   context_processors.py        # espone le settings AGESCI_THEME_* ai template
 example_project/               # progetto Django demo (/, /components/, /accounts/, /form-demo/)

@@ -44,11 +44,20 @@ sicura da modificare dopo l'inizializzazione)::
             engine = super().engine
             engine.dirs.insert(0, Path(__file__).resolve().parent / "templates")
             return engine
+
+Il modulo espone anche ``SelectMultiploADiscesa``, un widget
+``CheckboxSelectMultiple`` renderizzato come tendina Bootstrap con
+checkbox. A differenza degli override sopra, non richiede
+``FORM_RENDERER = AgesciFormRenderer``: usa un namespace di template
+proprio (``agesci_theme/forms/...``), trovato via ``APP_DIRS`` anche dal
+renderer di default di Django — basta ``agesci_theme`` in
+``INSTALLED_APPS``. Vedi la classe più sotto e ``docs/forms.md``.
 """
 
 from pathlib import Path
 
 import django.forms.renderers
+from django import forms
 from django.forms.renderers import DjangoTemplates
 from django.utils.functional import cached_property
 
@@ -72,3 +81,38 @@ class AgesciFormRenderer(DjangoTemplates):
                 "OPTIONS": {},
             }
         )
+
+
+class SelectMultiploADiscesa(forms.CheckboxSelectMultiple):
+    """``CheckboxSelectMultiple`` renderizzato come tendina Bootstrap chiusa
+    (bottone + menu dropdown con checkbox), non come elenco checkbox aperto.
+
+    A differenza di ``AgesciFormRenderer``, NON richiede
+    ``FORM_RENDERER = "agesci_theme.forms.AgesciFormRenderer"``: i suoi
+    template vivono in un namespace proprio (``agesci_theme/forms/...``),
+    non in ``django/forms/widgets/...``, quindi vengono trovati anche dal
+    renderer di default di Django (che ha già ``APP_DIRS=True``) purché
+    ``agesci_theme`` sia in ``INSTALLED_APPS`` — requisito già necessario
+    per usare il tema. È un widget opt-in per singolo campo: non cambia il
+    comportamento delle altre ``CheckboxSelectMultiple`` del progetto.
+
+    Uso::
+
+        interessi = forms.MultipleChoiceField(
+            choices=SCELTE,
+            required=False,
+            widget=SelectMultiploADiscesa(placeholder="Nessuno"),
+        )
+    """
+
+    template_name = "agesci_theme/forms/select_multiplo_a_discesa.html"
+    option_template_name = "agesci_theme/forms/select_multiplo_a_discesa_opzione.html"
+
+    def __init__(self, attrs=None, placeholder=""):
+        super().__init__(attrs)
+        self.placeholder = placeholder
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        context["widget"]["placeholder"] = self.placeholder
+        return context

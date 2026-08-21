@@ -5,6 +5,19 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
+## [2.4.0] — 2026-08-21
+
+### Aggiunto
+
+- **Widget `SelectMultiploADiscesa`** (`agesci_theme.forms`): `CheckboxSelectMultiple` renderizzato come tendina Bootstrap chiusa (bottone + menu dropdown con checkbox), non come elenco checkbox sempre aperto. Il menu resta aperto durante la selezione di più opzioni (`data-bs-auto-close="outside"`, Bootstrap 5.2+), e l'etichetta del bottone si aggiorna via JS (`agesci_theme/static/agesci_theme/js/multiselect-dropdown.js`, caricato automaticamente da `base.html`): placeholder se nessuna opzione è selezionata, l'etichetta dell'opzione se una sola, altrimenti "N selezionati". A differenza di `AgesciFormRenderer`, **non richiede** `FORM_RENDERER`: i suoi template vivono in un namespace proprio (`agesci_theme/forms/...`), trovato via `APP_DIRS` anche dal renderer di default di Django. È un widget opt-in per singolo campo, non un override globale di tutte le `CheckboxSelectMultiple` del progetto. Vedi [Form e validazione](forms.md#il-widget-selectmultiploadiscesa).
+- **`{% ag_multiselect_dropdown %}`** (tredicesimo componente `ag_*`): tendina con checkbox multiple, utilizzabile in qualsiasi form scritto a mano, anche senza attivare `FORM_RENDERER`. Condivide il markup del bottone/menu con `SelectMultiploADiscesa` tramite il partial `components/_multiselect_dropdown_menu.html`, stessa dualità di `{% ag_password_field %}`/`django/forms/widgets/password.html`. Vedi [Template tag](templatetags.md#ag_multiselect_dropdown).
+
+### Demo (`example_project`)
+
+- Nuovo campo `interessi` (`SelectMultiploADiscesa`) in `DemoForm`, esercitato in `/form-demo/` insieme al campo password.
+
+---
+
 ## [2.3.0] — 2026-08-21
 
 ### Aggiunto

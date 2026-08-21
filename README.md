@@ -6,7 +6,7 @@
 [![Django](https://img.shields.io/badge/Django-6.0%2B-092E20.svg?logo=django&logoColor=white)](https://www.djangoproject.com/)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3.svg?logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 [![uv](https://img.shields.io/badge/packaged%20with-uv-DE5FE9.svg?logo=uv&logoColor=white)](https://github.com/astral-sh/uv)
-[![Version](https://img.shields.io/badge/version-2.3.0-informational.svg)](pyproject.toml)
+[![Version](https://img.shields.io/badge/version-2.4.0-informational.svg)](pyproject.toml)
 [![Code style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Tema **Bootstrap 5** riusabile per le applicazioni **Django** dell'**AGESCI Campania**.
@@ -263,14 +263,19 @@ poseidonia, salerno, samnium, vesuvio, volturno`.
 
 **`{% load agesci_components %}`**
 
-12 componenti UI opzionali: `{% ag_hero %}`, `{% ag_feature_card %}`,
+13 componenti UI opzionali: `{% ag_hero %}`, `{% ag_feature_card %}`,
 `{% ag_feature_grid %}`, `{% ag_jumbotron %}`, `{% ag_badge %}`,
 `{% ag_button %}`, `{% ag_breadcrumb %}`, `{% ag_dropdown %}`,
 `{% ag_list_group %}`, `{% ag_modal_trigger %}`, `{% ag_masonry_grid %}`,
-`{% ag_password_field %}`.
+`{% ag_password_field %}`, `{% ag_multiselect_dropdown %}`.
 
 I template sono in `agesci_theme/components/` e sono sovrascrivibili.
 Vedi la [documentazione completa](https://django-agesci-campania-theme.readthedocs.io/).
+
+Il tema espone anche il widget di form `SelectMultiploADiscesa`
+(`agesci_theme.forms`): tendina Bootstrap chiusa con checkbox multiple,
+utilizzabile su qualsiasi `MultipleChoiceField` senza richiedere
+`FORM_RENDERER`. Vedi [Form e validazione](https://django-agesci-campania-theme.readthedocs.io/it/latest/forms.html).
 
 ## Classi utility palette
 
