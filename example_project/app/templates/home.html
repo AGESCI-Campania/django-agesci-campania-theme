@@ -119,6 +119,21 @@
       Contatti
     </a>
   </li>
+  <li>
+    <div class="dropdown">
+      <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button"
+              data-bs-toggle="dropdown" aria-expanded="false"
+              title="Cambia tema branca">
+        <span class="ag-nav-icon">{% bs_icon "palette" %}</span>
+        <span id="agBrancaLabel">{{ agesci_theme_branca|capfirst }}</span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end">
+        {% for valore, etichetta in branche %}
+        <li><a class="dropdown-item ag-demo-branca" href="#" data-branca="{{ valore }}">{{ etichetta }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </li>
 {% endblock %}
 
 {# ── Header: barra inferiore ── #}
@@ -129,18 +144,8 @@
 {% endblock %}
 
 {% block header_actions %}
-  <div class="dropdown">
-    <button class="btn btn-light btn-sm dropdown-toggle" type="button"
-            data-bs-toggle="dropdown" aria-expanded="false"
-            title="Cambia tema branca">
-      {% bs_icon "palette" %} <span id="agBrancaLabel">{{ agesci_theme_branca|capfirst }}</span>
-    </button>
-    <ul class="dropdown-menu dropdown-menu-end">
-      {% for valore, etichetta in branche %}
-      <li><a class="dropdown-item ag-demo-branca" href="#" data-branca="{{ valore }}">{{ etichetta }}</a></li>
-      {% endfor %}
-    </ul>
-  </div>
+  <a href="#" class="btn btn-light text-dark">Accedi</a>
+  <a href="#" class="btn btn-primary">Registrati</a>
 {% endblock %}
 
 {# ── Header: nav offcanvas (mobile) ── #}
