@@ -43,6 +43,7 @@ agesci.scss
 ├── _palette.scss              ← variabili $agesci-* (Pantone ufficiali)
 ├── _branche.scss              ← genera le --ag-* custom properties per branca
 ├── _bootstrap-overrides.scss  ← rimappa i token Bootstrap, layout (.ag-scroll-area), utility
+├── _forms.scss                ← validazione form (.invalid-feedback sempre visibile)
 ├── _header.scss               ← stili header a due barre e offcanvas
 ├── _sidebar.scss              ← sidebar collapsible
 ├── _footer.scss               ← footer
@@ -71,6 +72,12 @@ deve essere nero o bianco in base alla luminosità HSL (soglia 62%).
 - Definisce il **layout viewport fisso** via `.ag-scroll-area` (solo su desktop ≥ 992px, breakpoint `lg`).
 - Stila navbar, breadcrumb, sub-navbar, footer con le custom properties del tema.
 - Definisce le classi utility `bg-ag-*` e `text-ag-*`.
+
+### `_forms.scss`
+
+Una sola regola deliberata: `.invalid-feedback { display: block; }`. Vedi
+[Form e validazione](forms.md#perche-invalid-feedback-display-block) per il
+perché — **non rimuoverla** pensando sia superflua.
 
 ---
 

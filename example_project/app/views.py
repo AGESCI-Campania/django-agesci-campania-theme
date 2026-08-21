@@ -1,3 +1,4 @@
+from django import forms
 from django.shortcuts import render
 from django.utils.safestring import mark_safe
 from agesci_theme.templatetags.agesci_tags import ZONE
@@ -47,6 +48,28 @@ def components(request):
         ],
     }
     return render(request, "components.html", context)
+
+
+class DemoForm(forms.Form):
+    """Form di esempio per la demo di AgesciFormRenderer (docs/forms.md):
+    esercita form-control/is-invalid, il toggle mostra/nascondi password e
+    invalid-feedback, senza passare da allauth."""
+
+    nome = forms.CharField(label="Nome", max_length=100)
+    email = forms.EmailField(label="Email")
+    password = forms.CharField(label="Password", widget=forms.PasswordInput)
+
+
+def form_demo(request):
+    if request.method == "POST":
+        form = DemoForm(request.POST)
+        form.is_valid()
+    elif request.GET.get("invalid"):
+        form = DemoForm({})
+        form.is_valid()
+    else:
+        form = DemoForm()
+    return render(request, "form_demo.html", {"form": form})
 
 
 _BRANCHE = [

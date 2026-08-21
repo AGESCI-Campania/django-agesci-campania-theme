@@ -63,6 +63,8 @@ componenti
 branche
 templatetags
 layout
+forms
+allauth
 ```
 
 ```{toctree}

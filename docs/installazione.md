@@ -44,6 +44,21 @@ pip install "django-agesci-campania-theme[icons]"
 
 Vedi la sezione [Icone Bootstrap](componenti.md#icone-bootstrap) per la configurazione.
 
+## Con il supporto form Bootstrap 5 e django-allauth
+
+Lo styling Bootstrap 5 dei form Django (`is-invalid`/`invalid-feedback`,
+toggle mostra/nascondi password) e degli override per
+[django-allauth](https://docs.allauth.org/) sono **inclusi nel tema**, senza
+dipendenze aggiuntive — vanno solo attivati esplicitamente, vedi
+[Form e validazione](forms.md). L'extra `[allauth]` è solo per
+documentazione/test (pinna la versione testata):
+
+```bash
+uv add "django-agesci-campania-theme[allauth]"
+```
+
+Vedi [Integrazione con django-allauth](allauth.md) per l'attivazione completa.
+
 ---
 
 ## Da GitHub (versione di sviluppo)

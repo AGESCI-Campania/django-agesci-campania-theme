@@ -124,6 +124,9 @@ e i colori della branca selezionata sono già attivi.
   (vedi [Template tag — agesci_components](templatetags.md#agesci-components)).
 - Esplora tutti i [blocchi disponibili](template.md) per personalizzare
   header, footer e layout.
+- Attiva lo styling Bootstrap 5 dei form (`is-invalid`, toggle password) con
+  `FORM_RENDERER`, ed eventualmente gli override per django-allauth: vedi
+  [Form e validazione](forms.md) e [Integrazione con django-allauth](allauth.md).
 
 ---
 

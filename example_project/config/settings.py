@@ -12,10 +12,20 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
+    "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # tema AGESCI
+    # tema AGESCI — DEVE precedere le app allauth in INSTALLED_APPS: il
+    # loader APP_DIRS di Django scorre le app nell'ordine di INSTALLED_APPS,
+    # e i template agesci_theme/templates/allauth/... devono essere trovati
+    # PRIMA dei template bundle di allauth stesso per fare da override.
     "agesci_theme",
+    # django-allauth (opzionale in produzione; qui abilitato per il demo
+    # dell'integrazione Bootstrap — vedi docs/allauth.md).
+    # In un progetto reale: uv add "django-agesci-campania-theme[allauth]"
+    "allauth",
+    "allauth.account",
+    "allauth.mfa",
     # Icone Bootstrap (opzionale in produzione; qui abilitato per il demo).
     # In un progetto reale: uv add "django-agesci-campania-theme[icons]"
     "django_bootstrap_icons",
@@ -29,6 +39,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -71,6 +82,24 @@ STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# =========================================================
+#  django-allauth (demo) — vedi docs/allauth.md
+# =========================================================
+SITE_ID = 1
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+ACCOUNT_LOGIN_METHODS = {"email"}
+ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
+ACCOUNT_EMAIL_VERIFICATION = "optional"    # evita di richiedere SMTP per provare in locale
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+LOGIN_REDIRECT_URL = "/"
+
+# Renderer Bootstrap 5 del tema — attivazione esplicita e opt-in.
+# Vedi docs/forms.md per cosa cambia e perché non è automatico.
+FORM_RENDERER = "agesci_theme.forms.AgesciFormRenderer"
 
 # =========================================================
 #  Personalizzazione tema AGESCI - cambia qui per provare!

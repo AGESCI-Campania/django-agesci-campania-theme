@@ -300,6 +300,10 @@ a:hover {
   color: #ef3340 !important;
 }
 
+.invalid-feedback {
+  display: block;
+}
+
 .ag-header-top {
   background-color: var(--ag-primary);
   color: var(--ag-on-primary);

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "django-agesci-campania-theme"
-version = "2.2.2"
+version = "2.3.0"
 description = "Tema Bootstrap 5 per applicazioni Django dell'AGESCI Campania, con palette ufficiale e personalizzazione per branca."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -28,6 +28,11 @@ dependencies = [
 # Aggiungere "bootstrap_icons" a INSTALLED_APPS e impostare BS_ICONS_CACHE
 # per le prestazioni (vedi README).
 icons = ["django-bootstrap-icons>=0.9"]
+# Solo per documentazione/test: il tema non dipende da django-allauth (gli
+# override in agesci_theme/templates/allauth/ sono file di template inerti
+# se allauth non è installato/agganciato). Versione testata: 65.19.1.
+# Installazione: uv add "django-agesci-campania-theme[allauth]"
+allauth = ["django-allauth[mfa]>=65"]
 
 [project.urls]
 Homepage = "https://github.com/AGESCI-Campania/django-agesci-campania-theme"
@@ -37,6 +42,7 @@ Repository = "https://github.com/AGESCI-Campania/django-agesci-campania-theme"
 dev = [
     "Django>=6.0",
     "django-bootstrap-icons>=0.9",
+    "django-allauth[mfa]>=65",
 ]
 
 [tool.uv]

@@ -113,6 +113,25 @@ AGESCI_THEME_FAVICON_16 = "mia_app/img/favicon16.png"
 
 ---
 
+### `FORM_RENDERER`
+
+**Tipo:** `str` — **Default:** non impostato (renderer standard di Django)
+
+Non è una setting `AGESCI_THEME_*`: è la setting Django standard per il
+renderer dei widget di form. Attivarla applica lo styling Bootstrap 5 (classi
+`form-control`/`form-select`/`is-invalid`, toggle mostra/nascondi password,
+errori come `invalid-feedback`) a **tutti** i form Django del progetto,
+inclusi quelli di django-allauth.
+
+```python
+FORM_RENDERER = "agesci_theme.forms.AgesciFormRenderer"
+```
+
+Vedi [Form e validazione](forms.md) per i dettagli (perché è opt-in, cosa
+cambia visivamente, e come estendere ulteriormente gli override).
+
+---
+
 ## Variabili esposte ai template
 
 Il context processor `agesci_theme.context_processors.agesci_theme` rende

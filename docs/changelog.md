@@ -5,6 +5,25 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
+## [2.3.0] — 2026-08-21
+
+### Aggiunto
+
+- **`AgesciFormRenderer`** (`agesci_theme.forms`): renderer di form Bootstrap 5, opt-in tramite `FORM_RENDERER = "agesci_theme.forms.AgesciFormRenderer"` nelle settings del consumer. Applica `form-control`/`form-select`/`form-check-input` + `is-invalid`, sostituisce il wrapper `<p>` di `.as_p()` con `<div class="mb-3">` (necessario perché i browser chiudono `</p>` prima di un `<div>` annidato, rompendo l'adiacenza CSS di Bootstrap) e renderizza gli errori come `invalid-feedback`/`alert alert-danger`. Vedi [Form e validazione](forms.md).
+- **Toggle mostra/nascondi password**: pulsante con icona SVG inline su ogni `forms.PasswordInput`, comportamento in `agesci_theme/static/agesci_theme/js/password-toggle.js`, caricato automaticamente da `base.html`.
+- **Override Bootstrap per django-allauth** (`agesci_theme/templates/allauth/`): layout base e bottoni (`prominent`/`outline`/`secondary`/`danger`/`link` → `btn btn-*`). Nessuna configurazione richiesta oltre ad avere `agesci_theme` in `INSTALLED_APPS` (già un requisito del tema). Testato con django-allauth 65.19.1. Vedi [Integrazione con django-allauth](allauth.md).
+- **`.invalid-feedback { display: block; }`** (nuovo partial `_forms.scss`): i div di errore del tema vengono renderizzati solo quando il campo ha davvero un errore, quindi non serve il comportamento di default di Bootstrap che li nasconde finché non preceduti da un fratello `.is-invalid` — comportamento che si romperebbe comunque avvolgendo il campo in un `.input-group` (es. il toggle password).
+- **Extra opzionale `[allauth]`** in `pyproject.toml` (`django-allauth[mfa]>=65`), solo per documentazione/test — non una dipendenza hard del tema.
+- **`{% ag_password_field %}`** (dodicesimo componente `ag_*`): campo password con toggle, utilizzabile in qualsiasi form scritto a mano, anche senza attivare `FORM_RENDERER`. Condivide il markup del pulsante con l'override `django/forms/widgets/password.html`. Vedi [Template tag](templatetags.md#ag_password_field).
+
+### Demo (`example_project`)
+
+- Nuove rotte `/accounts/...` (django-allauth) e `/form-demo/` (form Django semplice con campo password e campo con validazione, per esercitare `is-invalid`/`invalid-feedback` senza allauth).
+- Nuovo `templates/base.html` di progetto (richiesto perché le pagine allauth estendono `"base.html"` letteralmente).
+- Demo standalone di `{% ag_password_field %}` in `components.html`.
+
+---
+
 ## [2.2.2] — 2026-06-16
 
 ### Corretto

@@ -409,3 +409,41 @@ items = [
 ```django
 {% ag_masonry_grid items=masonry_items cols=3 %}
 ```
+
+---
+
+### `ag_password_field`
+
+Campo password con pulsante mostra/nascondi (icona SVG inline, nessuna
+dipendenza da `[icons]`). Utilizzabile in qualsiasi form scritto a mano,
+**senza** bisogno di attivare `FORM_RENDERER` — vedi
+[Form e validazione](forms.md) per il meccanismo `AgesciFormRenderer`, di
+cui questo componente condivide il markup del toggle.
+
+```
+{% ag_password_field [name="password"] [id=""] [label=""] [value=""]
+                      [placeholder=""] [help_text=""] [errors=None]
+                      [required=False] [autocomplete="current-password"] %}
+```
+
+| Parametro | Default | Descrizione |
+|---|---|---|
+| `name` | `"password"` | Attributo `name` dell'`<input>` |
+| `id` | `"id_" + name` | Attributo `id`, per l'associazione con `<label>` |
+| `label` | `""` | Etichetta (non mostrata se vuota) |
+| `errors` | `None` | Lista di messaggi d'errore: se non vuota, mostra `is-invalid` + `invalid-feedback` |
+| `required` | `False` | Aggiunge `required` all'`<input>` e `*` all'etichetta |
+| `autocomplete` | `"current-password"` | Usa `"new-password"` in un form di registrazione |
+
+```django
+{% load agesci_components %}
+{% ag_password_field name="password" label="Password" required=True %}
+```
+
+Con un form Django, passa i valori dal campo esplicitamente:
+
+```django
+{% ag_password_field name=form.password.html_name id=form.password.id_for_label
+   label=form.password.label value=form.password.value
+   errors=form.password.errors required=form.password.field.required %}
+```

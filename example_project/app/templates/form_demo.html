@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Demo form — {{ agesci_theme_nome }}{% endblock %}
+
+{% block content %}
+  <h1 class="h3 mb-4">Demo validazione form (AgesciFormRenderer)</h1>
+  <p class="text-secondary">
+    Questo form Django semplice (non allauth) è renderizzato con
+    <code>FORM_RENDERER = "agesci_theme.forms.AgesciFormRenderer"</code>.
+    Invialo vuoto, oppure aggiungi <code>?invalid=1</code> all'URL, per
+    vedere <code>is-invalid</code>/<code>invalid-feedback</code> in azione.
+    Il campo password ha il pulsante mostra/nascondi.
+  </p>
+
+  <form method="post" class="col-md-6" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Invia</button>
+  </form>
+{% endblock %}

@@ -278,6 +278,10 @@ I componenti opzionali si caricano con:
 Tutti usano `inclusion_tag` con template in `agesci_theme/components/`:
 sono sovrascrivibili creando un file con lo stesso percorso nel progetto figlio.
 
+Tra questi, `{% ag_password_field %}` è un campo password con pulsante
+mostra/nascondi, utilizzabile in qualsiasi form scritto a mano — vedi
+[Form e validazione](forms.md#il-componente-ag-password-field).
+
 Vedi [Template tag — agesci_components](templatetags.md#agesci-components)
 per la documentazione completa di ogni tag.
 

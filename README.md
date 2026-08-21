@@ -6,7 +6,7 @@
 [![Django](https://img.shields.io/badge/Django-6.0%2B-092E20.svg?logo=django&logoColor=white)](https://www.djangoproject.com/)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3.svg?logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 [![uv](https://img.shields.io/badge/packaged%20with-uv-DE5FE9.svg?logo=uv&logoColor=white)](https://github.com/astral-sh/uv)
-[![Version](https://img.shields.io/badge/version-2.2.1-informational.svg)](pyproject.toml)
+[![Version](https://img.shields.io/badge/version-2.3.0-informational.svg)](pyproject.toml)
 [![Code style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Tema **Bootstrap 5** riusabile per le applicazioni **Django** dell'**AGESCI Campania**.
@@ -14,9 +14,11 @@ Tema **Bootstrap 5** riusabile per le applicazioni **Django** dell'**AGESCI Camp
 Fornisce un `base.html` pronto all'uso con **header a due barre** (barra brand
 + barra ricerca/azioni), **sidebar collapsible**, footer ridisegnato e una
 libreria di **componenti opzionali** (`ag_hero`, `ag_feature_grid`,
-`ag_jumbotron` e altri 8). Tutto brandizzato con la palette ufficiale del
-*Manuale Immagine Coordinata AGESCI 2011* e con la **personalizzazione per
-branca** tramite un singolo parametro.
+`ag_jumbotron` e altri 9). Include anche, opzionalmente, styling **Bootstrap 5
+per i form Django** (`is-invalid`/`invalid-feedback`, toggle mostra/nascondi
+password) e per le pagine di **django-allauth**. Tutto brandizzato con la
+palette ufficiale del *Manuale Immagine Coordinata AGESCI 2011* e con la
+**personalizzazione per branca** tramite un singolo parametro.
 
 | Ambito | Colore dominante | `data-branca` |
 |---|---|---|
@@ -223,6 +225,31 @@ Uso nei template:
 {% bs_icon "calendar-event" size="1.5em" %}
 ```
 
+### Form Bootstrap 5, validazione e django-allauth (opzionale)
+
+Il tema include, senza dipendenze aggiuntive, styling Bootstrap 5 per i form
+Django (`form-control`/`is-invalid`, errori come `invalid-feedback`, toggle
+mostra/nascondi password) e override per le pagine di
+[django-allauth](https://docs.allauth.org/). Va attivato esplicitamente:
+
+```python
+# settings.py
+FORM_RENDERER = "agesci_theme.forms.AgesciFormRenderer"
+```
+
+Vale per tutti i form Django del progetto, non solo per allauth. Se usi
+allauth, assicurati che `"agesci_theme"` preceda le sue app in
+`INSTALLED_APPS`. Dettagli completi, incluse le insidie non ovvie (perché
+`<div class="mb-3">` e non `<p>`, perché `.invalid-feedback` è sempre
+visibile) nella [documentazione — Form e validazione](https://django-agesci-campania-theme.readthedocs.io/it/latest/forms.html)
+e [Integrazione con django-allauth](https://django-agesci-campania-theme.readthedocs.io/it/latest/allauth.html).
+
+Extra opzionale, solo per documentazione/test (testato con `65.19.1`):
+
+```bash
+uv add "django-agesci-campania-theme[allauth]"
+```
+
 ### Template tag
 
 **`{% load agesci_tags %}`**
@@ -236,10 +263,11 @@ poseidonia, salerno, samnium, vesuvio, volturno`.
 
 **`{% load agesci_components %}`**
 
-11 componenti UI opzionali: `{% ag_hero %}`, `{% ag_feature_card %}`,
+12 componenti UI opzionali: `{% ag_hero %}`, `{% ag_feature_card %}`,
 `{% ag_feature_grid %}`, `{% ag_jumbotron %}`, `{% ag_badge %}`,
 `{% ag_button %}`, `{% ag_breadcrumb %}`, `{% ag_dropdown %}`,
-`{% ag_list_group %}`, `{% ag_modal_trigger %}`, `{% ag_masonry_grid %}`.
+`{% ag_list_group %}`, `{% ag_modal_trigger %}`, `{% ag_masonry_grid %}`,
+`{% ag_password_field %}`.
 
 I template sono in `agesci_theme/components/` e sono sovrascrivibili.
 Vedi la [documentazione completa](https://django-agesci-campania-theme.readthedocs.io/).
@@ -254,7 +282,8 @@ Vedi la [documentazione completa](https://django-agesci-campania-theme.readthedo
 ## Progetto demo
 
 Il repository include un progetto Django di esempio che mostra header, sidebar,
-footer, componenti opzionali (`/components/`), palette e zone. Per avviarlo:
+footer, componenti opzionali (`/components/`), palette, zone, validazione form
+(`/form-demo/`) e pagine django-allauth (`/accounts/...`). Per avviarlo:
 
 ```bash
 # 1. Clona il repository e installa le dipendenze (crea .venv automaticamente)

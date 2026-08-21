@@ -152,3 +152,47 @@ def ag_masonry_grid(items=None, cols=3):
     """
     col_class = {2: "col-md-6", 3: "col-md-4", 4: "col-md-3"}.get(cols, "col-md-4")
     return {"items": items or [], "col_class": col_class}
+
+
+@register.inclusion_tag("agesci_theme/components/password_field.html")
+def ag_password_field(
+    name="password",
+    id="",
+    label="",
+    value="",
+    placeholder="",
+    help_text="",
+    errors=None,
+    required=False,
+    autocomplete="current-password",
+):
+    """Campo password con pulsante mostra/nascondi (icona SVG inline).
+
+    Utilizzabile in qualsiasi form, anche senza attivare FORM_RENDERER —
+    non dipende dal meccanismo AgesciFormRenderer (vedi agesci_theme.forms):
+
+        {% ag_password_field name="password" label="Password" required=True %}
+
+    Con un form Django, passa i valori dal campo esplicitamente:
+
+        {% ag_password_field name=form.password.html_name id=form.password.id_for_label
+           label=form.password.label value=form.password.value
+           errors=form.password.errors required=form.password.field.required %}
+
+    Condivide il markup del pulsante toggle con l'override
+    django/forms/widgets/password.html usato da AgesciFormRenderer (vedi
+    components/_password_toggle_button.html): un'unica fonte per icona e
+    comportamento, così un campo disegnato con questo tag e uno
+    renderizzato via FORM_RENDERER sono visivamente identici.
+    """
+    return {
+        "name": name,
+        "id": id or f"id_{name}",
+        "label": label,
+        "value": value,
+        "placeholder": placeholder,
+        "help_text": help_text,
+        "errors": errors or [],
+        "required": required,
+        "autocomplete": autocomplete,
+    }

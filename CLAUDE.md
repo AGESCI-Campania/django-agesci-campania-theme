@@ -38,6 +38,48 @@ Django dell'AGESCI Campania.
   con l'ereditarietà Django solo perché sono definiti DIRETTAMENTE in `base.html`.
   `{% include %}` crea un `render_context` separato che NON eredita i blocchi del
   template figlio: non spostare mai questi blocchi in un file incluso via `{% include %}`.
+- **`AgesciFormRenderer` (`agesci_theme/forms.py`) è un motore di template
+  isolato**, separato da `TEMPLATES` in `settings.py`. `DIRS` batte sempre
+  `APP_DIRS` (verificato su `Engine.__init__`/`filesystem.Loader`): un
+  progetto consumer NON può sovrascrivere `django/forms/widgets/*.html` del
+  tema mettendo un file in un proprio `templates/django/forms/...`,
+  indipendentemente dalla posizione in `INSTALLED_APPS`. L'unico modo
+  supportato è sottoclassare `AgesciFormRenderer` e anteporre la propria
+  directory a `engine.dirs` (vedi docstring in `forms.py`).
+- **`django/forms/p.html` usa `<div class="mb-3">`, non `<p>`**: i browser
+  chiudono automaticamente un `<p>` quando incontrano un `<div>` annidato
+  (es. `.invalid-feedback`), rompendo l'adiacenza CSS richiesta da Bootstrap
+  (`.is-invalid ~ .invalid-feedback`). Scoperto ispezionando il DOM
+  renderizzato in un browser reale, non deducibile dal solo sorgente del
+  template. NON tornare a `<p>`.
+- **`.invalid-feedback { display: block; }` (`_forms.scss`) è deliberato**:
+  i nostri errori vengono renderizzati solo quando il campo ha davvero un
+  errore (vedi `django/forms/errors/list/default.html`), quindi non serve —
+  anzi è dannoso — il comportamento di default di Bootstrap che nasconde
+  `.invalid-feedback` finché non è preceduto da un fratello `.is-invalid`.
+  NON rimuovere questa regola pensando sia superflua: senza, gli errori
+  spariscono ogni volta che il campo è avvolto in un wrapper (es.
+  `.input-group` del toggle password).
+- **`allauth/layouts/base.html` deve estendere `"base.html"` (letterale),
+  MAI `"agesci_theme/base.html"`**: altrimenti le pagine allauth perdono le
+  personalizzazioni (nav, breadcrumb) del progetto consumer, che ha il
+  proprio `templates/base.html` per convenzione già documentata sotto.
+- **`agesci_theme` deve precedere le app allauth in `INSTALLED_APPS`**: il
+  loader `APP_DIRS` di Django scorre i template dir delle app nell'ordine
+  di `INSTALLED_APPS`. Se `allauth`/`allauth.account`/`allauth.mfa`
+  precedono `agesci_theme`, i loro template bundled (es.
+  `allauth/layouts/base.html`) vengono trovati PRIMA degli override del
+  tema, che restano silenziosamente inapplicati (nessun errore — le
+  pagine allauth appaiono semplicemente senza stile). Verificato
+  empiricamente in `example_project`.
+- **I commenti Django (`{# ... #}`) NON possono estendersi su più righe**
+  (limite documentato di Django, non un bug): un commento che le occupa
+  più righe non viene riconosciuto come tale e il testo, incluse le
+  parentesi graffe, finisce letteralmente nell'HTML renderizzato — senza
+  sollevare alcun errore. Un commento su più concetti va spezzato in più
+  `{# ... #}` separati, uno per riga. Verificato empiricamente aprendo
+  `/accounts/login/` nel browser: il commento multi-riga di `p.html`
+  compariva come testo visibile nella pagina.
 
 ## Comandi (uv)
 
@@ -78,17 +120,20 @@ npm run watch:css    # ricompila lo SCSS in tempo reale
 agesci_theme/                  # il package Python distribuibile
   static/agesci_theme/scss/    # sorgenti SCSS (vedi sezione sopra)
   static/agesci_theme/css/     # CSS compilato (committato)
-  static/agesci_theme/js/      # script JS (sidebar.js)
+  static/agesci_theme/js/      # script JS (sidebar.js, password-toggle.js)
   static/agesci_theme/img/     # loghi, emblemi, zone, favicon
   templates/agesci_theme/
     base.html                  # template base da estendere
     partials/                  # header.html, sidebar.html, footer.html, breadcrumb.html
-    components/                # 11 template dei componenti opzionali
+    components/                # 12 template dei componenti opzionali
+  templates/django/forms/      # override Bootstrap 5 per AgesciFormRenderer (opt-in)
+  templates/allauth/           # override Bootstrap 5 per django-allauth (opt-in)
   templatetags/
     agesci_tags.py             # emblema_zona, branca_bg, zone_disponibili
-    agesci_components.py       # 11 inclusion tag (ag_hero, ag_feature_grid, ecc.)
+    agesci_components.py       # 12 inclusion tag (ag_hero, ag_feature_grid, ag_password_field, ecc.)
+  forms.py                     # AgesciFormRenderer — vedi docs/forms.md
   context_processors.py        # espone le settings AGESCI_THEME_* ai template
-example_project/               # progetto Django demo (/, /components/)
+example_project/               # progetto Django demo (/, /components/, /accounts/, /form-demo/)
 ```
 
 ## Convenzioni
@@ -112,6 +157,12 @@ example_project/               # progetto Django demo (/, /components/)
   opzionale (`[icons]`). App name: `django_bootstrap_icons`. Templatetag:
   `{% load bootstrap_icons %}` poi `{% bs_icon "nome" %}`. Raccomandare sempre
   `BS_ICONS_CACHE` in settings per le prestazioni.
+- **Form Bootstrap 5 e django-allauth (opzionale)**: attivazione esplicita
+  via `FORM_RENDERER = "agesci_theme.forms.AgesciFormRenderer"` nelle
+  settings del consumer — vale per tutti i form Django del progetto, non
+  solo per allauth. `django-allauth` resta un extra opzionale (`[allauth]`,
+  testato con `65.19.1`), mai una dipendenza hard. Dettagli in
+  `docs/forms.md` e `docs/allauth.md`.
 
 ## Installazione del pacchetto
 
@@ -142,6 +193,13 @@ Il context processor espone in ogni template le variabili `agesci_theme_*`
 `AGESCI_THEME_BRANCA`, `AGESCI_THEME_NOME`, `AGESCI_THEME_LOGO`,
 `AGESCI_THEME_LOGO_NAVBAR`, `AGESCI_THEME_EMBLEMA`, `AGESCI_THEME_FAVICON_32`,
 `AGESCI_THEME_FAVICON_16`, `AGESCI_THEME_NAVBAR_TESTO_SCURO`.
+
+Passo opzionale, per lo styling Bootstrap 5 dei form Django (e di
+django-allauth, se installato) — vedi `docs/forms.md`:
+
+```python
+FORM_RENDERER = "agesci_theme.forms.AgesciFormRenderer"
+```
 
 ## Classi utility palette
 
