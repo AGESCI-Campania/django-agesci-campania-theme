@@ -5,6 +5,22 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
+## [2.4.1] — 2026-08-25
+
+### Corretto
+
+- **Dropdown badge utente clippato con sidebar collassata**: con
+  `.ag-sidebar--collapsed` (64px), il menu `dropup` del badge utente
+  (`.ag-sidebar__user`) veniva tagliato/coperto perché Popper lo
+  posizionava con `strategy: 'absolute'` (default Bootstrap), restando
+  soggetto all'`overflow: hidden` di `.ag-sidebar` (necessario per
+  l'animazione di collasso della larghezza, non rimosso). `sidebar.js`
+  ora inizializza esplicitamente i dropdown-toggle dentro `#agSidebar`
+  con `popperConfig` che forza `strategy: 'fixed'`, posizionando il menu
+  rispetto al viewport.
+
+---
+
 ## [2.4.0] — 2026-08-21
 
 ### Aggiunto
