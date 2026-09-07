@@ -15,7 +15,7 @@ Aggiungere in settings.py:
 from django.conf import settings
 
 # Branche valide (devono corrispondere a [data-branca] in _branche.scss)
-BRANCHE_VALIDE = {"generico", "capi", "lc", "eg", "rs", "viola"}
+BRANCHE_VALIDE = {"generico", "capi", "lc", "eg", "rs", "viola", "generico2"}
 
 DEFAULTS = {
     "AGESCI_THEME_BRANCA": "generico",

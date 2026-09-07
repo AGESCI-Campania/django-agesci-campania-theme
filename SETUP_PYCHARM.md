@@ -29,7 +29,7 @@ uv run python example_project/manage.py runserver
 
 Apri http://127.0.0.1:8000 — vedrai la demo colorata secondo la branca
 impostata in `example_project/config/settings.py` (`AGESCI_THEME_BRANCA`).
-Cambia quel valore (`capi`, `lc`, `eg`, `rs`, `generico`) e ricarica.
+Cambia quel valore (`capi`, `lc`, `eg`, `rs`, `viola`, `generico`, `generico2`) e ricarica.
 
 ## 3. Configurare PyCharm
 

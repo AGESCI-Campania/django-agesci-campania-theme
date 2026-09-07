@@ -96,6 +96,20 @@
   --bs-btn-focus-shadow-rgb: 122, 30, 153;
 }
 
+[data-branca=generico2] {
+  --bs-primary: #462d7b;
+  --bs-primary-rgb: 70, 45, 123;
+  --ag-primary: #462d7b;
+  --ag-primary-hover: rgb(53, 34.0714285714, 93.1285714286);
+  --ag-primary-active: rgb(40.25, 25.875, 70.725);
+  --ag-primary-subtle: rgb(180.45, 161.4321428571, 220.7678571429);
+  --ag-on-primary: #ffffff;
+  --bs-link-color: #462d7b;
+  --bs-link-color-rgb: 70, 45, 123;
+  --bs-link-hover-color: rgb(44.5, 28.6071428571, 78.1928571429);
+  --bs-btn-focus-shadow-rgb: 70, 45, 123;
+}
+
 @media (min-width: 992px) {
   body {
     height: 100vh;
@@ -284,6 +298,11 @@ a:hover {
   color: #1a1a1a;
 }
 
+.bg-ag-generico-2 {
+  background-color: #462d7b !important;
+  color: #fff;
+}
+
 .text-ag-viola {
   color: #7a1e99 !important;
 }
@@ -298,6 +317,10 @@ a:hover {
 
 .text-ag-rosso-rs {
   color: #ef3340 !important;
+}
+
+.text-ag-generico-2 {
+  color: #462d7b !important;
 }
 
 .invalid-feedback {

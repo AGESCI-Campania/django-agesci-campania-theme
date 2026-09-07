@@ -91,6 +91,7 @@ _BRANCHE = [
     ("eg", "E/G"),
     ("rs", "R/S"),
     ("viola", "Viola"),
+    ("generico2", "Generico 2"),
 ]
 
 

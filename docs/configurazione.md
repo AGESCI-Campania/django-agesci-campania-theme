@@ -24,6 +24,7 @@ properties senza nessun ricompilo.
 | `"eg"` | Verde `#3D8E33` | Branca Esploratori/Guide |
 | `"rs"` | Rosso `#EF3340` | Branca Rover/Scolte |
 | `"viola"` | Viola `#7A1E99` | Alias esplicito di `"capi"` |
+| `"generico2"` | Viola indaco `#462D7B` | Variante "Generico 2" (non da manuale) |
 
 Un valore non riconosciuto ricade silenziosamente su `"generico"`.
 

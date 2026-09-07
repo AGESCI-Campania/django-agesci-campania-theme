@@ -139,9 +139,10 @@ example_project/               # progetto Django demo (/, /components/, /account
 ## Convenzioni
 
 - Codice e commenti in italiano (è il contesto associativo).
-- Branche valide: `generico, capi, lc, eg, rs, viola`. Se ne aggiungi una,
-  aggiornala in TRE punti: `_branche.scss`, `context_processors.BRANCHE_VALIDE`,
-  `agesci_tags._BRANCA_BG`, poi ricompila il CSS.
+- Branche valide: `generico, capi, lc, eg, rs, viola, generico2`. Se ne aggiungi
+  una, aggiornala in QUATTRO punti: `_branche.scss`,
+  `context_processors.BRANCHE_VALIDE`, `agesci_tags._BRANCA_BG`,
+  `_bootstrap-overrides.scss` (classe `.bg-ag-*`), poi ricompila il CSS.
 - Mantieni la retrocompatibilità dei blocchi template di `base.html`: altre app
   ne dipendono. Blocchi esposti: `title`, `extra_head`, `header`, `brand_url`,
   `brand_text`, `header_nav`, `offcanvas_nav`, `header_search`, `header_actions`,
@@ -204,4 +205,4 @@ FORM_RENDERER = "agesci_theme.forms.AgesciFormRenderer"
 ## Classi utility palette
 
 `bg-ag-viola`, `bg-ag-azzurro`, `bg-ag-giallo-lc`, `bg-ag-verde-eg`,
-`bg-ag-rosso-rs`, `bg-ag-giallo-oro` e i corrispettivi `text-ag-*`.
+`bg-ag-rosso-rs`, `bg-ag-giallo-oro`, `bg-ag-generico-2` e i corrispettivi `text-ag-*`.

@@ -26,6 +26,7 @@ Pantone riportati nel manuale, con un'eccezione documentata per il rosso R/S.
 | Giallo L/C | 109C | `#F9D616` | `$agesci-giallo-lc` | Lupetti / Coccinelle |
 | Verde E/G | 363C | `#3D8E33` | `$agesci-verde-eg` | Esploratori / Guide |
 | Rosso R/S | 032C | `#EF3340` | `$agesci-rosso-rs` | Rover / Scolte |
+| Viola indaco | — | `#462D7B` | `$agesci-generico-2` | Variante "Generico 2" (non da manuale) |
 
 :::{note}
 Il *Manuale 2011* riporta per il rosso R/S (Pantone 032C) un valore RGB
@@ -64,6 +65,7 @@ a qualsiasi elemento HTML senza scrivere CSS custom.
 | `bg-ag-verde-eg` | `#3D8E33` (verde E/G) | bianco |
 | `bg-ag-rosso-rs` | `#EF3340` (rosso R/S) | bianco |
 | `bg-ag-giallo-oro` | `#FFCC1E` (giallo oro) | nero |
+| `bg-ag-generico-2` | `#462D7B` (viola indaco) | bianco |
 
 ### Classi di testo
 
@@ -73,6 +75,7 @@ a qualsiasi elemento HTML senza scrivere CSS custom.
 | `text-ag-azzurro` | `#6689CC` |
 | `text-ag-verde-eg` | `#3D8E33` |
 | `text-ag-rosso-rs` | `#EF3340` |
+| `text-ag-generico-2` | `#462D7B` |
 
 ### Esempi d'uso
 

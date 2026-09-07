@@ -104,7 +104,7 @@ FORM_RENDERER = "agesci_theme.forms.AgesciFormRenderer"
 # =========================================================
 #  Personalizzazione tema AGESCI - cambia qui per provare!
 # =========================================================
-AGESCI_THEME_BRANCA = "generico"    # generico | capi | lc | eg | rs
+AGESCI_THEME_BRANCA = "generico"    # generico | capi | lc | eg | rs | viola | generico2
 AGESCI_THEME_NOME = "Demo AGESCI Campania"
 AGESCI_THEME_NAVBAR_TESTO_SCURO = False
 

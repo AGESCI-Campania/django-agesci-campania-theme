@@ -34,6 +34,7 @@ _BRANCA_BG = {
     "lc": "bg-ag-giallo-lc",
     "eg": "bg-ag-verde-eg",
     "rs": "bg-ag-rosso-rs",
+    "generico2": "bg-ag-generico-2",
 }
 
 

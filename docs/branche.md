@@ -35,6 +35,7 @@ Il flusso è:
 | `eg` | Verde | 363C | `#3D8E33` | Esploratori / Guide |
 | `rs` | Rosso | 032C | `#EF3340` | Rover / Scolte |
 | `viola` | Viola | 527C | `#7A1E99` | Alias di `capi` |
+| `generico2` | Viola indaco | — | `#462D7B` | Variante "Generico 2" (non da manuale) |
 
 ---
 
@@ -96,7 +97,8 @@ variabili `--bs-navbar-*` con toni scuri.
 
 ## Aggiungere una nuova branca
 
-Se in futuro servisse una nuova branca, occorre intervenire in **tre punti**:
+Se in futuro servisse una nuova branca, occorre intervenire in **quattro punti**
+(più la ricompilazione del CSS):
 
 1. **`_branche.scss`** — aggiungi una voce alla mappa `$branche`:
    ```scss

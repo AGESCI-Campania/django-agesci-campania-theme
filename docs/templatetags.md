@@ -91,6 +91,7 @@ Restituisce la classe CSS di background corrispondente alla branca attiva.
 | `generico` | `bg-ag-azzurro` |
 | `capi` | `bg-ag-viola` |
 | `viola` | `bg-ag-viola` |
+| `generico2` | `bg-ag-generico-2` |
 | `lc` | `bg-ag-giallo-lc` |
 | `eg` | `bg-ag-verde-eg` |
 | `rs` | `bg-ag-rosso-rs` |

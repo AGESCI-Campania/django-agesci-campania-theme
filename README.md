@@ -27,6 +27,7 @@ palette ufficiale del *Manuale Immagine Coordinata AGESCI 2011* e con la
 | Lupetti/Coccinelle (L/C) | Giallo | `lc` |
 | Esploratori/Guide (E/G) | Verde | `eg` |
 | Rover/Scolte (R/S) | Rosso | `rs` |
+| Generico 2 | Viola indaco | `generico2` |
 
 Il colore viene applicato rimappando le *CSS custom properties* di Bootstrap, in
 funzione dell'attributo `data-branca` sul tag `<html>`. Nessun ricompilo
@@ -80,7 +81,7 @@ TEMPLATES = [{
 }]
 
 # --- Personalizzazione tema (tutte opzionali) ---
-AGESCI_THEME_BRANCA = "generico"      # generico | capi | lc | eg | rs | viola
+AGESCI_THEME_BRANCA = "generico"      # generico | capi | lc | eg | rs | viola | generico2
 AGESCI_THEME_NOME = "Zona Vesuvio"     # mostrato in navbar/footer/title
 # Navbar con testo scuro: utile per branca chiara (es. lc = giallo)
 AGESCI_THEME_NAVBAR_TESTO_SCURO = False
@@ -280,7 +281,7 @@ utilizzabile su qualsiasi `MultipleChoiceField` senza richiedere
 ## Classi utility palette
 
 `bg-ag-viola`, `bg-ag-azzurro`, `bg-ag-giallo-lc`, `bg-ag-verde-eg`,
-`bg-ag-rosso-rs`, `bg-ag-giallo-oro` e i corrispettivi `text-ag-*`.
+`bg-ag-rosso-rs`, `bg-ag-giallo-oro`, `bg-ag-generico-2` e i corrispettivi `text-ag-*`.
 
 ---
 
@@ -304,8 +305,9 @@ uv run python example_project/manage.py runserver
 Apri `http://127.0.0.1:8000/` nel browser.
 
 Il demo include un **selettore di branca** nella barra dell'header: il dropdown
-permette di passare in tempo reale tra `generico`, `capi`, `lc`, `eg`, `rs` e
-`viola` senza ricaricare la pagina, con la scelta persistita in `localStorage`.
+permette di passare in tempo reale tra `generico`, `capi`, `lc`, `eg`, `rs`,
+`viola` e `generico2` senza ricaricare la pagina, con la scelta persistita in
+`localStorage`.
 
 ---
 

@@ -5,6 +5,19 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
+## [2.5.0] — 2026-09-07
+
+### Aggiunto
+
+- **Branca "Generico 2"** (`data-branca="generico2"`): nuova variante di
+  palette basata sul colore `#462D7B` (viola indaco, non presente nel
+  Manuale Immagine Coordinata 2011), aggiunta a `_branche.scss`,
+  `context_processors.BRANCHE_VALIDE`, `agesci_tags._BRANCA_BG` e alle
+  classi utility `bg-ag-generico-2`/`text-ag-generico-2`. Disponibile anche
+  nel selettore di branca del progetto demo.
+
+---
+
 ## [2.4.1] — 2026-08-25
 
 ### Corretto

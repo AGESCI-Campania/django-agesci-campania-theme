@@ -35,6 +35,9 @@ con **personalizzazione per branca** tramite un singolo parametro di configurazi
 * - Rover / Scolte (R/S)
   - Rosso
   - `rs`
+* - Generico 2
+  - Viola indaco
+  - `generico2`
 ```
 
 Il colore si applica rimappando le *CSS custom properties* di Bootstrap 5 in
