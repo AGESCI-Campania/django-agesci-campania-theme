@@ -177,7 +177,8 @@ invariato.
 Chi ha sovrascritto il blocco `sidebar` riproducendo la struttura del
 partial (per personalizzare `sidebar_user`, vedi sopra) deve aggiornare la
 propria copia con lo stesso markup: bottone `.ag-sidebar__mobile-toggle`,
-classi `offcanvas offcanvas-lg offcanvas-start` + `tabindex="-1"` sulla
+classi `offcanvas-lg offcanvas-start` (senza la classe bare `offcanvas`,
+che in Bootstrap 5.3 nasconde l'elemento a ogni larghezza) + `tabindex="-1"` sulla
 `<nav>`, `d-none d-lg-flex` su `#agSidebarToggle` e il nuovo bottone
 `.ag-sidebar__close` — vedi il commento in cima a
 `agesci_theme/templates/agesci_theme/partials/sidebar.html` per l'esempio

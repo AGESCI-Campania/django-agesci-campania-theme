@@ -5,6 +5,25 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
+## [2.6.1] — 2026-09-09
+
+### Corretto
+
+- **Sidebar invisibile a ogni larghezza, anche da desktop** (regressione
+  di 2.6.0, issue [#6](https://github.com/AGESCI-Campania/django-agesci-campania-theme/issues/6)):
+  il markup dell'offcanvas responsivo combinava la classe **bare**
+  `offcanvas` con `offcanvas-lg`. In Bootstrap 5.3 `.offcanvas` applica
+  `position: fixed; visibility: hidden; transform: translateX(-100%)`
+  **senza media query**, quindi resta attiva anche sopra i 992px, dove
+  `.offcanvas-lg` ripristina solo `background-color` e non tocca
+  posizione/visibilità. Rimossa la classe bare `offcanvas` da
+  `partials/sidebar.html` (nav e docstring di esempio) e dalle due copie
+  nel progetto demo: resta solo `offcanvas-lg offcanvas-start`, il
+  pattern responsivo ufficiale di Bootstrap. Nessuna modifica SCSS
+  necessaria.
+
+---
+
 ## [2.6.0] — 2026-09-09
 
 ### Corretto
