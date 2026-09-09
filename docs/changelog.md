@@ -5,6 +5,26 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
+## [2.6.0] — 2026-09-09
+
+### Corretto
+
+- **Sidebar non responsive su mobile/tablet** (issue [#5](https://github.com/AGESCI-Campania/django-agesci-campania-theme/issues/5)):
+  sotto il breakpoint `lg` (992px) `.ag-sidebar` restava sempre visibile,
+  occupando spazio orizzontale e non offrendo alcun comportamento offcanvas
+  come l'esempio Dashboard di Bootstrap. Ora la sidebar usa la classe nativa
+  Bootstrap `.offcanvas-lg`: sotto `lg` diventa un vero drawer overlay
+  (nascosto di default, apribile dal nuovo bottone flottante
+  `.ag-sidebar__mobile-toggle`, chiudibile con `.ag-sidebar__close`), da `lg`
+  in su torna a essere la sidebar fissa collassabile di sempre — nessuna
+  duplicazione del contenuto di navigazione. Toccati
+  `partials/sidebar.html`, `_sidebar.scss` e le due copie del markup
+  sidebar nel progetto demo (`home.html`, `components.html`). Chi ha
+  sovrascritto il blocco `sidebar` riproducendo la struttura del partial
+  deve aggiornare la propria copia — vedi [Sidebar](componenti.md#sidebar).
+
+---
+
 ## [2.5.0] — 2026-09-07
 
 ### Aggiunto

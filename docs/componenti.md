@@ -161,6 +161,28 @@ Per personalizzare i link (es. URL di logout) occorre sovrascrivere il blocco
 `sidebar` riproducendo la struttura del partial e aggiungendo il blocco
 `sidebar_user` personalizzato (vedi [Template e blocchi](template.md#sidebar_user)).
 
+### Comportamento responsive (offcanvas sotto lg)
+
+Sotto i 992px la sidebar diventa un vero offcanvas Bootstrap (classe
+`.offcanvas-lg`): resta nascosta di default e si apre come pannello a
+scomparsa dal bottone flottante `.ag-sidebar__mobile-toggle` (in basso a
+sinistra), con lo stesso contenuto di navigazione della versione desktop —
+nessun blocco duplicato. Il toggle di collasso a icon rail
+(`#agSidebarToggle`) è visibile solo da `lg` in su, dato che non ha senso
+comprimere un pannello che sotto quel breakpoint è già un overlay; sotto
+`lg` compare invece un bottone di chiusura (`.ag-sidebar__close`). Da
+`lg` in su il comportamento desktop (sidebar fissa + collasso) resta
+invariato.
+
+Chi ha sovrascritto il blocco `sidebar` riproducendo la struttura del
+partial (per personalizzare `sidebar_user`, vedi sopra) deve aggiornare la
+propria copia con lo stesso markup: bottone `.ag-sidebar__mobile-toggle`,
+classi `offcanvas offcanvas-lg offcanvas-start` + `tabindex="-1"` sulla
+`<nav>`, `d-none d-lg-flex` su `#agSidebarToggle` e il nuovo bottone
+`.ag-sidebar__close` — vedi il commento in cima a
+`agesci_theme/templates/agesci_theme/partials/sidebar.html` per l'esempio
+completo.
+
 ### Titoli di sezione
 
 Per aggiungere separatori tra gruppi di voci usa la classe

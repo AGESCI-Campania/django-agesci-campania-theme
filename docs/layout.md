@@ -46,8 +46,11 @@ Su schermi stretti il tema ripristina il **flusso normale del documento**:
 - Il body si estende con il contenuto.
 - La pagina scorre per intero (non solo il `<main>`).
 - Il footer si trova fisicamente in fondo al contenuto HTML.
-- La sidebar (se presente) si integra nel flusso verticale.
-- L'hamburger sostituisce il menu desktop con un pannello offcanvas.
+- La sidebar (se presente) diventa anch'essa un pannello offcanvas
+  (`.offcanvas-lg`), nascosto di default e apribile dal bottone flottante
+  `.ag-sidebar__mobile-toggle` — non occupa più spazio nel flusso verticale.
+  Vedi [Sidebar](componenti.md#sidebar).
+- L'hamburger dell'header sostituisce il menu desktop con un pannello offcanvas.
 
 ---
 
@@ -99,5 +102,5 @@ il blocco `main_class`:
 
 | Larghezza | Comportamento |
 |---|---|
-| `< 992px` | Flusso normale; pagina scorre per intero; footer in fondo al contenuto; hamburger → offcanvas |
+| `< 992px` | Flusso normale; pagina scorre per intero; footer in fondo al contenuto; hamburger → offcanvas; sidebar (se presente) → offcanvas |
 | `≥ 992px` | Viewport fisso; solo `<main>` scorre; header e footer fissi; sidebar affiancata al main |
