@@ -1,4 +1,5 @@
 {% load static %}
+{% load agesci_tags %}
 <!DOCTYPE html>
 <html lang="it" data-branca="{{ agesci_theme_branca|default:'generico' }}">
 <head>
@@ -25,7 +26,7 @@
   {% block sidebar %}
   <div class="sidebar {% block sidebar_class %}sidebar-dark{% endblock %} sidebar-fixed border-end" id="sidebar">
     <div class="sidebar-header border-bottom">
-      <a class="sidebar-brand" href="{% block brand_url %}/{% endblock %}">
+      <a class="sidebar-brand" href="{% block brand_url %}{% ag_home_url %}{% endblock %}">
         <img class="sidebar-brand-full" src="{% static agesci_theme_logo_navbar %}" alt="{{ agesci_theme_nome }}">
         <span class="sidebar-brand-full ag-sidebar-brand-text">{% block brand_text %}{{ agesci_theme_nome }}{% endblock %}</span>
         <img class="sidebar-brand-narrow" src="{% static agesci_theme_logo_navbar %}" alt="{{ agesci_theme_nome }}">

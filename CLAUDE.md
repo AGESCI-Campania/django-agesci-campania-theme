@@ -101,6 +101,16 @@ tema base e lo estende (layout nativo CoreUI + componenti free). Dettagli in
   tema, che restano silenziosamente inapplicati (nessun errore — le
   pagine allauth appaiono semplicemente senza stile). Verificato
   empiricamente in `example_project`.
+- **Niente link `"/..."` fissi nei template e nelle view della demo**: la demo
+  online su GitHub Pages vive in una sottocartella
+  (`/django-agesci-campania-theme/bootstrap/` e `.../coreui/`). Usa
+  `{% url %}`/`reverse()` nella demo e `{% ag_home_url %}` (radice con
+  prefisso) nei template del tema. `manage.py demo_statica` FALLISCE se trova
+  link interni fuori prefisso o verso pagine non generate (gira anche in
+  `build.yml`). Nuove pagine della demo vanno aggiunte a `PAGINE` in
+  `example_project/app/management/commands/demo_statica.py`. Il test client
+  NON imposta lo script prefix da `FORCE_SCRIPT_NAME` (lo fa solo il
+  `WSGIHandler`): il comando chiama `set_script_prefix()` a mano.
 - **I commenti Django (`{# ... #}`) NON possono estendersi su più righe**
   (limite documentato di Django, non un bug): un commento che le occupa
   più righe non viene riconosciuto come tale e il testo, incluse le
@@ -119,6 +129,7 @@ uv run python example_project/manage.py runserver
 uv run python example_project/manage.py check   # Django system check (usato anche in CI)
 uv run python example_project/manage.py runserver --settings=config.settings_coreui  # demo CoreUI
 uv run python example_project/manage.py check --settings=config.settings_coreui     # usato anche in CI
+uv run python example_project/manage.py demo_statica --output site/coreui --prefix /x/coreui/ --settings=config.settings_coreui  # demo statica (Pages)
 uv build --package django-agesci-campania-theme          # pacchetto Bootstrap
 uv build --package django-agesci-campania-coreui-theme   # pacchetto CoreUI
 ```
@@ -172,7 +183,7 @@ agesci_theme/                  # il package Python distribuibile
   templates/django/forms/      # override Bootstrap 5 per AgesciFormRenderer (opt-in)
   templates/allauth/           # override Bootstrap 5 per django-allauth (opt-in)
   templatetags/
-    agesci_tags.py             # emblema_zona, branca_bg, zone_disponibili
+    agesci_tags.py             # emblema_zona, branca_bg, zone_disponibili, ag_js, ag_home_url
     agesci_components.py       # 13 inclusion tag (ag_hero, ag_feature_grid, ag_password_field, ag_multiselect_dropdown, ecc.)
   forms.py                     # AgesciFormRenderer — vedi docs/forms.md
   context_processors.py        # espone le settings AGESCI_THEME_* ai template
@@ -186,6 +197,8 @@ coreui/                        # secondo pacchetto: django-agesci-campania-coreu
 example_project/               # progetto Django demo (/, /components/, /accounts/, /form-demo/)
   config/settings_coreui.py    # stessa demo col tema CoreUI
   app/templates_coreui/        # template CoreUI, cercati PRIMA di app/templates/
+  app/management/commands/demo_statica.py  # genera la demo statica per GitHub Pages
+  pages/index.html             # indice della demo online (radice del sito Pages)
 ```
 
 ## Convenzioni

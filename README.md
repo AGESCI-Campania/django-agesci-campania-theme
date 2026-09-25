@@ -11,6 +11,9 @@
 
 Tema **Bootstrap 5** riusabile per le applicazioni **Django** dell'**AGESCI Campania**.
 
+🔗 **[Demo online](https://agesci-campania.github.io/django-agesci-campania-theme/)**: [tema Bootstrap](https://agesci-campania.github.io/django-agesci-campania-theme/bootstrap/) ·
+[tema CoreUI](https://agesci-campania.github.io/django-agesci-campania-theme/coreui/), aggiornata a ogni modifica di `main`.
+
 Fornisce un `base.html` pronto all'uso con **header a due barre** (barra brand
 + barra ricerca/azioni), **sidebar collapsible**, footer ridisegnato e una
 libreria di **componenti opzionali** (`ag_hero`, `ag_feature_grid`,
@@ -310,6 +313,10 @@ utilizzabile su qualsiasi `MultipleChoiceField` senza richiedere
 ---
 
 ## Progetto demo
+
+**Demo online (statica, sempre aggiornata a `main`):** <https://agesci-campania.github.io/django-agesci-campania-theme/>, con le
+versioni [Bootstrap](https://agesci-campania.github.io/django-agesci-campania-theme/bootstrap/) e [CoreUI](https://agesci-campania.github.io/django-agesci-campania-theme/coreui/). L'invio dei
+form è disattivato: per la validazione lato server usa il progetto in locale.
 
 Il repository include un progetto Django di esempio che mostra header, sidebar,
 footer, componenti opzionali (`/components/`), palette, zone, validazione form
