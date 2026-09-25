@@ -7,8 +7,9 @@
   <p class="text-secondary">
     Questo form Django semplice (non allauth) è renderizzato con
     <code>FORM_RENDERER = "agesci_theme.forms.AgesciFormRenderer"</code>.
-    Invialo vuoto, oppure aggiungi <code>?invalid=1</code> all'URL, per
-    vedere <code>is-invalid</code>/<code>invalid-feedback</code> in azione.
+    Invialo vuoto, oppure apri la <a href="{% url 'form_demo_errori' %}">versione
+    con errori</a>, per vedere <code>is-invalid</code>/<code>invalid-feedback</code>
+    in azione.
     Il campo password ha il pulsante mostra/nascondi. Il campo Interessi usa
     <code>SelectMultiploADiscesa</code>: una tendina chiusa con checkbox
     multiple (menu che resta aperto finché non clicchi fuori).

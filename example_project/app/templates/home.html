@@ -38,7 +38,7 @@
   </button>
   <ul class="ag-sidebar__nav">
     <li>
-      <a href="/" class="ag-sidebar__nav-link active">
+      <a href="{% url 'home' %}" class="ag-sidebar__nav-link active">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
           <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5v-5h3v5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354z"/>
         </svg>
@@ -71,7 +71,7 @@
       </a>
     </li>
     <li>
-      <a href="/components/" class="ag-sidebar__nav-link">
+      <a href="{% url 'components' %}" class="ag-sidebar__nav-link">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
           <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"/>
         </svg>
@@ -109,7 +109,7 @@
 {# ── Header: nav desktop (icona sopra + etichetta sotto) ── #}
 {% block header_nav %}
   <li>
-    <a href="/" class="nav-link active">
+    <a href="{% url 'home' %}" class="nav-link active">
       <span class="ag-nav-icon">{% bs_icon "house-fill" %}</span>
       Home
     </a>
@@ -163,7 +163,7 @@
 
 {# ── Header: nav offcanvas (mobile) ── #}
 {% block offcanvas_nav %}
-  <li><a href="/" class="nav-link active">{% bs_icon "house-fill" %} Home</a></li>
+  <li><a href="{% url 'home' %}" class="nav-link active">{% bs_icon "house-fill" %} Home</a></li>
   <li><a href="#" class="nav-link">{% bs_icon "calendar-event" %} Eventi</a></li>
   <li><a href="#" class="nav-link">{% bs_icon "people-fill" %} Gruppi</a></li>
   <li><a href="#" class="nav-link">{% bs_icon "envelope-fill" %} Contatti</a></li>

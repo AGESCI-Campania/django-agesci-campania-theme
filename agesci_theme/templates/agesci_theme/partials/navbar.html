@@ -2,7 +2,7 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg navbar-agesci{% if agesci_theme_navbar_testo_scuro %} text-dark{% endif %}">
   <div class="container">
-    <a class="navbar-brand d-flex align-items-center gap-2" href="{% block brand_url %}/{% endblock %}">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="{% block brand_url %}{% ag_home_url %}{% endblock %}">
       <img src="{% static agesci_theme_logo_navbar %}" alt="{{ agesci_theme_nome }}">
       <span class="fw-bold d-none d-sm-inline">{% block brand_text %}{{ agesci_theme_nome }}{% endblock %}</span>
     </a>
@@ -14,7 +14,7 @@
     <div class="collapse navbar-collapse" id="agNavbar">
       <ul class="navbar-nav ms-auto">
         {% block nav_items %}
-        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% ag_home_url %}">Home</a></li>
         {% endblock %}
       </ul>
     </div>

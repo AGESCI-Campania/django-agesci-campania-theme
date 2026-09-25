@@ -21,6 +21,13 @@ jobs:
         run: uv run python example_project/manage.py check
       - name: Django system check (example project, CoreUI)
         run: uv run python example_project/manage.py check --settings=config.settings_coreui
+      # Stessa generazione di pages.yml: fallisce su link che su GitHub
+      # Pages sarebbero 404 (es. "/" fisso in un template).
+      - name: Demo statica (verifica)
+        run: |
+          uv run python example_project/manage.py migrate --noinput
+          uv run python example_project/manage.py demo_statica --output /tmp/site/bootstrap --prefix /demo/bootstrap/
+          uv run python example_project/manage.py demo_statica --output /tmp/site/coreui --prefix /demo/coreui/ --settings=config.settings_coreui
       - name: Build package (Bootstrap)
         run: uv build --package django-agesci-campania-theme
       - name: Build package (CoreUI)

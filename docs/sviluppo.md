@@ -124,6 +124,39 @@ uv run python example_project/manage.py check
 
 ---
 
+## Demo statica su GitHub Pages
+
+La demo online (<https://agesci-campania.github.io/django-agesci-campania-theme/>) è generata dal workflow `.github/workflows/pages.yml`
+a ogni push su `main`. GitHub Pages ospita solo file statici, quindi il
+comando `demo_statica` renderizza le pagine del progetto demo con il test
+client di Django e le salva come HTML, insieme agli asset di `collectstatic`:
+
+```bash
+uv run python example_project/manage.py demo_statica \
+    --output site/bootstrap --prefix /django-agesci-campania-theme/bootstrap/
+uv run python example_project/manage.py demo_statica \
+    --output site/coreui --prefix /django-agesci-campania-theme/coreui/ \
+    --settings=config.settings_coreui
+```
+
+- `--prefix` è la sottocartella di pubblicazione: diventa `FORCE_SCRIPT_NAME`
+  e `STATIC_URL`. Per questo i template non devono contenere link `"/..."`
+  fissi: usa `{% url %}`, `reverse()` o `{% ag_home_url %}`.
+- Il comando **fallisce** se una pagina contiene un link interno che su Pages
+  sarebbe un 404 (fuori dal prefisso o verso una pagina non generata). La
+  stessa verifica gira in `build.yml` su ogni PR.
+- Le pagine generate sono elencate in `PAGINE`
+  (`example_project/app/management/commands/demo_statica.py`): una nuova
+  pagina della demo va aggiunta lì.
+- L'invio dei form è bloccato da uno script iniettato nelle pagine; lo stato
+  "con errori" del form è la pagina `/form-demo/errori/`.
+- La pagina indice alla radice è `example_project/pages/index.html`.
+
+Attivazione (una volta sola, da un amministratore del repository):
+**Settings → Pages → Build and deployment → Source: GitHub Actions**.
+
+---
+
 ## Aggiungere asset statici
 
 Loghi, emblemi e favicon si trovano in `agesci_theme/static/agesci_theme/img/`.

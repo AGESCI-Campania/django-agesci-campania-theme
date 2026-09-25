@@ -5,6 +5,22 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
+## [Non rilasciato]
+
+### Aggiunto
+
+- Template tag **`{% ag_home_url %}`** (`agesci_tags`): URL della radice del
+  sito con il prefisso di deploy (`FORCE_SCRIPT_NAME`/`SCRIPT_NAME`). È il
+  nuovo default del blocco `brand_url` (tema Bootstrap e CoreUI, partial
+  `header.html` e `navbar.html`) e del link del logo nel footer, al posto di
+  `"/"` fisso: i siti pubblicati in una sottocartella non puntano più alla
+  radice del dominio. Senza prefisso l'HTML è identico a prima.
+- **Demo online su GitHub Pages** dei due temi, rigenerata a ogni push su
+  `main` (`.github/workflows/pages.yml`, comando `demo_statica` del progetto
+  demo). Vedi [Sviluppo](sviluppo.md#demo-statica-su-github-pages).
+
+---
+
 ## [2.7.0] — 2026-09-25
 
 ### Aggiunto

@@ -12,7 +12,7 @@
   {# ── Barra superiore: logo + nav icone (desktop) + hamburger (mobile) ── #}
   <div class="ag-header-top px-3 py-2 d-flex flex-wrap align-items-center">
 
-    <a href="{% block brand_url %}/{% endblock %}" class="ag-header-brand my-2 my-lg-0">
+    <a href="{% block brand_url %}{% ag_home_url %}{% endblock %}" class="ag-header-brand my-2 my-lg-0">
       <img src="{% static agesci_theme_logo_navbar %}" alt="{{ agesci_theme_nome }}">
       <span class="d-none d-sm-inline">{% block brand_text %}{{ agesci_theme_nome }}{% endblock %}</span>
     </a>
