@@ -184,6 +184,8 @@ CoreUI può scrivere direttamente `data-coreui-*`.
 
 ## Progetto demo
 
+Demo online (statica): <https://agesci-campania.github.io/django-agesci-campania-theme/coreui/>.
+
 ```bash
 uv run python example_project/manage.py runserver --settings=config.settings_coreui
 ```

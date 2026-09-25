@@ -103,6 +103,8 @@ richiede `AgesciFormRenderer`.
 
 ## Progetto demo
 
+**Demo online:** <https://agesci-campania.github.io/django-agesci-campania-theme/coreui/> (statica: l'invio dei form è disattivato).
+
 Il repository include una variante CoreUI del progetto Django di esempio,
 con lo stesso demo form (compreso il campo `CampoChip`):
 

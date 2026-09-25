@@ -3,6 +3,11 @@
 
 Tema **Bootstrap 5** riusabile per le applicazioni **Django** dell'**AGESCI Campania**.
 
+```{tip}
+**[Demo online](https://agesci-campania.github.io/django-agesci-campania-theme/)**: [tema Bootstrap](https://agesci-campania.github.io/django-agesci-campania-theme/bootstrap/) e
+[tema CoreUI](https://agesci-campania.github.io/django-agesci-campania-theme/coreui/), aggiornata a ogni modifica di `main`.
+```
+
 Fornisce un `base.html` pronto all'uso con **header a due barre**, footer,
 sidebar collapsible e una libreria di **componenti opzionali** (`ag_hero`,
 `ag_feature_grid`, `ag_jumbotron`, `ag_dropdown`, ecc.) — il tutto brandizzato
