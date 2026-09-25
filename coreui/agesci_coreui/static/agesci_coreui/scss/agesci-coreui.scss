@@ -1,0 +1,21 @@
+// =============================================================
+//  agesci-coreui.scss - entrypoint del tema AGESCI Campania per CoreUI 5
+//
+//  Come agesci.scss NON include il framework: va caricato DOPO
+//  coreui.min.css e ne sovrascrive le variabili --cui-*.
+//  I partial condivisi (palette, branche, override, form, componenti)
+//  vengono dal tema base: la build passa
+//      --load-path=agesci_theme/static/agesci_theme/scss
+//  Compilare dalla root del repo con:  npm run build:css
+// =============================================================
+
+// DEVE essere il primo @use: configura il prefisso per tutti i partial.
+@use "prefix" with ($prefix: "cui-");
+
+@use "palette";
+@use "branche";
+@use "bootstrap-overrides";
+@use "forms";
+@use "components";
+@use "coreui-layout";
+@use "coreui-components";

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "django-agesci-campania-theme"
-version = "2.6.1"
+version = "2.7.0"
 description = "Tema Bootstrap 5 per applicazioni Django dell'AGESCI Campania, con palette ufficiale e personalizzazione per branca."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -43,10 +43,21 @@ dev = [
     "Django>=6.0",
     "django-bootstrap-icons>=0.9",
     "django-allauth[mfa]>=65",
+    # tema CoreUI (pacchetto separato nello stesso repo, vedi coreui/):
+    # installato in sviluppo per example_project/config/settings_coreui.py
+    "django-agesci-campania-coreui-theme",
 ]
 
 [tool.uv]
 package = true
+
+# Monorepo: il tema CoreUI (coreui/) è un secondo pacchetto PyPI,
+# django-agesci-campania-coreui-theme, che dipende da questo.
+[tool.uv.workspace]
+members = ["coreui"]
+
+[tool.uv.sources]
+django-agesci-campania-coreui-theme = { workspace = true }
 
 [tool.hatch.build.targets.wheel]
 packages = ["agesci_theme"]

@@ -8,6 +8,12 @@ Questo repository è **django-agesci-theme**: un tema Bootstrap 5 riusabile,
 distribuito come pacchetto Python (`django-agesci-campania-theme`), per le app
 Django dell'AGESCI Campania.
 
+È un **workspace uv con due pacchetti PyPI**: il tema Bootstrap (root,
+`agesci_theme/`) e il tema **CoreUI 5** (`coreui/`, pacchetto
+`django-agesci-campania-coreui-theme`, app `agesci_coreui`), che DIPENDE dal
+tema base e lo estende (layout nativo CoreUI + componenti free). Dettagli in
+`docs/coreui.md`.
+
 ## Cosa NON rompere
 
 - **La palette** (`agesci_theme/static/agesci_theme/scss/_palette.scss`) è
@@ -17,8 +23,31 @@ Django dell'AGESCI Campania.
   rimappata da `[data-branca]` in `_branche.scss`. L'attributo `data-branca`
   va sul tag `<html>` (vedi `base.html:4`). NON hardcodare colori nei
   componenti — usa `var(--ag-primary)` e derivati.
-- Il **CSS compilato è committato** (`css/agesci.css` e `css/agesci.min.css`).
-  Dopo ogni modifica allo SCSS rigeneralo con `npm run build:css` e committa.
+- Il **CSS compilato è committato** (`css/agesci.css` e `css/agesci.min.css`,
+  più `coreui/.../css/agesci-coreui(.min).css`). Dopo ogni modifica allo SCSS
+  rigeneralo con `npm run build:css` (compila ENTRAMBI i temi) e committa.
+- **Mai `data-bs-*` letterali nei template del tema base** (`agesci_theme/templates/`):
+  scrivi `data-{% ag_js %}-toggle` ecc. (`{% load agesci_tags %}`). CoreUI
+  legge SOLO `data-coreui-*` e ignora `data-bs-*` (verificato su CoreUI 5.9.0:
+  il modal non si apre). `{% ag_js %}` decide da `apps.is_installed("agesci_coreui")`,
+  non dal contesto, così funziona negli inclusion tag e nei widget. Nel JS
+  usa `window.coreui || window.bootstrap`.
+- **Mai `--bs-` letterali negli SCSS condivisi** (`_branche`, `_bootstrap-overrides`):
+  usa `--#{pf.$prefix}...` con `@use "prefix" as pf;`. `_prefix.scss` va
+  configurato come PRIMO `@use` dell'entrypoint (`agesci-coreui.scss` lo
+  imposta a `cui-`). Il layout viewport fisso sta in `_layout.scss`, incluso
+  SOLO da `agesci.scss`: il tema CoreUI usa `.wrapper`/`.sidebar`/`.header`
+  nativi e scorre la pagina intera.
+- **Tema CoreUI, varianti derivate del primario**: CoreUI colora chip,
+  alert, list group ecc. con `--cui-primary-bg-subtle`/`-text-emphasis`/
+  `-border-subtle`/`-contrast`, che `_branche.scss` non genera.
+  `_coreui-components.scss` le rimappa sulle `--ag-*`: senza, restano sul
+  viola di default di CoreUI (#5856d6) qualunque sia la branca.
+- **`agesci_coreui/js/layout.js` va caricato PRIMA di `coreui.bundle.min.js`**:
+  ripristina la classe `sidebar-narrow-unfoldable` prima che CoreUI crei
+  l'istanza della sidebar (al `load`). Il salvataggio legge la classe con
+  `setTimeout(0)` dopo il click: l'handler di CoreUI (delegato su `.sidebar`)
+  la cambia PRIMA del listener sul bottone (verificato nel browser).
 - Bootstrap 5 è caricato da CDN in `base.html`; `agesci.min.css` va caricato
   **dopo** di esso e sovrascrive le sue custom properties.
 - **Layout viewport fisso**: `body { height: 100vh; overflow: hidden }` è
@@ -88,14 +117,20 @@ uv sync                                          # crea .venv e installa tutto
 uv run python example_project/manage.py migrate
 uv run python example_project/manage.py runserver
 uv run python example_project/manage.py check   # Django system check (usato anche in CI)
-uv build                                         # produce il pacchetto .whl / .tar.gz
+uv run python example_project/manage.py runserver --settings=config.settings_coreui  # demo CoreUI
+uv run python example_project/manage.py check --settings=config.settings_coreui     # usato anche in CI
+uv build --package django-agesci-campania-theme          # pacchetto Bootstrap
+uv build --package django-agesci-campania-coreui-theme   # pacchetto CoreUI
 ```
+
+Rilascio: tag `vX.Y.Z` → tema Bootstrap, tag `coreui-vX.Y.Z` → tema CoreUI
+(stesso `publish.yml`, vedi `PUBLISHING.md`).
 
 Modificare i colori (richiede Node.js):
 
 ```bash
 npm install
-npm run build:css    # rigenera agesci.css e agesci.min.css (da fare prima del commit)
+npm run build:css    # rigenera il CSS di entrambi i temi (da fare prima del commit)
 npm run watch:css    # ricompila lo SCSS in tempo reale
 ```
 
@@ -103,16 +138,24 @@ npm run watch:css    # ricompila lo SCSS in tempo reale
 
 `agesci.scss` è solo un entrypoint; l'ordine di inclusione è fisso:
 
+0. `_prefix.scss` — `$prefix` delle custom properties del framework (`bs-`/`cui-`).
 1. `_palette.scss` — variabili Sass `$agesci-*` con i valori Pantone ufficiali.
 2. `_branche.scss` — genera le CSS custom properties `--ag-primary` (e derivati)
    per ciascuna branca via `@each` + mixin `tema-primario`. La funzione
    `on-color()` sceglie testo nero/bianco in base alla luminosità del primario.
-3. `_bootstrap-overrides.scss` — rimappa i token Bootstrap 5 (`--bs-primary`,
-   link, pulsanti) alle variabili `--ag-*`; definisce `.ag-scroll-area`.
-4. `_header.scss` — stili dell'header a due barre e del pannello offcanvas.
-5. `_sidebar.scss` — sidebar collapsible con stato persistito in `localStorage`.
-6. `_footer.scss` — footer con colonne e riga copyright.
-7. `_components.scss` — componenti opzionali (hero, jumbotron, ecc.).
+3. `_layout.scss` — layout viewport fisso e `.ag-scroll-area` (solo Bootstrap).
+4. `_bootstrap-overrides.scss` — rimappa i token del framework (`--bs-primary`,
+   link, pulsanti) alle variabili `--ag-*`.
+5. `_header.scss` — stili dell'header a due barre e del pannello offcanvas.
+6. `_sidebar.scss` — sidebar collapsible con stato persistito in `localStorage`.
+7. `_footer.scss` — footer con colonne e riga copyright.
+8. `_components.scss` — componenti opzionali (hero, jumbotron, ecc.).
+
+`coreui/agesci_coreui/static/agesci_coreui/scss/agesci-coreui.scss` riusa
+`_prefix` (con `cui-`), `_palette`, `_branche`, `_bootstrap-overrides`,
+`_forms`, `_components` del tema base (la build passa
+`--load-path=agesci_theme/static/agesci_theme/scss`) e aggiunge
+`_coreui-layout.scss` e `_coreui-components.scss`.
 
 ## Struttura
 
@@ -133,7 +176,16 @@ agesci_theme/                  # il package Python distribuibile
     agesci_components.py       # 13 inclusion tag (ag_hero, ag_feature_grid, ag_password_field, ag_multiselect_dropdown, ecc.)
   forms.py                     # AgesciFormRenderer — vedi docs/forms.md
   context_processors.py        # espone le settings AGESCI_THEME_* ai template
+coreui/                        # secondo pacchetto: django-agesci-campania-coreui-theme
+  pyproject.toml               # dipende da django-agesci-campania-theme (workspace)
+  agesci_coreui/
+    templates/agesci_coreui/base.html   # layout nativo CoreUI (sidebar + header)
+    templatetags/agesci_coreui.py       # ag_nav_item, ag_nav_title, ag_callout, ag_avatar, ag_chip
+    forms.py                   # InputChip / CampoChip (chip-input di CoreUI)
+    checks.py                  # agesci_coreui.E001: richiede agesci_theme installata
 example_project/               # progetto Django demo (/, /components/, /accounts/, /form-demo/)
+  config/settings_coreui.py    # stessa demo col tema CoreUI
+  app/templates_coreui/        # template CoreUI, cercati PRIMA di app/templates/
 ```
 
 ## Convenzioni
@@ -143,6 +195,9 @@ example_project/               # progetto Django demo (/, /components/, /account
   una, aggiornala in QUATTRO punti: `_branche.scss`,
   `context_processors.BRANCHE_VALIDE`, `agesci_tags._BRANCA_BG`,
   `_bootstrap-overrides.scss` (classe `.bg-ag-*`), poi ricompila il CSS.
+- Il `base.html` CoreUI (`agesci_coreui/base.html`) riusa gli stessi nomi di
+  blocco dove esiste un equivalente e segue la stessa regola: i blocchi vanno
+  definiti DIRETTAMENTE nel file, mai in un `{% include %}`.
 - Mantieni la retrocompatibilità dei blocchi template di `base.html`: altre app
   ne dipendono. Blocchi esposti: `title`, `extra_head`, `header`, `brand_url`,
   `brand_text`, `header_nav`, `offcanvas_nav`, `header_search`, `header_actions`,

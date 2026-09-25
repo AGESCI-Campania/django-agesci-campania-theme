@@ -1,11 +1,13 @@
 // =============================================================
 //  Branche / ambiti AGESCI -> colore primario
 //  Ogni "tema" rimappa le CSS custom properties di Bootstrap 5
+//  (o di CoreUI 5: il prefisso --bs-/--cui- viene da _prefix.scss)
 //  in base all'attributo [data-branca] sul tag <html> o <body>.
 // =============================================================
 @use "sass:color";
 @use "sass:map";
 @use "palette" as p;
+@use "prefix" as pf;
 
 // Mappa: nome ambito -> colore dominante
 $branche: (
@@ -28,8 +30,8 @@ $branche: (
 
 // Genera le variabili tematiche per un dato colore primario
 @mixin tema-primario($primario) {
-  --bs-primary: #{$primario};
-  --bs-primary-rgb: #{color.channel($primario, "red", $space: rgb)}, #{color.channel($primario, "green", $space: rgb)}, #{color.channel($primario, "blue", $space: rgb)};
+  --#{pf.$prefix}primary: #{$primario};
+  --#{pf.$prefix}primary-rgb: #{color.channel($primario, "red", $space: rgb)}, #{color.channel($primario, "green", $space: rgb)}, #{color.channel($primario, "blue", $space: rgb)};
 
   --ag-primary: #{$primario};
   --ag-primary-hover: #{color.adjust($primario, $lightness: -8%)};
@@ -37,11 +39,11 @@ $branche: (
   --ag-primary-subtle: #{color.adjust($primario, $lightness: 42%)};
   --ag-on-primary: #{on-color($primario)};
 
-  --bs-link-color: #{$primario};
-  --bs-link-color-rgb: #{color.channel($primario, "red", $space: rgb)}, #{color.channel($primario, "green", $space: rgb)}, #{color.channel($primario, "blue", $space: rgb)};
-  --bs-link-hover-color: #{color.adjust($primario, $lightness: -12%)};
+  --#{pf.$prefix}link-color: #{$primario};
+  --#{pf.$prefix}link-color-rgb: #{color.channel($primario, "red", $space: rgb)}, #{color.channel($primario, "green", $space: rgb)}, #{color.channel($primario, "blue", $space: rgb)};
+  --#{pf.$prefix}link-hover-color: #{color.adjust($primario, $lightness: -12%)};
 
-  --bs-btn-focus-shadow-rgb: #{color.channel($primario, "red", $space: rgb)}, #{color.channel($primario, "green", $space: rgb)}, #{color.channel($primario, "blue", $space: rgb)};
+  --#{pf.$prefix}btn-focus-shadow-rgb: #{color.channel($primario, "red", $space: rgb)}, #{color.channel($primario, "green", $space: rgb)}, #{color.channel($primario, "blue", $space: rgb)};
 }
 
 // Applica il tema di default su :root

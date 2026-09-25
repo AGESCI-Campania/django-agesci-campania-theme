@@ -6,7 +6,7 @@
 [![Django](https://img.shields.io/badge/Django-6.0%2B-092E20.svg?logo=django&logoColor=white)](https://www.djangoproject.com/)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3.svg?logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 [![uv](https://img.shields.io/badge/packaged%20with-uv-DE5FE9.svg?logo=uv&logoColor=white)](https://github.com/astral-sh/uv)
-[![Version](https://img.shields.io/badge/version-2.4.0-informational.svg)](pyproject.toml)
+[![Version](https://img.shields.io/badge/version-2.7.0-informational.svg)](pyproject.toml)
 [![Code style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Tema **Bootstrap 5** riusabile per le applicazioni **Django** dell'**AGESCI Campania**.
@@ -34,6 +34,14 @@ funzione dell'attributo `data-branca` sul tag `<html>`. Nessun ricompilo
 necessario: basta cambiare una setting.
 
 ---
+
+## Variante CoreUI
+
+Nello stesso repository c'è anche **`django-agesci-campania-coreui-theme`**
+(cartella [`coreui/`](coreui/)): estende questo tema con il layout nativo
+**CoreUI 5** (sidebar + header) e i componenti free di CoreUI, riusando
+palette, branche, form e override allauth. Vedi
+[`docs/coreui.md`](docs/coreui.md).
 
 ## Installazione
 

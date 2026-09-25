@@ -127,6 +127,33 @@ twine upload dist/*
 
 ---
 
+## 4. Tema CoreUI (`django-agesci-campania-coreui-theme`)
+
+Il repository contiene un secondo pacchetto, in `coreui/`. Lo stesso
+`publish.yml` lo pubblica quando il **tag della release** inizia con
+`coreui-v`; i tag `vX.Y.Z` pubblicano invece il tema Bootstrap.
+
+Configurazione iniziale (una volta sola): su PyPI aggiungi un **pending
+publisher** per il progetto `django-agesci-campania-coreui-theme` con gli
+stessi valori della sezione 1b (owner `AGESCI-Campania`, repository
+`django-agesci-campania-theme`, workflow `publish.yml`, environment `pypi`).
+
+Rilascio:
+
+```bash
+# 1. versione in coreui/pyproject.toml; se il tema CoreUI richiede
+#    novità del tema base, aggiorna anche il vincolo
+#    "django-agesci-campania-theme>=X.Y.Z" e rilascia PRIMA il tema base
+npm run build:css
+git commit -am "coreui vA.B.C"
+git tag coreui-vA.B.C && git push origin main coreui-vA.B.C
+gh release create coreui-vA.B.C --title "coreui-vA.B.C" --generate-notes
+```
+
+Build locale: `uv build --package django-agesci-campania-coreui-theme`.
+
+---
+
 ## Checklist rilascio
 
 - [ ] Versione aggiornata in `pyproject.toml` e nel badge `README.md`

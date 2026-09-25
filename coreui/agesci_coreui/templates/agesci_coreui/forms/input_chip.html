@@ -1,0 +1,4 @@
+<div class="chip-input{% if widget.attrs.class %} {{ widget.attrs.class }}{% endif %}" data-coreui-chip-input data-coreui-name="{{ widget.name }}"{% if widget.separator %} data-coreui-separator="{{ widget.separator }}"{% endif %}>
+  {% for valore in widget.value %}<span class="chip" data-coreui-chip-value="{{ valore }}">{{ valore }}</span>{% endfor %}
+  <input type="text" class="chip-input-field" id="{{ widget.attrs.id }}"{% if widget.placeholder %} placeholder="{{ widget.placeholder }}"{% endif %} autocomplete="off">
+</div>

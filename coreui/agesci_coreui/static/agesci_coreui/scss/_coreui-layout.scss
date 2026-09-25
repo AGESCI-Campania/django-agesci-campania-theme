@@ -1,0 +1,99 @@
+// =============================================================
+//  _coreui-layout.scss — layout nativo CoreUI (sidebar + header)
+//  colorato per branca tramite le variabili --ag-* di _branche.scss.
+//  NON hardcodare colori: usa var(--ag-primary) e derivati.
+// =============================================================
+@use "palette" as p;
+
+// --- Wrapper: lascia spazio alla sidebar fissa ------------------------------
+// CoreUI imposta --cui-sidebar-occupy-start sui fratelli successivi della
+// .sidebar visibile (da lg in su); il wrapper lo trasforma in padding.
+.wrapper {
+  padding-inline-start: var(--cui-sidebar-occupy-start, 0);
+  transition: padding .15s;
+  will-change: auto;
+}
+
+// --- Sidebar -----------------------------------------------------------------
+.sidebar {
+  --cui-sidebar-nav-link-active-bg: rgba(var(--cui-primary-rgb), .35);
+  --cui-sidebar-nav-link-active-icon-color: var(--ag-primary);
+  --cui-sidebar-nav-link-hover-bg: rgba(var(--cui-primary-rgb), .18);
+}
+
+.sidebar-header {
+  background-color: var(--ag-primary);
+  color: var(--ag-on-primary);
+  border-top: 0;
+
+  .sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    color: inherit;
+    text-decoration: none;
+    min-width: 0;
+
+    img { height: 32px; width: auto; }
+  }
+
+  // Chiusura su mobile: currentColor = --ag-on-primary, leggibile anche
+  // sulle branche chiare (L/C giallo), a differenza di .btn-close-white.
+  .ag-sidebar-close {
+    margin-inline-start: auto;
+    padding: .25rem;
+    border: 0;
+    background: none;
+    color: inherit;
+    opacity: .85;
+    &:hover { opacity: 1; }
+  }
+
+  .ag-sidebar-brand-text {
+    font-family: "Montserrat", "Open Sans", system-ui, sans-serif;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+// Link attivo: barra laterale nel colore della branca
+.sidebar-nav .nav-link.active {
+  box-shadow: inset 3px 0 0 var(--ag-primary);
+}
+
+.ag-sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .75rem 1rem;
+  min-width: 0;
+
+  .avatar { flex-shrink: 0; }
+}
+
+// Sidebar compressa: nascondi il nome utente (resta l'avatar)
+.sidebar-narrow-unfoldable:not(:hover) .ag-sidebar-user-name { display: none; }
+
+// --- Header ------------------------------------------------------------------
+.header {
+  border-top: 3px solid var(--ag-primary);
+}
+
+.ag-header-title {
+  font-family: "Montserrat", "Open Sans", system-ui, sans-serif;
+  font-weight: 700;
+  margin-inline-start: .5rem;
+}
+
+.header-nav .nav-link.active { color: var(--ag-primary); }
+
+// --- Footer ------------------------------------------------------------------
+.ag-footer-links {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
