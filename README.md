@@ -37,11 +37,27 @@ necessario: basta cambiare una setting.
 
 ## Variante CoreUI
 
-Nello stesso repository c'è anche **`django-agesci-campania-coreui-theme`**
+Nello stesso repository, e distribuito come pacchetto PyPI separato,
+c'è anche [**`django-agesci-campania-coreui-theme`**](https://pypi.org/project/django-agesci-campania-coreui-theme/)
 (cartella [`coreui/`](coreui/)): estende questo tema con il layout nativo
-**CoreUI 5** (sidebar + header) e i componenti free di CoreUI, riusando
-palette, branche, form e override allauth. Vedi
-[`docs/coreui.md`](docs/coreui.md).
+**CoreUI 5** (sidebar fissa + header sticky, invece dell'header a due barre
+di Bootstrap) e i componenti free di CoreUI (`ag_callout`, `ag_avatar`,
+`ag_chip`, `ag_nav_item`, `ag_nav_title`, chip-input `InputChip`/`CampoChip`),
+riusando palette, colore per branca, `AgesciFormRenderer` e override
+allauth di questo pacchetto.
+
+```bash
+uv add django-agesci-campania-coreui-theme
+```
+
+```django
+{# templates/base.html del progetto #}
+{% extends "agesci_coreui/base.html" %}
+```
+
+Guida completa, installazione ed elenco componenti nella
+[documentazione — Tema CoreUI](https://django-agesci-campania-theme.readthedocs.io/it/latest/coreui.html)
+e nel [README del pacchetto](coreui/README.md).
 
 ## Installazione
 

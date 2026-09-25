@@ -44,6 +44,14 @@ Il colore si applica rimappando le *CSS custom properties* di Bootstrap 5 in
 funzione dell'attributo `data-branca` sul tag `<html>`.
 **Nessun ricompilo Sass necessario**: basta cambiare una riga in `settings.py`.
 
+```{note}
+Esiste anche una variante **CoreUI 5** con layout nativo (sidebar + header),
+distribuita come secondo pacchetto PyPI,
+[`django-agesci-campania-coreui-theme`](https://pypi.org/project/django-agesci-campania-coreui-theme/),
+che estende questo tema riusandone palette, branche, form e override
+allauth. Vedi [Tema CoreUI](coreui.md).
+```
+
 ---
 
 ## Contenuti
