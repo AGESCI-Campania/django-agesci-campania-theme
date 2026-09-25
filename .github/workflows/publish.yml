@@ -20,10 +20,23 @@ jobs:
         run: uv sync
 
       - name: Django system check
-        run: uv run python example_project/manage.py check
+        run: |
+          uv run python example_project/manage.py check
+          uv run python example_project/manage.py check --settings=config.settings_coreui
 
+      # Monorepo con due pacchetti PyPI: il prefisso del tag della release
+      # decide quale pubblicare.
+      #   vX.Y.Z         -> django-agesci-campania-theme (Bootstrap)
+      #   coreui-vX.Y.Z  -> django-agesci-campania-coreui-theme (CoreUI)
       - name: Build package
-        run: uv build
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          case "$TAG" in
+            coreui-v*) uv build --package django-agesci-campania-coreui-theme ;;
+            v*)        uv build --package django-agesci-campania-theme ;;
+            *) echo "Tag '$TAG' non riconosciuto: usa vX.Y.Z o coreui-vX.Y.Z"; exit 1 ;;
+          esac
 
       - name: Carica artefatti
         uses: actions/upload-artifact@v6

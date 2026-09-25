@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Componenti — {{ agesci_theme_nome }}{% endblock %}
+
+{# I componenti del tema base funzionano anche con CoreUI: il prefisso data-* #}
+{# (data-coreui-* invece di data-bs-*) lo sceglie {% ag_js %}. #}
+{% block content %}
+{% include "_components_content.html" %}
+{% endblock %}
+
+{% block extra_js %}{{ block.super }}
+<script src="https://cdn.jsdelivr.net/npm/masonry-layout@4/dist/masonry.pkgd.min.js" defer></script>
+{% endblock %}

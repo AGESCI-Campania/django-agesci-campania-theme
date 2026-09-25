@@ -2,32 +2,12 @@
 //  Override Bootstrap + componenti del tema AGESCI Campania
 //  Questo file usa le CSS custom properties definite in _branche.scss
 //  cosi' i componenti reagiscono automaticamente a [data-branca].
+//  Condiviso con il tema CoreUI: le variabili del framework usano il
+//  prefisso di _prefix.scss. Il layout viewport fisso, specifico del
+//  tema Bootstrap, sta in _layout.scss.
 // =============================================================
 @use "palette" as p;
-
-// --- Layout applicazione (header e sidebar fissi, solo l'area contenuto scorre)
-// body usa d-flex flex-column nel markup; qui fissiamo l'altezza al viewport.
-// Su mobile e tablet (< lg / 992px) il layout torna al flusso normale.
-body {
-  @media (min-width: 992px) {
-    height: 100vh;
-    overflow: hidden;
-  }
-}
-
-// ag-scroll-area: unico scroll container dell'area contenuto.
-// È un blocco semplice (non flex), così overflow-y: auto funziona
-// senza i quirk dei flex container con item flex-grow.
-// Contiene <main> + <footer> come fratelli: il footer prende tutta
-// la larghezza del wrapper (viewport − sidebar), senza essere vincolato
-// dal max-width del .container che si applica solo a <main>.
-.ag-scroll-area {
-  min-width: 0; // evita overflow orizzontale su mobile (flex item default min-width: auto)
-  @media (min-width: 992px) {
-    min-height: 0;
-    overflow-y: auto;
-  }
-}
+@use "prefix" as pf;
 
 // --- Tipografia --------------------------------------------------------------
 $ag-font-sans: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -45,48 +25,48 @@ h1, h2, h3, h4, h5, h6,
 
 // --- Bottoni primari (seguono la branca) ------------------------------------
 .btn-primary {
-  --bs-btn-bg: var(--ag-primary);
-  --bs-btn-border-color: var(--ag-primary);
-  --bs-btn-color: var(--ag-on-primary);
-  --bs-btn-hover-bg: var(--ag-primary-hover);
-  --bs-btn-hover-border-color: var(--ag-primary-hover);
-  --bs-btn-hover-color: var(--ag-on-primary);
-  --bs-btn-active-bg: var(--ag-primary-active);
-  --bs-btn-active-border-color: var(--ag-primary-active);
-  --bs-btn-active-color: var(--ag-on-primary);
-  --bs-btn-disabled-bg: var(--ag-primary);
-  --bs-btn-disabled-border-color: var(--ag-primary);
-  --bs-btn-disabled-color: var(--ag-on-primary);
+  --#{pf.$prefix}btn-bg: var(--ag-primary);
+  --#{pf.$prefix}btn-border-color: var(--ag-primary);
+  --#{pf.$prefix}btn-color: var(--ag-on-primary);
+  --#{pf.$prefix}btn-hover-bg: var(--ag-primary-hover);
+  --#{pf.$prefix}btn-hover-border-color: var(--ag-primary-hover);
+  --#{pf.$prefix}btn-hover-color: var(--ag-on-primary);
+  --#{pf.$prefix}btn-active-bg: var(--ag-primary-active);
+  --#{pf.$prefix}btn-active-border-color: var(--ag-primary-active);
+  --#{pf.$prefix}btn-active-color: var(--ag-on-primary);
+  --#{pf.$prefix}btn-disabled-bg: var(--ag-primary);
+  --#{pf.$prefix}btn-disabled-border-color: var(--ag-primary);
+  --#{pf.$prefix}btn-disabled-color: var(--ag-on-primary);
 }
 
 .btn-outline-primary {
-  --bs-btn-color: var(--ag-primary);
-  --bs-btn-border-color: var(--ag-primary);
-  --bs-btn-hover-bg: var(--ag-primary);
-  --bs-btn-hover-border-color: var(--ag-primary);
-  --bs-btn-hover-color: var(--ag-on-primary);
-  --bs-btn-active-bg: var(--ag-primary);
-  --bs-btn-active-border-color: var(--ag-primary);
-  --bs-btn-active-color: var(--ag-on-primary);
+  --#{pf.$prefix}btn-color: var(--ag-primary);
+  --#{pf.$prefix}btn-border-color: var(--ag-primary);
+  --#{pf.$prefix}btn-hover-bg: var(--ag-primary);
+  --#{pf.$prefix}btn-hover-border-color: var(--ag-primary);
+  --#{pf.$prefix}btn-hover-color: var(--ag-on-primary);
+  --#{pf.$prefix}btn-active-bg: var(--ag-primary);
+  --#{pf.$prefix}btn-active-border-color: var(--ag-primary);
+  --#{pf.$prefix}btn-active-color: var(--ag-on-primary);
 }
 
 // --- Navbar di brand ---------------------------------------------------------
 .navbar-agesci {
   background-color: var(--ag-primary);
-  --bs-navbar-color: rgba(255, 255, 255, .85);
-  --bs-navbar-hover-color: #fff;
-  --bs-navbar-active-color: #fff;
-  --bs-navbar-brand-color: #fff;
-  --bs-navbar-brand-hover-color: #fff;
-  --bs-navbar-toggler-border-color: rgba(255, 255, 255, .3);
+  --#{pf.$prefix}navbar-color: rgba(255, 255, 255, .85);
+  --#{pf.$prefix}navbar-hover-color: #fff;
+  --#{pf.$prefix}navbar-active-color: #fff;
+  --#{pf.$prefix}navbar-brand-color: #fff;
+  --#{pf.$prefix}navbar-brand-hover-color: #fff;
+  --#{pf.$prefix}navbar-toggler-border-color: rgba(255, 255, 255, .3);
 
   // se la branca e' chiara (es. LC giallo) il testo bianco e' illeggibile:
   // si usa .navbar-agesci.text-dark per forzare i link scuri.
   &.text-dark {
-    --bs-navbar-color: rgba(0, 0, 0, .65);
-    --bs-navbar-hover-color: #000;
-    --bs-navbar-active-color: #000;
-    --bs-navbar-brand-color: #000;
+    --#{pf.$prefix}navbar-color: rgba(0, 0, 0, .65);
+    --#{pf.$prefix}navbar-hover-color: #000;
+    --#{pf.$prefix}navbar-active-color: #000;
+    --#{pf.$prefix}navbar-brand-color: #000;
   }
 
   .navbar-brand img {
@@ -111,7 +91,7 @@ a:hover { color: var(--ag-primary-hover); }
 .form-control:focus,
 .form-select:focus {
   border-color: var(--ag-primary);
-  box-shadow: 0 0 0 .25rem rgba(var(--bs-primary-rgb), .25);
+  box-shadow: 0 0 0 .25rem rgba(var(--#{pf.$prefix}primary-rgb), .25);
 }
 
 // --- Breadcrumb --------------------------------------------------------------
@@ -134,7 +114,7 @@ a:hover { color: var(--ag-primary-hover); }
     color: var(--ag-primary);
     border-radius: .375rem;
 
-    &:hover { background-color: rgba(var(--bs-primary-rgb), .12); color: var(--ag-primary); }
+    &:hover { background-color: rgba(var(--#{pf.$prefix}primary-rgb), .12); color: var(--ag-primary); }
     &.active { background-color: var(--ag-primary); color: var(--ag-on-primary); }
   }
 }

@@ -5,6 +5,41 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
+## [2.7.0] — non ancora rilasciata
+
+### Aggiunto
+
+- **Tema CoreUI** come secondo pacchetto PyPI nello stesso repository:
+  `django-agesci-campania-coreui-theme` 0.1.0 (cartella `coreui/`, app
+  `agesci_coreui`). Estende questo pacchetto con il layout nativo CoreUI 5
+  (sidebar + header), i componenti free (`ag_callout`, `ag_avatar`,
+  `ag_chip`, `ag_nav_item`, `ag_nav_title`) e il widget `InputChip` /
+  campo `CampoChip`. Vedi [Tema CoreUI](coreui.md). Il repository è ora un
+  workspace uv (`[tool.uv.workspace]`); `npm run build:css` compila entrambi
+  i temi.
+- Template tag **`{% ag_js %}`** (`agesci_tags`): prefisso degli attributi
+  `data-*` del framework JS, `bs` oppure `coreui` se `agesci_coreui` è
+  installata. CoreUI ignora `data-bs-*`.
+
+### Modificato
+
+- I template con JavaScript (`base.html`, `partials/header.html`,
+  `partials/sidebar.html`, `partials/navbar.html`, `components/modal.html`,
+  `components/modal_trigger.html`, `components/dropdown.html`,
+  `components/_multiselect_dropdown_menu.html`,
+  `forms/select_multiplo_a_discesa.html`) scrivono
+  `data-{% ag_js %}-*` invece di `data-bs-*`: con il solo tema Bootstrap
+  l'HTML renderizzato è identico a prima.
+- `sidebar.js` usa `window.coreui` quando presente, altrimenti
+  `window.bootstrap`.
+- SCSS: nuovo `_prefix.scss` (prefisso `--bs-`/`--cui-`) usato da
+  `_branche.scss` e `_bootstrap-overrides.scss`; il layout viewport fisso è
+  spostato da `_bootstrap-overrides.scss` al nuovo `_layout.scss` (incluso
+  solo da `agesci.scss`). Il CSS compilato `agesci.css`/`agesci.min.css` è
+  identico byte per byte alla 2.6.1.
+
+---
+
 ## [2.6.1] — 2026-09-09
 
 ### Corretto

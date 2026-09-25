@@ -68,6 +68,7 @@ templatetags
 layout
 forms
 allauth
+coreui
 ```
 
 ```{toctree}

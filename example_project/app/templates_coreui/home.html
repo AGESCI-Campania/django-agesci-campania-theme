@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load agesci_tags %}
+{% load agesci_components %}
+{% load agesci_coreui %}
+
+{% block title %}Home — {{ agesci_theme_nome }}{% endblock %}
+
+{% block content %}
+  {% ag_hero title=agesci_theme_nome subtitle="Demo del tema CoreUI: layout nativo con sidebar e header, colori per branca." variant="subtle" %}
+
+  <h2 class="mt-5 mb-3">Componenti CoreUI (free)</h2>
+  <div class="row g-4">
+    <div class="col-md-6">
+      <h3 class="h5">Callout <code>{% templatetag openblock %} ag_callout {% templatetag closeblock %}</code></h3>
+      {% ag_callout title="Colore della branca" text="Il callout primary segue data-branca." %}
+      {% ag_callout title="Attenzione" text="Le iscrizioni chiudono venerdì." variant="warning" %}
+    </div>
+    <div class="col-md-6">
+      <h3 class="h5">Avatar <code>{% templatetag openblock %} ag_avatar {% templatetag closeblock %}</code></h3>
+      <div class="d-flex align-items-center gap-3">
+        {% ag_avatar name="Mario Rossi" size="sm" %}
+        {% ag_avatar name="Anna Bianchi" status="success" %}
+        {% ag_avatar name="Luca Verdi" size="lg" status="warning" %}
+        {% ag_avatar name="Capo Reparto" size="xl" %}
+      </div>
+      <h3 class="h5 mt-4">Chip <code>{% templatetag openblock %} ag_chip {% templatetag closeblock %}</code></h3>
+      <div class="d-flex flex-wrap gap-2">
+        {% ag_chip "Branca" variant="primary" icon="star-fill" %}
+        {% ag_chip "L/C" variant="warning" %}
+        {% ag_chip "E/G" variant="success" %}
+        {% ag_chip "R/S" variant="danger" %}
+        {% ag_chip "Neutro" %}
+      </div>
+    </div>
+  </div>
+
+  <h2 class="mt-5 mb-3">Componenti del tema base</h2>
+  <div class="row g-4">
+    <div class="col-md-4">
+      <h3 class="h5">Dropdown</h3>
+      {% ag_dropdown label="Azioni" items=demo_dropdown %}
+    </div>
+    <div class="col-md-4">
+      <h3 class="h5">Modal</h3>
+      {% ag_modal_trigger modal_id="demoModal" label="Apri modal" %}
+      {% include "agesci_theme/components/modal.html" with modal_id="demoModal" title="Esempio modal" body="<p>Aperto da CoreUI tramite data-coreui-toggle.</p>" %}
+    </div>
+    <div class="col-md-4">
+      <h3 class="h5">List group</h3>
+      {% ag_list_group items=demo_list_group %}
+    </div>
+  </div>
+
+  <h2 class="mt-5">Zone della Regione Campania</h2>
+  <div class="row row-cols-3 row-cols-md-6 g-2 mt-2">
+    {% for zona in zone_list %}
+      <div class="col text-center">
+        {% emblema_zona zona css_class="img-fluid" %}
+        <div class="small mt-1 text-body-secondary">{{ zona|capfirst }}</div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

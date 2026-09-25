@@ -1,3 +1,4 @@
+{% load agesci_tags %}
 {# Partial interno (non un entry-point pubblico, come i parziali SCSS #}
 {# "_foo.scss"): markup del bottone/menu della tendina, condiviso da #}
 {# agesci_theme/forms/select_multiplo_a_discesa.html (widget #}
@@ -10,8 +11,8 @@
   <button type="button"
           id="{{ id }}"
           class="form-select ag-multiselect__toggle text-start{% if errors %} is-invalid{% endif %}"
-          data-bs-toggle="dropdown"
-          data-bs-auto-close="outside"
+          data-{% ag_js %}-toggle="dropdown"
+          data-{% ag_js %}-auto-close="outside"
           aria-expanded="false">
     <span class="ag-multiselect__label" data-placeholder="{{ placeholder }}">{{ placeholder }}</span>
   </button>

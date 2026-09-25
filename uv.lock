@@ -2,6 +2,12 @@ version = 1
 revision = 3
 requires-python = ">=3.12"
 
+[manifest]
+members = [
+    "django-agesci-campania-coreui-theme",
+    "django-agesci-campania-theme",
+]
+
 [[package]]
 name = "asgiref"
 version = "3.11.1"
@@ -261,8 +267,28 @@ wheels = [
 ]
 
 [[package]]
+name = "django-agesci-campania-coreui-theme"
+version = "0.1.0"
+source = { editable = "coreui" }
+dependencies = [
+    { name = "django-agesci-campania-theme" },
+]
+
+[package.optional-dependencies]
+allauth = [
+    { name = "django-agesci-campania-theme", extra = ["allauth"] },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "django-agesci-campania-theme", editable = "." },
+    { name = "django-agesci-campania-theme", extras = ["allauth"], marker = "extra == 'allauth'", editable = "." },
+]
+provides-extras = ["allauth"]
+
+[[package]]
 name = "django-agesci-campania-theme"
-version = "2.6.1"
+version = "2.7.0"
 source = { editable = "." }
 dependencies = [
     { name = "django" },
@@ -279,6 +305,7 @@ icons = [
 [package.dev-dependencies]
 dev = [
     { name = "django" },
+    { name = "django-agesci-campania-coreui-theme" },
     { name = "django-allauth", extra = ["mfa"] },
     { name = "django-bootstrap-icons" },
 ]
@@ -294,6 +321,7 @@ provides-extras = ["icons", "allauth"]
 [package.metadata.requires-dev]
 dev = [
     { name = "django", specifier = ">=6.0" },
+    { name = "django-agesci-campania-coreui-theme", editable = "coreui" },
     { name = "django-allauth", extras = ["mfa"], specifier = ">=65" },
     { name = "django-bootstrap-icons", specifier = ">=0.9" },
 ]

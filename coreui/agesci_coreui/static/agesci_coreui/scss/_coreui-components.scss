@@ -1,0 +1,34 @@
+// =============================================================
+//  _coreui-components.scss — componenti free di CoreUI per branca
+// =============================================================
+
+// Varianti derivate del primario: CoreUI le usa per chip, alert, list
+// group, badge "subtle", ecc. Senza questa rimappatura resterebbero sul
+// viola indaco di default di CoreUI (#5856d6) qualunque sia la branca.
+// Sono riferimenti alle --ag-* di _branche.scss, risolti sull'elemento
+// <html data-branca="..."> dove le --ag-* sono definite.
+:root,
+[data-branca] {
+  --cui-primary-bg-subtle: var(--ag-primary-subtle);
+  --cui-primary-border-subtle: var(--ag-primary);
+  --cui-primary-text-emphasis: var(--ag-primary-active);
+  --cui-primary-contrast: var(--ag-on-primary);
+}
+
+// Callout "primary": bordo sinistro nel colore della branca
+.callout-primary {
+  --cui-callout-border-left-color: var(--ag-primary);
+}
+
+// Chip-input: focus nel colore della branca
+.chip-input:focus-within {
+  border-color: var(--ag-primary);
+  box-shadow: 0 0 0 .25rem rgba(var(--cui-primary-rgb), .25);
+}
+
+// Avatar con le iniziali su sfondo della branca (usato da {% ag_avatar %})
+.ag-avatar-iniziali {
+  background-color: var(--ag-primary);
+  color: var(--ag-on-primary);
+  font-weight: 600;
+}

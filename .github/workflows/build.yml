@@ -3,7 +3,7 @@ name: build
 on:
   push:
     branches: [ main ]
-    tags: [ "v*" ]
+    tags: [ "v*", "coreui-v*" ]
   pull_request:
 
 jobs:
@@ -17,7 +17,11 @@ jobs:
         run: uv python install 3.12
       - name: Sync
         run: uv sync
-      - name: Django system check (example project)
+      - name: Django system check (example project, Bootstrap)
         run: uv run python example_project/manage.py check
-      - name: Build package
-        run: uv build
+      - name: Django system check (example project, CoreUI)
+        run: uv run python example_project/manage.py check --settings=config.settings_coreui
+      - name: Build package (Bootstrap)
+        run: uv build --package django-agesci-campania-theme
+      - name: Build package (CoreUI)
+        run: uv build --package django-agesci-campania-coreui-theme

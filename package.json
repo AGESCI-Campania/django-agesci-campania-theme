@@ -1,11 +1,14 @@
 {
   "name": "django-agesci-theme-build",
   "version": "0.1.0",
-  "description": "Toolchain di build SCSS per il tema AGESCI Campania (solo sviluppo).",
+  "description": "Toolchain di build SCSS per i temi AGESCI Campania, Bootstrap e CoreUI (solo sviluppo).",
   "private": true,
   "scripts": {
-    "build:css": "sass agesci_theme/static/agesci_theme/scss/agesci.scss agesci_theme/static/agesci_theme/css/agesci.css --style=expanded --no-source-map && sass agesci_theme/static/agesci_theme/scss/agesci.scss agesci_theme/static/agesci_theme/css/agesci.min.css --style=compressed --no-source-map",
-    "watch:css": "sass --watch agesci_theme/static/agesci_theme/scss/agesci.scss:agesci_theme/static/agesci_theme/css/agesci.css"
+    "build:css": "npm run build:css:bootstrap && npm run build:css:coreui",
+    "build:css:bootstrap": "sass agesci_theme/static/agesci_theme/scss/agesci.scss agesci_theme/static/agesci_theme/css/agesci.css --style=expanded --no-source-map && sass agesci_theme/static/agesci_theme/scss/agesci.scss agesci_theme/static/agesci_theme/css/agesci.min.css --style=compressed --no-source-map",
+    "build:css:coreui": "sass --load-path=agesci_theme/static/agesci_theme/scss coreui/agesci_coreui/static/agesci_coreui/scss/agesci-coreui.scss coreui/agesci_coreui/static/agesci_coreui/css/agesci-coreui.css --style=expanded --no-source-map && sass --load-path=agesci_theme/static/agesci_theme/scss coreui/agesci_coreui/static/agesci_coreui/scss/agesci-coreui.scss coreui/agesci_coreui/static/agesci_coreui/css/agesci-coreui.min.css --style=compressed --no-source-map",
+    "watch:css": "sass --watch agesci_theme/static/agesci_theme/scss/agesci.scss:agesci_theme/static/agesci_theme/css/agesci.css",
+    "watch:css:coreui": "sass --watch --load-path=agesci_theme/static/agesci_theme/scss coreui/agesci_coreui/static/agesci_coreui/scss/agesci-coreui.scss:coreui/agesci_coreui/static/agesci_coreui/css/agesci-coreui.css"
   },
   "devDependencies": {
     "sass": "^1.77.0"

@@ -1,0 +1,76 @@
+{# base.html della demo CoreUI (settings_coreui.py): trovato PRIMA di app/templates/base.html. #}
+{# Le pagine allauth e form_demo.html estendono "base.html" e ricevono quindi il layout CoreUI. #}
+{% extends "agesci_coreui/base.html" %}
+{% load agesci_coreui %}
+{% load bootstrap_icons %}
+
+{# Ripristina subito la branca salvata per evitare il flash di colore sbagliato #}
+{% block extra_head %}
+<script>
+(function(){var b=localStorage.getItem('ag-demo-branca');if(b)document.documentElement.dataset.branca=b;})();
+</script>
+{% endblock %}
+
+{% block sidebar_items %}
+  {% ag_nav_title "Demo" %}
+  {% ag_nav_item "Home" "/" icon="house-fill" %}
+  {% ag_nav_item "Componenti" "/components/" icon="grid-fill" %}
+  {% ag_nav_item "Demo form" "/form-demo/" icon="ui-checks" badge="Nuovo" %}
+  {% ag_nav_title "Associazione" %}
+  <li class="nav-group">
+    <a class="nav-link nav-group-toggle" href="#">{% bs_icon "people-fill" extra_classes="nav-icon" %} Branche</a>
+    <ul class="nav-group-items compact">
+      <li class="nav-item"><a class="nav-link" href="#"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Lupetti e Coccinelle</a></li>
+      <li class="nav-item"><a class="nav-link" href="#"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Esploratori e Guide</a></li>
+      <li class="nav-item"><a class="nav-link" href="#"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Rover e Scolte</a></li>
+    </ul>
+  </li>
+  {% ag_nav_item "Eventi" "#" icon="calendar-event" %}
+  {% ag_nav_item "Account" "/accounts/login/" icon="person-circle" %}
+{% endblock %}
+
+{% block header_nav %}
+  <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+  <li class="nav-item"><a class="nav-link" href="/components/">Componenti</a></li>
+  <li class="nav-item"><a class="nav-link" href="/form-demo/">Form</a></li>
+{% endblock %}
+
+{% block header_actions %}
+  <div class="dropdown">
+    <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button"
+            data-coreui-toggle="dropdown" aria-expanded="false" title="Cambia tema branca">
+      {% bs_icon "palette" %} <span id="agBrancaLabel">{{ agesci_theme_branca|capfirst }}</span>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end">
+      <li><a class="dropdown-item ag-demo-branca" href="#" data-branca="generico">Generico</a></li>
+      <li><a class="dropdown-item ag-demo-branca" href="#" data-branca="capi">Capi</a></li>
+      <li><a class="dropdown-item ag-demo-branca" href="#" data-branca="lc">L/C</a></li>
+      <li><a class="dropdown-item ag-demo-branca" href="#" data-branca="eg">E/G</a></li>
+      <li><a class="dropdown-item ag-demo-branca" href="#" data-branca="rs">R/S</a></li>
+      <li><a class="dropdown-item ag-demo-branca" href="#" data-branca="viola">Viola</a></li>
+      <li><a class="dropdown-item ag-demo-branca" href="#" data-branca="generico2">Generico 2</a></li>
+    </ul>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+  var labels = {"generico":"Generico","capi":"Capi","lc":"L/C","eg":"E/G","rs":"R/S","viola":"Viola","generico2":"Generico 2"};
+  function applyBranca(branca) {
+    document.documentElement.dataset.branca = branca;
+    var lbl = document.getElementById('agBrancaLabel');
+    if (lbl) lbl.textContent = labels[branca] || branca;
+  }
+  var saved = localStorage.getItem('ag-demo-branca');
+  if (saved) applyBranca(saved);
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest('.ag-demo-branca');
+    if (!el) return;
+    e.preventDefault();
+    applyBranca(el.dataset.branca);
+    localStorage.setItem('ag-demo-branca', el.dataset.branca);
+  });
+})();
+</script>
+{% endblock %}

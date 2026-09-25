@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="it" data-branca="{{ agesci_theme_branca|default:'generico' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ agesci_theme_nome }}{% endblock %}</title>
+
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static agesci_theme_favicon_32 %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static agesci_theme_favicon_16 %}">
+
+  {# CoreUI 5 (free, MIT): include tutto Bootstrap 5.3 + sidebar, header, callout, avatar, chip… #}
+  <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.9.0/dist/css/coreui.min.css" rel="stylesheet">
+  {# Font del manuale immagine coordinata #}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  {# Tema AGESCI per CoreUI (DOPO coreui.min.css): palette e branche su --cui-* #}
+  <link href="{% static 'agesci_coreui/css/agesci-coreui.min.css' %}" rel="stylesheet">
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+  {# ── Sidebar nativa CoreUI: fissa da lg in su, overlay sotto lg ── #}
+  {% block sidebar %}
+  <div class="sidebar {% block sidebar_class %}sidebar-dark{% endblock %} sidebar-fixed border-end" id="sidebar">
+    <div class="sidebar-header border-bottom">
+      <a class="sidebar-brand" href="{% block brand_url %}/{% endblock %}">
+        <img class="sidebar-brand-full" src="{% static agesci_theme_logo_navbar %}" alt="{{ agesci_theme_nome }}">
+        <span class="sidebar-brand-full ag-sidebar-brand-text">{% block brand_text %}{{ agesci_theme_nome }}{% endblock %}</span>
+        <img class="sidebar-brand-narrow" src="{% static agesci_theme_logo_navbar %}" alt="{{ agesci_theme_nome }}">
+      </a>
+      <button class="ag-sidebar-close d-lg-none" type="button" data-coreui-close="sidebar" aria-label="Chiudi menu laterale">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z"/>
+        </svg>
+      </button>
+    </div>
+
+    <ul class="sidebar-nav" data-coreui="navigation">
+      {% block sidebar_items %}{% endblock %}
+    </ul>
+
+    {% block sidebar_user %}
+    {% if request.user.is_authenticated %}
+    <div class="sidebar-footer border-top ag-sidebar-user">
+      <span class="avatar avatar-md bg-primary text-white" aria-hidden="true">{{ request.user.get_full_name|default:request.user.username|first|upper }}</span>
+      <span class="ag-sidebar-user-name text-truncate">{{ request.user.get_full_name|default:request.user.username }}</span>
+    </div>
+    {% endif %}
+    {% endblock %}
+
+    <div class="sidebar-footer border-top d-none d-lg-flex">
+      <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable" aria-label="Comprimi menu laterale"></button>
+    </div>
+  </div>
+  {% endblock %}
+
+  <div class="wrapper d-flex flex-column min-vh-100">
+
+    {% block header %}
+    <header class="header header-sticky p-0 mb-4">
+      <div class="container-fluid border-bottom px-4">
+        <button class="header-toggler" type="button" data-ag-sidebar-toggle="#sidebar" aria-controls="sidebar" aria-label="Apri/chiudi menu laterale">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+          </svg>
+        </button>
+        <span class="ag-header-title d-lg-none">{{ agesci_theme_nome }}</span>
+
+        <ul class="header-nav d-none d-lg-flex">
+          {% block header_nav %}{% endblock %}
+        </ul>
+
+        <div class="ms-auto d-flex align-items-center gap-2">
+          {% block header_search %}{% endblock %}
+          {% block header_actions %}{% endblock %}
+        </div>
+      </div>
+
+      {% if breadcrumb_items %}
+      <div class="container-fluid px-4">
+        <nav aria-label="percorso">
+          <ol class="breadcrumb my-0">
+            {% for item in breadcrumb_items %}
+              {% if forloop.last %}
+                <li class="breadcrumb-item active" aria-current="page">{{ item.label }}</li>
+              {% else %}
+                <li class="breadcrumb-item"><a href="{{ item.url }}">{{ item.label }}</a></li>
+              {% endif %}
+            {% endfor %}
+          </ol>
+        </nav>
+      </div>
+      {% endif %}
+    </header>
+    {% endblock %}
+
+    <div class="body flex-grow-1">
+      <main class="{% block main_class %}container-lg px-4{% endblock %}">
+        {% block messages %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-coreui-dismiss="alert" aria-label="Chiudi"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endblock %}
+
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+
+    {% block footer %}
+    <footer class="footer px-4 mt-4">
+      <div>{% block footer_copyright %}© AGESCI Campania{% endblock %}</div>
+      <ul class="ag-footer-links ms-auto">
+        {% block footer_links %}
+        <li><a href="https://www.agesci.it" target="_blank" rel="noopener">agesci.it</a></li>
+        {% endblock %}
+      </ul>
+    </footer>
+    {% endblock %}
+  </div>
+
+  {# Prima di coreui.bundle: ripristina lo stato "unfoldable" prima che CoreUI inizializzi la sidebar #}
+  <script src="{% static 'agesci_coreui/js/layout.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.9.0/dist/js/coreui.bundle.min.js"></script>
+  <script src="{% static 'agesci_theme/js/password-toggle.js' %}" defer></script>
+  <script src="{% static 'agesci_theme/js/multiselect-dropdown.js' %}" defer></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

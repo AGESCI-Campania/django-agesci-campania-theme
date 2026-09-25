@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "django-agesci-campania-coreui-theme"
+version = "0.1.0"
+description = "Tema CoreUI 5 per applicazioni Django dell'AGESCI Campania: estende django-agesci-campania-theme con il layout nativo CoreUI (sidebar + header) e i componenti free di CoreUI."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "AGESCI Campania" }]
+keywords = ["django", "coreui", "bootstrap", "agesci", "theme", "scout"]
+classifiers = [
+    "Framework :: Django",
+    "Framework :: Django :: 6.0",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+]
+dependencies = [
+    # palette, branche, form renderer, override allauth, template tag e il
+    # prefisso data-* ({% ag_js %}, introdotto in 2.7.0) vengono dal tema base.
+    "django-agesci-campania-theme>=2.7.0",
+]
+
+[project.optional-dependencies]
+allauth = ["django-agesci-campania-theme[allauth]"]
+
+[project.urls]
+Homepage = "https://github.com/AGESCI-Campania/django-agesci-campania-theme"
+Repository = "https://github.com/AGESCI-Campania/django-agesci-campania-theme"
+
+[tool.uv.sources]
+django-agesci-campania-theme = { workspace = true }
+
+[tool.hatch.build.targets.wheel]
+packages = ["agesci_coreui"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/agesci_coreui",
+    "/README.md",
+    "/LICENSE",
+]

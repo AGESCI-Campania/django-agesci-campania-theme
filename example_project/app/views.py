@@ -1,4 +1,5 @@
 from django import forms
+from django.apps import apps
 from django.shortcuts import render
 from django.utils.safestring import mark_safe
 from agesci_theme.forms import SelectMultiploADiscesa
@@ -72,15 +73,35 @@ class DemoForm(forms.Form):
     )
 
 
+def _demo_form_class():
+    """Con il tema CoreUI (config.settings_coreui) il form aggiunge un campo
+    CampoChip, che richiede il JS di CoreUI caricato da agesci_coreui/base.html."""
+    if not apps.is_installed("agesci_coreui"):
+        return DemoForm
+    from agesci_coreui.forms import CampoChip, InputChip
+
+    class DemoFormCoreUI(DemoForm):
+        tag = CampoChip(
+            label="Tag",
+            required=False,
+            max_chip=5,
+            widget=InputChip(placeholder="Scrivi e premi Invio…"),
+            help_text="Campo CampoChip / InputChip (chip-input di CoreUI), max 5 voci.",
+        )
+
+    return DemoFormCoreUI
+
+
 def form_demo(request):
+    form_class = _demo_form_class()
     if request.method == "POST":
-        form = DemoForm(request.POST)
+        form = form_class(request.POST)
         form.is_valid()
     elif request.GET.get("invalid"):
-        form = DemoForm({})
+        form = form_class({})
         form.is_valid()
     else:
-        form = DemoForm()
+        form = form_class()
     return render(request, "form_demo.html", {"form": form})
 
 

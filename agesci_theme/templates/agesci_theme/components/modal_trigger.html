@@ -1,6 +1,7 @@
+{% load agesci_tags %}
 <button type="button"
         class="btn btn-{{ variant }}{% if size %} btn-{{ size }}{% endif %}"
-        data-bs-toggle="modal"
-        data-bs-target="#{{ modal_id }}">
+        data-{% ag_js %}-toggle="modal"
+        data-{% ag_js %}-target="#{{ modal_id }}">
   {{ label }}
 </button>

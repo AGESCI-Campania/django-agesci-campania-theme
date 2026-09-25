@@ -1,0 +1,6 @@
+<li class="nav-item">
+  <a class="nav-link{% if active %} active{% endif %}" href="{{ url }}"{% if active %} aria-current="page"{% endif %}>
+    {{ icon }}{{ label }}
+    {% if badge %}<span class="badge text-bg-{{ badge_variant }} ms-auto">{{ badge }}</span>{% endif %}
+  </a>
+</li>

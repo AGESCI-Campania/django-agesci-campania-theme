@@ -6,6 +6,7 @@ Uso nei template:
     <span class="badge {% branca_bg %}">...</span>
 """
 from django import template
+from django.apps import apps
 from django.templatetags.static import static
 from django.utils.safestring import mark_safe
 
@@ -60,3 +61,21 @@ def branca_bg(context):
     """Classe CSS di background corrispondente alla branca corrente."""
     branca = context.get("agesci_theme_branca", "generico")
     return _BRANCA_BG.get(branca, "bg-ag-azzurro")
+
+
+@register.simple_tag
+def ag_js():
+    """Prefisso degli attributi ``data-*`` del framework JS in uso.
+
+    ``"coreui"`` se l'app ``agesci_coreui`` (pacchetto
+    django-agesci-campania-coreui-theme) è in ``INSTALLED_APPS``, altrimenti
+    ``"bs"``. CoreUI legge SOLO ``data-coreui-*`` e ignora ``data-bs-*``
+    (verificato su CoreUI 5.9.0), quindi i template condivisi scrivono::
+
+        data-{% ag_js %}-toggle="modal"
+
+    Non dipende dal contesto: funziona anche dentro gli inclusion tag e nei
+    template dei widget dei form, che non ricevono le variabili dei context
+    processor.
+    """
+    return "coreui" if apps.is_installed("agesci_coreui") else "bs"

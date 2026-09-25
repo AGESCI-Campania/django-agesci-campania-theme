@@ -4,8 +4,13 @@
   var key     = 'ag-sidebar-collapsed';
   if (!sidebar || !toggle) return;
 
-  sidebar.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(function (el) {
-    bootstrap.Dropdown.getOrCreateInstance(el, {
+  // Bootstrap (window.bootstrap, data-bs-*) oppure CoreUI (window.coreui,
+  // data-coreui-*): vedi il template tag ag_js in agesci_tags.py.
+  var ui = window.coreui || window.bootstrap;
+  var prefix = window.coreui ? 'coreui' : 'bs';
+
+  sidebar.querySelectorAll('[data-' + prefix + '-toggle="dropdown"]').forEach(function (el) {
+    ui.Dropdown.getOrCreateInstance(el, {
       popperConfig: function (defaultConfig) {
         return Object.assign({}, defaultConfig, { strategy: 'fixed' });
       },

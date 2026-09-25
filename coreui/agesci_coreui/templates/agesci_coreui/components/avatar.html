@@ -1,0 +1,11 @@
+{% if image_url %}
+<div class="avatar avatar-{{ size }}">
+  <img class="avatar-img" src="{{ image_url }}" alt="{{ name }}">
+  {% if status %}<span class="avatar-status bg-{{ status }}"></span>{% endif %}
+</div>
+{% else %}
+<div class="avatar avatar-{{ size }} ag-avatar-iniziali" title="{{ name }}">
+  <span aria-hidden="true">{{ iniziali }}</span><span class="visually-hidden">{{ name }}</span>
+  {% if status %}<span class="avatar-status bg-{{ status }}"></span>{% endif %}
+</div>
+{% endif %}
