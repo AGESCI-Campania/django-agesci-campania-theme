@@ -98,8 +98,9 @@
         {% block messages %}
           {% if messages %}
             {% for message in messages %}
-              {# Django: error → danger, debug → secondary; gli altri livelli (info, success, warning) coincidono coi theme-* di Bootstrap #}
-              <div class="alert theme-{% if message.level_tag == 'error' %}danger{% elif message.level_tag == 'debug' %}secondary{% else %}{{ message.level_tag|default:'info' }}{% endif %}" role="alert">
+              {# Django: error → danger, debug → secondary; gli altri livelli (info, success, warning) coincidono coi theme-* di Bootstrap. #}
+              {# message.extra_tags (es. classi custom) viene aggiunto com'è: non influisce sul colore, che dipende solo dal livello. #}
+              <div class="alert theme-{% if message.level_tag == 'error' %}danger{% elif message.level_tag == 'debug' %}secondary{% else %}{{ message.level_tag|default:'info' }}{% endif %}{% if message.extra_tags %} {{ message.extra_tags }}{% endif %}" role="alert">
                 <p>{{ message }}</p>
                 <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Chiudi"></button>
               </div>

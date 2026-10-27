@@ -85,6 +85,9 @@ def ag_badge(text="", variant="primary", pill=False):
 def ag_button(label="", variant="primary", size="", outline=False, href="", type="button"):
     """Bottone Bootstrap.
 
+    variant: "primary" | "secondary" | "success" | "danger" | "warning" | "info" | "light" | "dark"
+    (theme-<variant> in Bootstrap 6, "dark" -> inverse, "light" -> secondary) oppure "link"
+    (bottone testuale ``btn btn-link``)
     outline: True per variante outline
     href: se valorizzato, renderizza un <a> invece di <button>
     size: "sm" | "lg" | ""

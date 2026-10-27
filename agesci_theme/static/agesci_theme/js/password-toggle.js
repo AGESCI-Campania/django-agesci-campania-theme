@@ -18,7 +18,8 @@
     if (!button) {
       return;
     }
-    var input = button.closest(".input-group").querySelector("input");
+    var group = button.closest(".input-group");
+    var input = group && group.querySelector("input");
     if (!input) {
       return;
     }
