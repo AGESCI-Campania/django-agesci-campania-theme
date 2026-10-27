@@ -1,7 +1,7 @@
 {% load static %}
-{% load agesci_tags %}
 <!DOCTYPE html>
-<html lang="it" data-branca="{{ agesci_theme_branca|default:'generico' }}">
+{# data-bs-theme="light": Bootstrap 6 segue prefers-color-scheme se l'attributo manca; il tema AGESCI e' progettato solo per il chiaro. #}
+<html lang="it" data-bs-theme="light" data-branca="{{ agesci_theme_branca|default:'generico' }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,8 +10,8 @@
   <link rel="icon" type="image/png" sizes="32x32" href="{% static agesci_theme_favicon_32 %}">
   <link rel="icon" type="image/png" sizes="16x16" href="{% static agesci_theme_favicon_16 %}">
 
-  {# Bootstrap 5 #}
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  {# Bootstrap 6 (alpha, versione e hash SRI pinnati; il blocco permette di self-hostarlo) #}
+  {% block bootstrap_css %}<link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">{% endblock %}
   {# Font del manuale immagine coordinata #}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -40,8 +40,8 @@
       {# Hamburger → offcanvas (visibile solo su mobile/tablet) #}
       <button class="ag-header-toggler d-lg-none ms-auto"
               type="button"
-              data-{% ag_js %}-toggle="offcanvas"
-              data-{% ag_js %}-target="#agOffcanvas"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#agOffcanvas"
               aria-controls="agOffcanvas"
               aria-label="Apri menu">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
@@ -74,7 +74,7 @@
         </span>
         <button type="button"
                 class="ag-offcanvas-close"
-                data-{% ag_js %}-dismiss="offcanvas"
+                data-bs-dismiss="offcanvas"
                 aria-label="Chiudi">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
             <path d="M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z"/>
@@ -100,7 +100,7 @@
             {% for message in messages %}
               <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
                 {{ message }}
-                <button type="button" class="btn-close" data-{% ag_js %}-dismiss="alert" aria-label="Chiudi"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Chiudi"></button>
               </div>
             {% endfor %}
           {% endif %}
@@ -113,7 +113,9 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  {# Bootstrap 6 e' solo ESM e non espone piu' window.bootstrap: il bundle (con Floating UI) attiva la data API da solo. #}
+  {# Per l'API JS: <script type="module">import { Tooltip } from "<stesso URL>"</script> (stessa istanza, il modulo e' in cache). #}
+  {% block bootstrap_js %}<script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL" crossorigin="anonymous"></script>{% endblock %}
   <script src="{% static 'agesci_theme/js/password-toggle.js' %}" defer></script>
   <script src="{% static 'agesci_theme/js/multiselect-dropdown.js' %}" defer></script>
   {% block extra_js %}{% endblock %}
