@@ -1,12 +1,12 @@
 # django-agesci-campania-coreui-theme
 
 [![build](https://github.com/AGESCI-Campania/django-agesci-campania-theme/actions/workflows/build.yml/badge.svg)](https://github.com/AGESCI-Campania/django-agesci-campania-theme/actions/workflows/build.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/AGESCI-Campania/django-agesci-campania-theme/blob/main/LICENSE)
 [![Python](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/Django-6.0%2B-092E20.svg?logo=django&logoColor=white)](https://www.djangoproject.com/)
 [![CoreUI](https://img.shields.io/badge/CoreUI-5-3399FF.svg)](https://coreui.io/bootstrap/)
 [![uv](https://img.shields.io/badge/packaged%20with-uv-DE5FE9.svg?logo=uv&logoColor=white)](https://github.com/astral-sh/uv)
-[![Version](https://img.shields.io/badge/version-0.2.0a1-informational.svg)](pyproject.toml)
+[![Version](https://img.shields.io/badge/version-0.2.0a1-informational.svg)](https://github.com/AGESCI-Campania/django-agesci-campania-theme/blob/main/coreui/pyproject.toml)
 
 Tema **CoreUI 5** (versione free, MIT) per le applicazioni **Django**
 dell'**AGESCI Campania**.
@@ -125,7 +125,7 @@ Apri `http://127.0.0.1:8000/`.
 ## Documentazione completa
 
 [Tema CoreUI](https://django-agesci-campania-theme.readthedocs.io/it/latest/coreui.html)
-sul sito della documentazione, o [`docs/coreui.md`](../docs/coreui.md) nel
+sul sito della documentazione, o [`docs/coreui.md`](https://github.com/AGESCI-Campania/django-agesci-campania-theme/blob/main/docs/coreui.md) nel
 repository. Il tema base è documentato nel
 [README principale](https://github.com/AGESCI-Campania/django-agesci-campania-theme#readme)
 e sul [sito della documentazione](https://django-agesci-campania-theme.readthedocs.io/).

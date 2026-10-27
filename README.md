@@ -1,19 +1,19 @@
 # django-agesci-theme
 
 [![build](https://github.com/AGESCI-Campania/django-agesci-campania-theme/actions/workflows/build.yml/badge.svg)](https://github.com/AGESCI-Campania/django-agesci-campania-theme/actions/workflows/build.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/AGESCI-Campania/django-agesci-campania-theme/blob/main/LICENSE)
 [![Python](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/Django-6.0%2B-092E20.svg?logo=django&logoColor=white)](https://www.djangoproject.com/)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-6.0%20alpha-7952B3.svg?logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 [![uv](https://img.shields.io/badge/packaged%20with-uv-DE5FE9.svg?logo=uv&logoColor=white)](https://github.com/astral-sh/uv)
-[![Version](https://img.shields.io/badge/version-3.0.0a1-informational.svg)](pyproject.toml)
+[![Version](https://img.shields.io/badge/version-3.0.0a1-informational.svg)](https://github.com/AGESCI-Campania/django-agesci-campania-theme/blob/main/pyproject.toml)
 [![Code style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Tema **Bootstrap 6** riusabile per le applicazioni **Django** dell'**AGESCI Campania**.
 
 > **Pre-release 3.0.0a1** — Bootstrap 6 è in alpha (`6.0.0-alpha.1`); installa con
 > `uv add --prerelease allow django-agesci-campania-theme`. Arrivi dalla 2.x? Leggi la
-> [guida alla migrazione](docs/migrazione-bootstrap-6.md) (browser minimi: Chrome/Edge 130,
+> [guida alla migrazione](https://django-agesci-campania-theme.readthedocs.io/it/latest/migrazione-bootstrap-6.html) (browser minimi: Chrome/Edge 130,
 > Firefox 132, Safari 18). Il pacchetto CoreUI resta su Bootstrap 5/CoreUI 5.
 
 🔗 **[Demo online](https://agesci-campania.github.io/django-agesci-campania-theme/)**: [tema Bootstrap](https://agesci-campania.github.io/django-agesci-campania-theme/bootstrap/) ·
@@ -47,7 +47,7 @@ necessario: basta cambiare una setting.
 
 Nello stesso repository, e distribuito come pacchetto PyPI separato,
 c'è anche [**`django-agesci-campania-coreui-theme`**](https://pypi.org/project/django-agesci-campania-coreui-theme/)
-(cartella [`coreui/`](coreui/)): estende questo tema con il layout nativo
+(cartella [`coreui/`](https://github.com/AGESCI-Campania/django-agesci-campania-theme/tree/main/coreui)): estende questo tema con il layout nativo
 **CoreUI 5** (sidebar fissa + header sticky, invece dell'header a due barre
 di Bootstrap) e i componenti free di CoreUI (`ag_callout`, `ag_avatar`,
 `ag_chip`, `ag_nav_item`, `ag_nav_title`, chip-input `InputChip`/`CampoChip`),
@@ -65,7 +65,7 @@ uv add django-agesci-campania-coreui-theme
 
 Guida completa, installazione ed elenco componenti nella
 [documentazione — Tema CoreUI](https://django-agesci-campania-theme.readthedocs.io/it/latest/coreui.html)
-e nel [README del pacchetto](coreui/README.md).
+e nel [README del pacchetto](https://github.com/AGESCI-Campania/django-agesci-campania-theme/blob/main/coreui/README.md).
 
 ## Installazione
 
