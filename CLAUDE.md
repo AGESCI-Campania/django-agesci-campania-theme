@@ -159,6 +159,8 @@ uv run python example_project/manage.py runserver
 uv run python example_project/manage.py check   # Django system check (usato anche in CI)
 uv run python example_project/manage.py runserver --settings=config.settings_coreui  # demo CoreUI
 uv run python example_project/manage.py check --settings=config.settings_coreui     # usato anche in CI
+uv run python example_project/manage.py test app        # smoke test pagine demo × 7 branche (anche con --settings=config.settings_coreui; usato in CI)
+python3 scripts/check_bs5_residui.py                    # fallisce se i template del tema base hanno pattern Bootstrap 5 (usato in CI)
 uv build --package django-agesci-campania-theme          # pacchetto Bootstrap
 uv build --package django-agesci-campania-coreui-theme   # pacchetto CoreUI
 ```

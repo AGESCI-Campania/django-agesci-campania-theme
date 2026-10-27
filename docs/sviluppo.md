@@ -159,6 +159,20 @@ Per una verifica Django:
 uv run python example_project/manage.py check
 ```
 
+La CI esegue anche questi controlli, utili da lanciare in locale prima del commit:
+
+```bash
+# smoke test: le pagine demo si renderizzano per tutte le 7 branche
+uv run python example_project/manage.py test app
+uv run python example_project/manage.py test app --settings=config.settings_coreui
+
+# nessun residuo Bootstrap 5 nei template del tema base (CoreUI è escluso)
+python3 scripts/check_bs5_residui.py
+
+# il CSS compilato committato deve coincidere con lo SCSS
+npm run build:css && git diff --exit-code -- agesci_theme/static coreui/agesci_coreui/static
+```
+
 ---
 
 ## Aggiungere asset statici
