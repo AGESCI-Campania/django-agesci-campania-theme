@@ -178,7 +178,7 @@ uv build --package django-agesci-campania-coreui-theme   # pacchetto CoreUI
 
 Rilascio: tag `vX.Y.Z` → tema Bootstrap, tag `coreui-vX.Y.Z` → tema CoreUI
 (stesso `publish.yml`, vedi `PUBLISHING.md`). La 3.x esce come pre-release
-(`v3.0.0a1`, `gh release create --prerelease`) dal branch `bootstrap-6`.
+(`v3.0.0a2`, `gh release create --prerelease`) da `main`; la 2.7.x vive nel branch `bootstrap-5`.
 
 Modificare i colori (richiede Node.js):
 

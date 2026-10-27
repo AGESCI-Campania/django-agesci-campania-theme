@@ -161,7 +161,7 @@ Con `AgesciFormRenderer` attivo i template del tema fanno già tutto questo (ved
 
 Il pacchetto `django-agesci-campania-coreui-theme` resta su **Bootstrap 5.3 / CoreUI 5** e non dipende dal
 markup del tema base: ha copie proprie dei template dei componenti, dei form e di allauth, del JS dei form e dei
-partial SCSS. Cosa cambia per te (CoreUI 0.2.0a1, che richiede il tema `>=3.0.0a1`):
+partial SCSS. Cosa cambia per te (CoreUI 0.2.0a2, che richiede il tema `>=3.0.0a1`):
 
 - `FORM_RENDERER = "agesci_coreui.forms.AgesciCoreuiFormRenderer"` (non più `agesci_theme.forms.AgesciFormRenderer`).
 - `agesci_coreui` deve stare **prima** di `agesci_theme` in `INSTALLED_APPS` (system check `agesci_coreui.E002`).

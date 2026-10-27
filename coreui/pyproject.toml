@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "django-agesci-campania-coreui-theme"
-version = "0.2.0a1"
+version = "0.2.0a2"
 description = "Tema CoreUI 5 per applicazioni Django dell'AGESCI Campania: si appoggia a django-agesci-campania-theme (template tag, palette) e aggiunge il layout nativo CoreUI (sidebar + header) e i componenti free di CoreUI."
 readme = "README.md"
 requires-python = ">=3.12"

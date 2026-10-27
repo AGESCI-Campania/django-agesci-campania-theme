@@ -6,7 +6,7 @@
 [![Django](https://img.shields.io/badge/Django-6.0%2B-092E20.svg?logo=django&logoColor=white)](https://www.djangoproject.com/)
 [![CoreUI](https://img.shields.io/badge/CoreUI-5-3399FF.svg)](https://coreui.io/bootstrap/)
 [![uv](https://img.shields.io/badge/packaged%20with-uv-DE5FE9.svg?logo=uv&logoColor=white)](https://github.com/astral-sh/uv)
-[![Version](https://img.shields.io/badge/version-0.2.0a1-informational.svg)](https://github.com/AGESCI-Campania/django-agesci-campania-theme/blob/main/coreui/pyproject.toml)
+[![Version](https://img.shields.io/badge/version-0.2.0a2-informational.svg)](https://github.com/AGESCI-Campania/django-agesci-campania-theme/blob/main/coreui/pyproject.toml)
 
 Tema **CoreUI 5** (versione free, MIT) per le applicazioni **Django**
 dell'**AGESCI Campania**.

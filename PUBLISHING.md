@@ -77,20 +77,22 @@ Finché Bootstrap 6 è in alpha il tema viene rilasciato come **pre-release PEP 
 (`3.0.0a1`, `3.0.0a2`, … poi `b`, `rc`, e `3.0.0` quando Bootstrap 6 è stabile):
 
 ```bash
-# versione in pyproject.toml: "3.0.0a1"  (CoreUI: "0.2.0a1" in coreui/pyproject.toml)
-git tag v3.0.0a1                          # tema Bootstrap; per CoreUI: coreui-v0.2.0a1
-git push origin v3.0.0a1
-gh release create v3.0.0a1 --prerelease --title "v3.0.0a1" --notes "Pre-release: Bootstrap 6.0.0-alpha.1"
+# versione in pyproject.toml: "3.0.0a2"  (CoreUI: "0.2.0a2" in coreui/pyproject.toml)
+git tag v3.0.0a2                          # tema Bootstrap; per CoreUI: coreui-v0.2.0a2
+git push origin v3.0.0a2
+gh release create v3.0.0a2 --verify-tag --prerelease --title "v3.0.0a2" --notes "Pre-release: Bootstrap 6.0.0-alpha.1"
 ```
 
-- Si rilascia dal branch `bootstrap-6` (il tag punta a un commit del branch): `main` resta sulla 2.x e
-  continua a poter pubblicare correzioni `2.x.y`.
+- Si rilascia da `main` (Bootstrap 6). Le correzioni alla serie 2.x (Bootstrap 5) si fanno nel branch
+  `bootstrap-5` (creato dalla 2.7.0) e si pubblicano con tag `v2.7.x` da lì.
+- La descrizione di una versione su PyPI (il `README.md`) è immutabile: usa solo link **assoluti**
+  (relativi danno 404 su PyPI) e, per correggerla, serve una nuova versione.
 - PyPI e gli installer trattano `3.0.0a1` come pre-release: gli utenti la ottengono solo con
   `uv add --prerelease allow django-agesci-campania-theme` / `pip install --pre …`.
 - Ad ogni nuova alpha di Bootstrap 6: rileggere `https://getbootstrap.com/llms.txt` e la guida di migrazione
   ufficiale, aggiornare versione e hash SRI in `base.html` (blocchi `bootstrap_css` / `bootstrap_js`) e
   ripetere la verifica nel browser (vedi `docs/sviluppo.md`).
-- Il pacchetto CoreUI `0.2.0a1` richiede `django-agesci-campania-theme>=3.0.0a1`: pubblica prima il tema.
+- Il pacchetto CoreUI `0.2.0a2` richiede `django-agesci-campania-theme>=3.0.0a1`: pubblica prima il tema.
 
 ---
 

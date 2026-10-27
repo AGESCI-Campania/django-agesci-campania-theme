@@ -5,6 +5,21 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
+## [3.0.0a2] — 2026-10-27 (pre-release)
+
+### Corretto
+
+- **README su PyPI**: i link relativi (guida alla migrazione, `LICENSE`, `coreui/`, `pyproject.toml`,
+  `docs/coreui.md`) davano 404 sulla pagina del pacchetto, perché PyPI li risolve rispetto al proprio
+  URL. Ora sono assoluti (ReadTheDocs e GitHub), nei README di entrambi i pacchetti.
+- Nessuna modifica al codice del tema: stesso contenuto della `3.0.0a1`, con descrizione corretta.
+
+### Pacchetto CoreUI (0.2.0a2)
+
+Solo la correzione dei link nel README del pacchetto; nessuna modifica al codice.
+
+---
+
 ## [3.0.0a1] — 2026-10-27 (pre-release)
 
 Il tema base passa a **Bootstrap 6** (`6.0.0-alpha.1`). Pre-release: Bootstrap 6 è in

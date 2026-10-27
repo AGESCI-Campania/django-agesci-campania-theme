@@ -6,12 +6,12 @@
 [![Django](https://img.shields.io/badge/Django-6.0%2B-092E20.svg?logo=django&logoColor=white)](https://www.djangoproject.com/)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-6.0%20alpha-7952B3.svg?logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 [![uv](https://img.shields.io/badge/packaged%20with-uv-DE5FE9.svg?logo=uv&logoColor=white)](https://github.com/astral-sh/uv)
-[![Version](https://img.shields.io/badge/version-3.0.0a1-informational.svg)](https://github.com/AGESCI-Campania/django-agesci-campania-theme/blob/main/pyproject.toml)
+[![Version](https://img.shields.io/badge/version-3.0.0a2-informational.svg)](https://github.com/AGESCI-Campania/django-agesci-campania-theme/blob/main/pyproject.toml)
 [![Code style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Tema **Bootstrap 6** riusabile per le applicazioni **Django** dell'**AGESCI Campania**.
 
-> **Pre-release 3.0.0a1** — Bootstrap 6 è in alpha (`6.0.0-alpha.1`); installa con
+> **Pre-release 3.0.0a2** — Bootstrap 6 è in alpha (`6.0.0-alpha.1`); installa con
 > `uv add --prerelease allow django-agesci-campania-theme`. Arrivi dalla 2.x? Leggi la
 > [guida alla migrazione](https://django-agesci-campania-theme.readthedocs.io/it/latest/migrazione-bootstrap-6.html) (browser minimi: Chrome/Edge 130,
 > Firefox 132, Safari 18). Il pacchetto CoreUI resta su Bootstrap 5/CoreUI 5.

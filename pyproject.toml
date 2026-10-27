@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "django-agesci-campania-theme"
-version = "3.0.0a1"
+version = "3.0.0a2"
 description = "Tema Bootstrap 6 per applicazioni Django dell'AGESCI Campania, con palette ufficiale e personalizzazione per branca."
 readme = "README.md"
 requires-python = ">=3.12"

@@ -268,7 +268,7 @@ wheels = [
 
 [[package]]
 name = "django-agesci-campania-coreui-theme"
-version = "0.2.0a1"
+version = "0.2.0a2"
 source = { editable = "coreui" }
 dependencies = [
     { name = "django-agesci-campania-theme" },
@@ -288,7 +288,7 @@ provides-extras = ["allauth"]
 
 [[package]]
 name = "django-agesci-campania-theme"
-version = "3.0.0a1"
+version = "3.0.0a2"
 source = { editable = "." }
 dependencies = [
     { name = "django" },
