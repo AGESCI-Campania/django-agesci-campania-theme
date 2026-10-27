@@ -59,8 +59,8 @@ risulterebbe illeggibile.
 AGESCI_THEME_NAVBAR_TESTO_SCURO = True   # consigliato per branca "lc"
 ```
 
-Internamente aggiunge la classe `.text-dark` alla navbar, che sovrascrive le
-variabili Bootstrap dei link via CSS.
+Internamente aggiunge la classe `.ag-navbar--testo-scuro` alla navbar, che
+sovrascrive le variabili `--bs-navbar-*` dei link via CSS.
 
 ---
 
@@ -119,8 +119,8 @@ AGESCI_THEME_FAVICON_16 = "mia_app/img/favicon16.png"
 **Tipo:** `str` — **Default:** non impostato (renderer standard di Django)
 
 Non è una setting `AGESCI_THEME_*`: è la setting Django standard per il
-renderer dei widget di form. Attivarla applica lo styling Bootstrap 5 (classi
-`form-control`/`form-select`/`is-invalid`, toggle mostra/nascondi password,
+renderer dei widget di form. Attivarla applica lo styling Bootstrap 6 (classi
+`form-control`/`check`/`radio`/`is-invalid`, `.form-field`, toggle mostra/nascondi password,
 errori come `invalid-feedback`) a **tutti** i form Django del progetto,
 inclusi quelli di django-allauth.
 

@@ -4,7 +4,9 @@
 
 - Python **3.12** o superiore
 - Django **6.0** o superiore
-- Bootstrap **5.3** (caricato da CDN, non serve installarlo)
+- Bootstrap **6** (alpha: 6.0.0-alpha.1, caricato da CDN con SRI, non serve installarlo)
+- Browser moderni: Chrome/Edge ≥ 130, Firefox ≥ 132, Safari ≥ 18 (Bootstrap 6 usa
+  `<dialog>`, `:has()`, `light-dark()`, `oklch()` senza fallback)
 
 ---
 
@@ -44,9 +46,16 @@ pip install "django-agesci-campania-theme[icons]"
 
 Vedi la sezione [Icone Bootstrap](componenti.md#icone-bootstrap) per la configurazione.
 
-## Con il supporto form Bootstrap 5 e django-allauth
+```{note}
+La 3.x è in **pre-release** finché Bootstrap 6 è in alpha: per installarla serve
+`uv add --prerelease allow django-agesci-campania-theme` (oppure
+`pip install --pre django-agesci-campania-theme`). Se arrivi dalla 2.x leggi la
+[guida alla migrazione](migrazione-bootstrap-6.md).
+```
 
-Lo styling Bootstrap 5 dei form Django (`is-invalid`/`invalid-feedback`,
+## Con il supporto form Bootstrap 6 e django-allauth
+
+Lo styling Bootstrap 6 dei form Django (`is-invalid`/`invalid-feedback`,
 toggle mostra/nascondi password) e degli override per
 [django-allauth](https://docs.allauth.org/) sono **inclusi nel tema**, senza
 dipendenze aggiuntive — vanno solo attivati esplicitamente, vedi

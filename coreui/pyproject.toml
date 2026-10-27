@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "django-agesci-campania-coreui-theme"
-version = "0.1.0"
-description = "Tema CoreUI 5 per applicazioni Django dell'AGESCI Campania: estende django-agesci-campania-theme con il layout nativo CoreUI (sidebar + header) e i componenti free di CoreUI."
+version = "0.2.0a1"
+description = "Tema CoreUI 5 per applicazioni Django dell'AGESCI Campania: si appoggia a django-agesci-campania-theme (template tag, palette) e aggiunge il layout nativo CoreUI (sidebar + header) e i componenti free di CoreUI."
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }
@@ -22,7 +22,8 @@ dependencies = [
     # template tag (agesci_tags, agesci_components), context processor, immagini
     # e palette vengono dal tema base. Template dei componenti, form renderer,
     # override allauth, JS e SCSS dei partial sono copie proprie (markup BS5).
-    "django-agesci-campania-theme>=2.7.0",
+    # >=3.0.0a1: i tag ag_feature_grid / ag_masonry_grid passano "cols", usato dalle copie CoreUI dei template.
+    "django-agesci-campania-theme>=3.0.0a1",
 ]
 
 [project.optional-dependencies]

@@ -2,7 +2,7 @@
 
 ## Modalità viewport fisso (desktop)
 
-Su schermi di larghezza ≥ 992 px (breakpoint `lg` di Bootstrap) il tema
+Su schermi di larghezza ≥ 1024 px (breakpoint `lg` di Bootstrap 6: 1024 px; era 992 px in Bootstrap 5) il tema
 applica un layout a **viewport fisso**: header e footer rimangono sempre
 visibili; solo il `<main>` scorre internamente.
 
@@ -39,27 +39,27 @@ Vedi [Sidebar](componenti.md#sidebar).
 
 ---
 
-## Layout mobile (< 992 px)
+## Layout mobile (< 1024 px)
 
 Su schermi stretti il tema ripristina il **flusso normale del documento**:
 
 - Il body si estende con il contenuto.
 - La pagina scorre per intero (non solo il `<main>`).
 - Il footer si trova fisicamente in fondo al contenuto HTML.
-- La sidebar (se presente) diventa anch'essa un pannello offcanvas
-  (`.offcanvas-lg`), nascosto di default e apribile dal bottone flottante
+- La sidebar (se presente) diventa anch'essa un drawer Bootstrap 6
+  (`<dialog class="lg:drawer">`), nascosto di default e apribile dal bottone flottante
   `.ag-sidebar__mobile-toggle` — non occupa più spazio nel flusso verticale.
   Vedi [Sidebar](componenti.md#sidebar).
-- L'hamburger dell'header sostituisce il menu desktop con un pannello offcanvas.
+- L'hamburger dell'header sostituisce il menu desktop con un drawer (`<dialog class="drawer">`).
 
 ---
 
 ## Come funziona il layout fisso
 
-Il CSS in `_bootstrap-overrides.scss` applica le regole di viewport solo da lg:
+Il CSS in `_layout.scss` applica le regole di viewport solo da lg:
 
 ```css
-/* ≥ 992px */
+/* ≥ 1024px */
 body { height: 100vh; overflow: hidden; }
 .ag-scroll-area { min-height: 0; overflow-y: auto; }
 ```
@@ -102,5 +102,5 @@ il blocco `main_class`:
 
 | Larghezza | Comportamento |
 |---|---|
-| `< 992px` | Flusso normale; pagina scorre per intero; footer in fondo al contenuto; hamburger → offcanvas; sidebar (se presente) → offcanvas |
-| `≥ 992px` | Viewport fisso; solo `<main>` scorre; header e footer fissi; sidebar affiancata al main |
+| `< 1024px` | Flusso normale; pagina scorre per intero; footer in fondo al contenuto; hamburger → drawer; sidebar (se presente) → drawer |
+| `≥ 1024px` | Viewport fisso; solo `<main>` scorre; header e footer fissi; sidebar affiancata al main |

@@ -2,8 +2,18 @@
 
 `django-agesci-campania-coreui-theme` è la variante **CoreUI 5** del tema:
 un secondo pacchetto PyPI, sviluppato nello stesso repository (cartella
-`coreui/`), che **estende** `django-agesci-campania-theme` invece di
-duplicarlo.
+`coreui/`), che si appoggia a `django-agesci-campania-theme` per template tag,
+context processor, immagini e palette, ma ha il **proprio markup**.
+
+```{note}
+Dalla 3.0 il tema base passa a **Bootstrap 6** (vedi la
+[guida alla migrazione](migrazione-bootstrap-6.md)), mentre CoreUI 5 è basato su
+Bootstrap 5.3 e non esiste ancora un CoreUI su Bootstrap 6. Per questo i
+template dei componenti, dei form e di allauth, il JS dei form e i partial SCSS
+(branche, override, form, componenti) sono **copie proprie del pacchetto CoreUI**
+in versione Bootstrap 5/CoreUI 5: le modifiche al markup del tema base non lo
+toccano.
+```
 
 CoreUI è una fork di Bootstrap 5: contiene tutte le classi e i componenti di
 Bootstrap, più un layout "admin" nativo (sidebar e header) e componenti
@@ -15,9 +25,10 @@ licenza commerciale e non sono inclusi.
 
 | Parte | Origine |
 |---|---|
-| Palette ufficiale, colore per branca (`data-branca`) | tema base, ricompilato sulle variabili `--cui-*` |
-| `AgesciFormRenderer`, `SelectMultiploADiscesa`, override django-allauth | tema base, invariati |
-| Template tag `agesci_tags` e `agesci_components` (`ag_hero`, `ag_modal_trigger`, …) | tema base: scrivono `data-coreui-*` grazie a `{% ag_js %}` |
+| Palette ufficiale (`_palette.scss`) | tema base |
+| Colore per branca (`data-branca`) | **CoreUI**: copia BS5 di `_branche.scss`, ricompilata sulle variabili `--cui-*` |
+| `AgesciCoreuiFormRenderer`, `SelectMultiploADiscesa`, override django-allauth | **CoreUI** (copie BS5 dei template del tema, stesso percorso) |
+| Template tag `agesci_tags` e `agesci_components` (`ag_hero`, `ag_modal_trigger`, …) | tema base (la logica Python); i **template** che renderizzano sono le copie CoreUI, con `data-coreui-*` |
 | Layout `agesci_coreui/base.html` (sidebar + header nativi CoreUI) | **CoreUI** |
 | `{% ag_nav_item %}`, `{% ag_nav_title %}`, `{% ag_callout %}`, `{% ag_avatar %}`, `{% ag_chip %}` | **CoreUI** |
 | Widget `InputChip` / campo `CampoChip` (chip-input) | **CoreUI** |
@@ -170,7 +181,7 @@ Invio o la virgola creano un chip, Backspace o la "x" lo rimuovono; il JS di
 CoreUI invia i valori in un campo nascosto con lo stesso `name`, separati da
 virgola. Come `SelectMultiploADiscesa`, non richiede `AgesciFormRenderer`.
 
-## Il prefisso `data-*`: `{% ag_js %}`
+## Il prefisso `data-*`: `data-coreui-*`
 
 CoreUI legge solo gli attributi `data-coreui-*` (verificato su CoreUI 5.9.0:
 un `data-bs-toggle="modal"` non apre il modal). Le copie CoreUI dei template

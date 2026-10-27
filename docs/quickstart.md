@@ -69,18 +69,18 @@ AGESCI_THEME_NOME   = "La mia app scout"
 
 {# Ricerca nella barra inferiore #}
 {% block header_search %}
-  <form class="col-12 col-lg-auto me-lg-auto" role="search">
+  <form class="col-12 lg:col-auto lg:me-auto" role="search">
     <input type="search" class="form-control" placeholder="Cerca..." aria-label="Cerca">
   </form>
 {% endblock %}
 
 {# Pulsanti nella barra inferiore #}
 {% block header_actions %}
-  <a href="/login/" class="btn btn-light text-dark">Accedi</a>
-  <a href="/register/" class="btn btn-primary">Registrati</a>
+  <a href="/login/" class="btn-solid ag-btn-light">Accedi</a>
+  <a href="/register/" class="btn-solid theme-primary">Registrati</a>
 {% endblock %}
 
-{# Nav mobile (offcanvas) #}
+{# Nav mobile (drawer) #}
 {% block offcanvas_nav %}
   <li><a href="/" class="nav-link active">Home</a></li>
   <li><a href="/eventi/" class="nav-link">Eventi</a></li>
@@ -98,7 +98,7 @@ AGESCI_THEME_NOME   = "La mia app scout"
 
   <h2 class="mt-4">Contenuto della pagina</h2>
   <p>Inizia a costruire la tua app scout.</p>
-  <a href="/eventi/" class="btn btn-primary">Vai agli eventi</a>
+  <a href="/eventi/" class="btn-solid theme-primary">Vai agli eventi</a>
 {% endblock %}
 ```
 
@@ -124,7 +124,7 @@ e i colori della branca selezionata sono già attivi.
   (vedi [Template tag — agesci_components](templatetags.md#agesci-components)).
 - Esplora tutti i [blocchi disponibili](template.md) per personalizzare
   header, footer e layout.
-- Attiva lo styling Bootstrap 5 dei form (`is-invalid`, toggle password) con
+- Attiva lo styling Bootstrap 6 dei form (`is-invalid`, toggle password) con
   `FORM_RENDERER`, ed eventualmente gli override per django-allauth: vedi
   [Form e validazione](forms.md) e [Integrazione con django-allauth](allauth.md).
 

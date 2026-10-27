@@ -22,7 +22,8 @@ laterale `px-3` è applicato direttamente sull'elemento `ag-header-top` /
 `ag-header-bottom`.
 
 Su mobile/tablet (< lg) il menu desktop è nascosto: l'hamburger apre un
-pannello offcanvas Bootstrap con i link del blocco `offcanvas_nav`.
+drawer Bootstrap 6 (`<dialog class="drawer">`) con i link del blocco `offcanvas_nav`
+(il nome del blocco è rimasto quello della v2).
 
 ### Personalizzazione via blocchi
 
@@ -51,18 +52,18 @@ pannello offcanvas Bootstrap con i link del blocco `offcanvas_nav`.
 
 {# Ricerca nella barra inferiore #}
 {% block header_search %}
-  <form class="col-12 col-lg-auto me-lg-auto" role="search">
+  <form class="col-12 lg:col-auto lg:me-auto" role="search">
     <input type="search" class="form-control" placeholder="Cerca..." aria-label="Cerca">
   </form>
 {% endblock %}
 
 {# Pulsanti azione nella barra inferiore #}
 {% block header_actions %}
-  <a href="{% url 'login' %}" class="btn btn-light text-dark">Accedi</a>
-  <a href="{% url 'register' %}" class="btn btn-primary">Registrati</a>
+  <a href="{% url 'login' %}" class="btn-solid ag-btn-light">Accedi</a>
+  <a href="{% url 'register' %}" class="btn-solid theme-primary">Registrati</a>
 {% endblock %}
 
-{# Nav mobile nel pannello offcanvas #}
+{# Nav mobile nel drawer #}
 {% block offcanvas_nav %}
   <li><a href="/" class="nav-link active">{% bs_icon "house-fill" %} Home</a></li>
   <li><a href="/eventi/" class="nav-link">{% bs_icon "calendar-event" %} Eventi</a></li>
@@ -143,7 +144,7 @@ Il toggle in cima alla sidebar comprime la barra a sola icona (64 px).
 Lo stato viene salvato in `localStorage` con chiave `ag-sidebar-collapsed`,
 così viene ricordato tra i refresh della pagina.
 
-### Dropdown utente in fondo alla sidebar
+### Menu utente in fondo alla sidebar
 
 Il partial include di default una sezione `ag-sidebar__user` con avatar a
 iniziali circolari, nome e link "Esci". Appare automaticamente quando
@@ -161,11 +162,11 @@ Per personalizzare i link (es. URL di logout) occorre sovrascrivere il blocco
 `sidebar` riproducendo la struttura del partial e aggiungendo il blocco
 `sidebar_user` personalizzato (vedi [Template e blocchi](template.md#sidebar_user)).
 
-### Comportamento responsive (offcanvas sotto lg)
+### Comportamento responsive (drawer sotto lg)
 
-Sotto i 992px la sidebar diventa un vero offcanvas Bootstrap (classe
-`.offcanvas-lg`): resta nascosta di default e si apre come pannello a
-scomparsa dal bottone flottante `.ag-sidebar__mobile-toggle` (in basso a
+Sotto i 1024px la sidebar diventa un vero drawer Bootstrap 6: è un
+`<dialog class="lg:drawer drawer-start">` che resta nascosto di default e si
+apre come pannello a scomparsa dal bottone flottante `.ag-sidebar__mobile-toggle` (in basso a
 sinistra), con lo stesso contenuto di navigazione della versione desktop —
 nessun blocco duplicato. Il toggle di collasso a icon rail
 (`#agSidebarToggle`) è visibile solo da `lg` in su, dato che non ha senso
@@ -177,10 +178,12 @@ invariato.
 Chi ha sovrascritto il blocco `sidebar` riproducendo la struttura del
 partial (per personalizzare `sidebar_user`, vedi sopra) deve aggiornare la
 propria copia con lo stesso markup: bottone `.ag-sidebar__mobile-toggle`,
-classi `offcanvas-lg offcanvas-start` (senza la classe bare `offcanvas`,
-che in Bootstrap 5.3 nasconde l'elemento a ogni larghezza) + `tabindex="-1"` sulla
-`<nav>`, `d-none d-lg-flex` su `#agSidebarToggle` e il nuovo bottone
-`.ag-sidebar__close` — vedi il commento in cima a
+un `<dialog class="ag-sidebar … lg:drawer drawer-start">` con `tabindex="-1"` al
+posto della `<nav>`, `data-bs-toggle="drawer"` / `data-bs-dismiss="drawer"`,
+`d-none lg:d-flex` su `#agSidebarToggle` e il bottone
+`.ag-sidebar__close` (`lg:d-none`). Il menu utente è un `.menu` con
+`data-bs-toggle="menu"`, `data-bs-placement="top-start"` e
+`data-bs-strategy="fixed"` (vedi la [guida alla migrazione](migrazione-bootstrap-6.md)) — vedi il commento in cima a
 `agesci_theme/templates/agesci_theme/partials/sidebar.html` per l'esempio
 completo.
 
@@ -238,7 +241,7 @@ copyright.
 ## Messaggi Django
 
 Il blocco `messages` converte automaticamente i messaggi del framework di
-messaggistica di Django in alert Bootstrap 5 con pulsante di chiusura:
+messaggistica di Django in alert Bootstrap 6 con pulsante di chiusura:
 
 ```python
 # views.py
@@ -306,7 +309,7 @@ mostra/nascondi, utilizzabile in qualsiasi form scritto a mano — vedi
 [Form e validazione](forms.md#il-componente-ag-password-field).
 
 `{% ag_multiselect_dropdown %}` è una tendina Bootstrap chiusa con checkbox
-multiple (bottone + menu che resta aperto durante la selezione),
+multiple (bottone + `.menu` che resta aperto durante la selezione),
 utilizzabile in qualsiasi form scritto a mano — vedi
 [Form e validazione](forms.md#il-widget-selectmultiploadiscesa) per il
 widget Django equivalente `SelectMultiploADiscesa`, con cui condivide il
@@ -323,11 +326,15 @@ Tutti i componenti Bootstrap che usano il colore `primary` ereditano
 automaticamente il colore della branca. Non occorre nessuna classe aggiuntiva:
 
 ```django
-<button class="btn btn-primary">Pulsante branca</button>
-<button class="btn btn-outline-primary">Outline</button>
-<span class="badge text-bg-primary">Badge</span>
-<div class="alert alert-primary">Alert</div>
+<button class="btn-solid theme-primary">Pulsante branca</button>
+<button class="btn-outline theme-primary">Outline</button>
+<span class="badge theme-primary">Badge</span>
+<div class="alert theme-primary">Alert</div>
 ```
 
-Questo funziona grazie alla rimappatura automatica di `--bs-primary` verso
-`--ag-primary` operata da `_bootstrap-overrides.scss`.
+Questo funziona grazie ai token `--bs-primary-*` di Bootstrap 6 (base, bg, fg,
+border, contrast, focus ring…), generati per ogni branca da `_branche.scss`:
+`.theme-primary` (bottoni, badge, alert, list group, voce attiva dei menu), i
+link e il focus ring li leggono da lì. In Bootstrap 6 il colore non si scrive
+più `btn-primary` / `text-bg-primary` ma `btn-solid theme-primary` /
+`badge theme-primary`.
