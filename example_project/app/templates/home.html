@@ -15,23 +15,23 @@
 {# ── Sidebar: i link vanno nel blocco, include non eredita i blocchi ── #}
 {% block sidebar %}
 {% load static %}
-<button class="ag-sidebar__mobile-toggle d-lg-none" type="button"
-        data-bs-toggle="offcanvas" data-bs-target="#agSidebar"
+<button class="ag-sidebar__mobile-toggle lg:d-none" type="button"
+        data-bs-toggle="drawer" data-bs-target="#agSidebar"
         aria-controls="agSidebar" aria-label="Apri menu laterale">
   <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
     <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
   </svg>
 </button>
-<nav class="ag-sidebar ag-sidebar--dark offcanvas-lg offcanvas-start" id="agSidebar" tabindex="-1" aria-label="Menu laterale">
-  <button class="ag-sidebar__toggle d-none d-lg-flex" id="agSidebarToggle"
+<dialog class="ag-sidebar ag-sidebar--dark lg:drawer drawer-start" id="agSidebar" tabindex="-1" aria-label="Menu laterale">
+  <button class="ag-sidebar__toggle d-none lg:d-flex" id="agSidebarToggle"
           aria-label="Comprimi menu laterale" aria-expanded="true" aria-controls="agSidebar">
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
       <path d="M0 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm5-1v12h9a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zM4 2H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h2z"/>
     </svg>
-    <span class="ag-sidebar__toggle-label ms-2">Menu</span>
+    <span class="ag-sidebar__toggle-label ms-3">Menu</span>
   </button>
-  <button class="ag-sidebar__close d-lg-none" type="button"
-          data-bs-dismiss="offcanvas" aria-label="Chiudi menu laterale">
+  <button class="ag-sidebar__close lg:d-none" type="button"
+          data-bs-dismiss="drawer" aria-label="Chiudi menu laterale">
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
       <path d="M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z"/>
     </svg>
@@ -80,29 +80,26 @@
     </li>
   </ul>
 
-  {# Dropdown utente in fondo alla sidebar #}
+  {# Menu utente in fondo alla sidebar (Bootstrap 6: .menu, strategy fixed) #}
   <div class="ag-sidebar__user">
-    <div class="dropdown dropup">
-      <a href="#" class="ag-sidebar__user-toggle dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        <span class="ag-sidebar__user-avatar" aria-hidden="true">
-          {% if request.user.is_authenticated %}{{ request.user.get_full_name|default:request.user.username|first|upper }}{% else %}C{% endif %}
-        </span>
-        <span class="ag-sidebar__label">
-          {% if request.user.is_authenticated %}{{ request.user.get_full_name|default:request.user.username }}{% else %}Capo Scout{% endif %}
-        </span>
-      </a>
-      <ul class="dropdown-menu dropdown-menu-dark shadow">
-        <li>
-          <span class="dropdown-item-text small">
-            <strong>{% if request.user.is_authenticated %}{{ request.user.get_full_name|default:request.user.username }}{% else %}Capo Scout{% endif %}</strong>
-          </span>
-        </li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="#">Esci</a></li>
-      </ul>
+    <a href="#" class="ag-sidebar__user-toggle" role="button"
+       data-bs-toggle="menu" data-bs-placement="top-start" data-bs-strategy="fixed" aria-expanded="false">
+      <span class="ag-sidebar__user-avatar" aria-hidden="true">
+        {% if request.user.is_authenticated %}{{ request.user.get_full_name|default:request.user.username|first|upper }}{% else %}C{% endif %}
+      </span>
+      <span class="ag-sidebar__label">
+        {% if request.user.is_authenticated %}{{ request.user.get_full_name|default:request.user.username }}{% else %}Capo Scout{% endif %}
+      </span>
+    </a>
+    <div class="menu shadow" data-bs-theme="dark">
+      <span class="menu-text">
+        <strong>{% if request.user.is_authenticated %}{{ request.user.get_full_name|default:request.user.username }}{% else %}Capo Scout{% endif %}</strong>
+      </span>
+      <hr class="menu-divider">
+      <a class="menu-item" href="#">Esci</a>
     </div>
   </div>
-</nav>
+</dialog>
 <script src="{% static 'agesci_theme/js/sidebar.js' %}" defer></script>
 {% endblock %}
 
@@ -133,35 +130,33 @@
     </a>
   </li>
   <li>
-    <div class="dropdown">
-      <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button"
-              data-bs-toggle="dropdown" aria-expanded="false"
-              title="Cambia tema branca">
-        <span class="ag-nav-icon">{% bs_icon "palette" %}</span>
-        <span id="agBrancaLabel">{{ agesci_theme_branca|capfirst }}</span>
-      </button>
-      <ul class="dropdown-menu dropdown-menu-end">
-        {% for valore, etichetta in branche %}
-        <li><a class="dropdown-item ag-demo-branca" href="#" data-branca="{{ valore }}">{{ etichetta }}</a></li>
-        {% endfor %}
-      </ul>
+    <button class="btn-outline btn-sm ag-btn-light" type="button"
+            data-bs-toggle="menu" data-bs-placement="bottom-end" aria-expanded="false"
+            title="Cambia tema branca">
+      <span class="ag-nav-icon">{% bs_icon "palette" %}</span>
+      <span id="agBrancaLabel">{{ agesci_theme_branca|capfirst }}</span>
+    </button>
+    <div class="menu">
+      {% for valore, etichetta in branche %}
+      <a class="menu-item ag-demo-branca" href="#" data-branca="{{ valore }}">{{ etichetta }}</a>
+      {% endfor %}
     </div>
   </li>
 {% endblock %}
 
 {# ── Header: barra inferiore ── #}
 {% block header_search %}
-  <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto" role="search">
+  <form class="col-12 lg:col-auto mb-3 lg:mb-0 lg:me-auto" role="search">
     <input type="search" class="form-control" placeholder="Cerca..." aria-label="Cerca">
   </form>
 {% endblock %}
 
 {% block header_actions %}
-  <a href="#" class="btn btn-light text-dark">Accedi</a>
-  <a href="#" class="btn btn-primary">Registrati</a>
+  <a href="#" class="btn-solid ag-btn-light">Accedi</a>
+  <a href="#" class="btn-solid theme-primary">Registrati</a>
 {% endblock %}
 
-{# ── Header: nav offcanvas (mobile) ── #}
+{# ── Header: nav del drawer (mobile) ── #}
 {% block offcanvas_nav %}
   <li><a href="/" class="nav-link active">{% bs_icon "house-fill" %} Home</a></li>
   <li><a href="#" class="nav-link">{% bs_icon "calendar-event" %} Eventi</a></li>
@@ -217,29 +212,29 @@
   {% ag_hero title=agesci_theme_nome subtitle="Associazione Guide e Scouts Cattolici Italiani — Regione Campania" cta_text="Scopri di più" cta_url="#" variant="subtle" %}
 
   {# Feature grid #}
-  <h2 class="mt-5 mb-3">Cosa facciamo</h2>
+  <h2 class="mt-12 mb-5">Cosa facciamo</h2>
   {% ag_feature_grid items=demo_features cols=3 %}
 
   {# Jumbotron #}
   {% ag_jumbotron title="Unisciti a noi" lead="Entra nel movimento scout più grande d'Italia." cta_text="Contattaci" cta_url="#" %}
 
-  <div class="row g-4 mt-2">
-    <div class="col-md-6">
+  <div class="row g-7 mt-3">
+    <div class="md:col-6">
       <h2>Palette del manuale</h2>
-      <div class="d-flex flex-wrap gap-2 mt-3">
+      <div class="d-flex flex-wrap gap-3 mt-5">
         {% ag_badge text="Viola" variant="secondary" %}
-        <span class="badge p-2 bg-ag-viola">Viola</span>
-        <span class="badge p-2 bg-ag-azzurro">Azzurro</span>
-        <span class="badge p-2 bg-ag-giallo-lc">Giallo L/C</span>
-        <span class="badge p-2 bg-ag-verde-eg">Verde E/G</span>
-        <span class="badge p-2 bg-ag-rosso-rs">Rosso R/S</span>
-        <span class="badge p-2 bg-ag-giallo-oro">Giallo oro</span>
+        <span class="badge p-3 bg-ag-viola">Viola</span>
+        <span class="badge p-3 bg-ag-azzurro">Azzurro</span>
+        <span class="badge p-3 bg-ag-giallo-lc">Giallo L/C</span>
+        <span class="badge p-3 bg-ag-verde-eg">Verde E/G</span>
+        <span class="badge p-3 bg-ag-rosso-rs">Rosso R/S</span>
+        <span class="badge p-3 bg-ag-giallo-oro">Giallo oro</span>
       </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="md:col-6">
       <h2>Bottoni</h2>
-      <div class="d-flex flex-wrap gap-2 mt-3">
+      <div class="d-flex flex-wrap gap-3 mt-5">
         {% ag_button label="Primario" variant="primary" %}
         {% ag_button label="Outline" variant="primary" outline=True %}
         {% ag_button label="Small" variant="secondary" size="sm" %}
@@ -247,40 +242,40 @@
       </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="md:col-6">
       <h2>Dropdown</h2>
-      <div class="mt-3">
+      <div class="mt-5">
         {% ag_dropdown label="Azioni" items=demo_dropdown %}
       </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="md:col-6">
       <h2>List group</h2>
-      <div class="mt-3">
+      <div class="mt-5">
         {% ag_list_group items=demo_list_group %}
       </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="md:col-6">
       <h2>Modal</h2>
-      <div class="mt-3">
+      <div class="mt-5">
         {% ag_modal_trigger modal_id="demoModal" label="Apri modal" %}
         {% include "agesci_theme/components/modal.html" with modal_id="demoModal" title="Esempio modal" body="<p>Contenuto del modal di esempio.</p>" %}
       </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="md:col-6">
       <h2>Emblema di Zona</h2>
       {% emblema_zona "vesuvio" css_class="img-fluid" alt="Zona Vesuvio" %}
     </div>
   </div>
 
-  <h2 class="mt-4">Zone della Regione Campania</h2>
-  <div class="row row-cols-3 row-cols-md-6 g-2 mt-2">
+  <h2 class="mt-7">Zone della Regione Campania</h2>
+  <div class="row row-cols-3 md:row-cols-6 g-3 mt-3">
     {% for zona in zone_list %}
       <div class="col text-center">
         {% emblema_zona zona css_class="img-fluid" %}
-        <div class="small mt-1 text-muted">{{ zona|capfirst }}</div>
+        <div class="small mt-1 fg-2">{{ zona|capfirst }}</div>
       </div>
     {% endfor %}
   </div>

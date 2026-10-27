@@ -1,8 +1,8 @@
-<div class="ag-jumbotron{% if variant %} ag-jumbotron--{{ variant }}{% endif %} mb-4">
-  {% if title %}<h1 class="display-5 fw-bold">{{ title }}</h1>{% endif %}
-  {% if lead %}<p class="col-md-8 fs-4 lead">{{ lead }}</p>{% endif %}
+<div class="ag-jumbotron{% if variant %} ag-jumbotron--{{ variant }}{% endif %} mb-7">
+  {% if title %}<h1 class="fs-4xl fw-bold">{{ title }}</h1>{% endif %}
+  {% if lead %}<p class="md:col-8 fs-xl fw-light">{{ lead }}</p>{% endif %}
   {% if cta_text %}
-  <hr class="my-4">
-  <a href="{{ cta_url }}" class="btn btn-primary btn-lg">{{ cta_text }}</a>
+  <hr class="my-7">
+  <a href="{{ cta_url }}" class="btn-solid theme-primary btn-lg">{{ cta_text }}</a>
   {% endif %}
 </div>

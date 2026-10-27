@@ -1,6 +1,6 @@
 {% load static %}
 {% comment %}
-  Sidebar collapsible v2 — responsive (offcanvas sotto lg, fissa da lg in su).
+  Sidebar collapsible — responsive (drawer Bootstrap 6 sotto lg, fissa da lg in su).
 
   Questo partial va incluso tramite {% include %}, che NON partecipa
   all'ereditarietà dei blocchi Django. I link di navigazione devono
@@ -11,19 +11,19 @@
 
     {% block sidebar %}
     {% load static %}
-    <button class="ag-sidebar__mobile-toggle d-lg-none" type="button"
-            data-bs-toggle="offcanvas" data-bs-target="#agSidebar"
+    <button class="ag-sidebar__mobile-toggle lg:d-none" type="button"
+            data-bs-toggle="drawer" data-bs-target="#agSidebar"
             aria-controls="agSidebar" aria-label="Apri menu laterale">
       ...
     </button>
-    <nav class="ag-sidebar ag-sidebar--dark offcanvas-lg offcanvas-start"
-         id="agSidebar" tabindex="-1" aria-label="Menu laterale">
-      <button class="ag-sidebar__toggle d-none d-lg-flex" id="agSidebarToggle"
+    <dialog class="ag-sidebar ag-sidebar--dark lg:drawer drawer-start"
+            id="agSidebar" tabindex="-1" aria-label="Menu laterale">
+      <button class="ag-sidebar__toggle d-none lg:d-flex" id="agSidebarToggle"
               aria-label="Comprimi menu laterale" aria-expanded="true" aria-controls="agSidebar">
         ...
       </button>
-      <button class="ag-sidebar__close d-lg-none" type="button"
-              data-bs-dismiss="offcanvas" aria-label="Chiudi menu laterale">
+      <button class="ag-sidebar__close lg:d-none" type="button"
+              data-bs-dismiss="drawer" aria-label="Chiudi menu laterale">
         ...
       </button>
       <ul class="ag-sidebar__nav">
@@ -32,33 +32,33 @@
       {% block sidebar_user %}
       {% if request.user.is_authenticated %}
       <div class="ag-sidebar__user">
-        <div class="dropdown dropup">
-          <a href="#" class="ag-sidebar__user-toggle dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <span class="ag-sidebar__user-avatar" aria-hidden="true">...</span>
-            <span class="ag-sidebar__label">{{ request.user.get_full_name|default:request.user.username }}</span>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-dark shadow">
-            <li><a class="dropdown-item" href="{% url 'logout' %}">Esci</a></li>
-          </ul>
+        <a href="#" class="ag-sidebar__user-toggle" role="button"
+           data-bs-toggle="menu" data-bs-placement="top-start" data-bs-strategy="fixed" aria-expanded="false">
+          <span class="ag-sidebar__user-avatar" aria-hidden="true">...</span>
+          <span class="ag-sidebar__label">{{ request.user.get_full_name|default:request.user.username }}</span>
+        </a>
+        <div class="menu shadow" data-bs-theme="dark">
+          <a class="menu-item" href="{% url 'logout' %}">Esci</a>
         </div>
       </div>
       {% endif %}
       {% endblock %}
-    </nav>
+    </dialog>
     <script src="{% static 'agesci_theme/js/sidebar.js' %}" defer></script>
     {% endblock %}
 
   variant: "dark" (default) | "light"
 
-  Sotto il breakpoint lg (992px) la <nav> diventa un vero offcanvas
-  Bootstrap (classe .offcanvas-lg): nascosta di default, aperta dal
-  bottone flottante .ag-sidebar__mobile-toggle. Da lg in su torna a
-  essere la sidebar fissa collassabile di sempre — nessun comportamento
-  desktop è cambiato.
+  Sotto il breakpoint lg (1024px) il <dialog> diventa un vero drawer
+  Bootstrap 6 (classe .lg:drawer): nascosto di default, aperto dal
+  bottone flottante .ag-sidebar__mobile-toggle. Da lg in su è un normale
+  elemento in flusso (visibile anche senza attributo "open"): la sidebar
+  fissa collassabile di sempre. Il menu utente è un .menu con
+  data-bs-strategy="fixed" per non essere tagliato dall'overflow della sidebar.
 {% endcomment %}
-<button class="ag-sidebar__mobile-toggle d-lg-none"
+<button class="ag-sidebar__mobile-toggle lg:d-none"
         type="button"
-        data-bs-toggle="offcanvas"
+        data-bs-toggle="drawer"
         data-bs-target="#agSidebar"
         aria-controls="agSidebar"
         aria-label="Apri menu laterale">
@@ -67,11 +67,11 @@
   </svg>
 </button>
 
-<nav class="ag-sidebar ag-sidebar--{{ variant|default:'dark' }} offcanvas-lg offcanvas-start"
-     id="agSidebar"
-     tabindex="-1"
-     aria-label="Menu laterale">
-  <button class="ag-sidebar__toggle d-none d-lg-flex"
+<dialog class="ag-sidebar ag-sidebar--{{ variant|default:'dark' }} lg:drawer drawer-start"
+        id="agSidebar"
+        tabindex="-1"
+        aria-label="Menu laterale">
+  <button class="ag-sidebar__toggle d-none lg:d-flex"
           id="agSidebarToggle"
           aria-label="Comprimi menu laterale"
           aria-expanded="true"
@@ -79,12 +79,12 @@
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
       <path d="M0 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm5-1v12h9a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zM4 2H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h2z"/>
     </svg>
-    <span class="ag-sidebar__toggle-label ms-2">Menu</span>
+    <span class="ag-sidebar__toggle-label ms-3">Menu</span>
   </button>
 
-  <button class="ag-sidebar__close d-lg-none"
+  <button class="ag-sidebar__close lg:d-none"
           type="button"
-          data-bs-dismiss="offcanvas"
+          data-bs-dismiss="drawer"
           aria-label="Chiudi menu laterale">
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
       <path d="M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z"/>
@@ -98,25 +98,22 @@
   {% block sidebar_user %}
   {% if request.user.is_authenticated %}
   <div class="ag-sidebar__user">
-    <div class="dropdown dropup">
-      <a href="#" class="ag-sidebar__user-toggle dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        <span class="ag-sidebar__user-avatar" aria-hidden="true">{{ request.user.get_full_name|default:request.user.username|first|upper }}</span>
-        <span class="ag-sidebar__label">{{ request.user.get_full_name|default:request.user.username }}</span>
-      </a>
-      <ul class="dropdown-menu {% if variant|default:'dark' == 'dark' %}dropdown-menu-dark{% endif %} shadow">
-        <li>
-          <span class="dropdown-item-text small">
-            <strong>{{ request.user.get_full_name|default:request.user.username }}</strong>
-            {% if request.user.email %}<br><span class="text-muted">{{ request.user.email }}</span>{% endif %}
-          </span>
-        </li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="#">Esci</a></li>
-      </ul>
+    <a href="#" class="ag-sidebar__user-toggle" role="button"
+       data-bs-toggle="menu" data-bs-placement="top-start" data-bs-strategy="fixed" aria-expanded="false">
+      <span class="ag-sidebar__user-avatar" aria-hidden="true">{{ request.user.get_full_name|default:request.user.username|first|upper }}</span>
+      <span class="ag-sidebar__label">{{ request.user.get_full_name|default:request.user.username }}</span>
+    </a>
+    <div class="menu shadow"{% if variant|default:'dark' == 'dark' %} data-bs-theme="dark"{% endif %}>
+      <span class="menu-text">
+        <strong>{{ request.user.get_full_name|default:request.user.username }}</strong>
+        {% if request.user.email %}<br><small class="fg-2">{{ request.user.email }}</small>{% endif %}
+      </span>
+      <hr class="menu-divider">
+      <a class="menu-item" href="#">Esci</a>
     </div>
   </div>
   {% endif %}
   {% endblock %}
-</nav>
+</dialog>
 
 <script src="{% static 'agesci_theme/js/sidebar.js' %}" defer></script>

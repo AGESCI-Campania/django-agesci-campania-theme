@@ -9,6 +9,14 @@ from django import template
 
 register = template.Library()
 
+# Bootstrap 6 non ha theme-light / theme-dark: dark -> inverse, light -> secondary.
+_THEME_BS6 = {"dark": "inverse", "light": "secondary"}
+
+
+def _theme(variant):
+    """Nome del tema Bootstrap 6 (classe ``theme-<nome>``) per una variante v5."""
+    return _THEME_BS6.get(variant, variant)
+
 
 @register.inclusion_tag("agesci_theme/components/hero.html")
 def ag_hero(title="", subtitle="", cta_text="", cta_url="#", variant="subtle", image_url=""):
@@ -31,7 +39,7 @@ def ag_feature_card(title="", description="", icon="", variant=""):
     """Card singola della sezione features con icona Bootstrap Icon.
 
     icon: nome dell'icona Bootstrap (es. "star-fill", "people-fill")
-    variant: classe Bootstrap per il colore icona (es. "text-primary") — default: colore tema
+    variant: classe Bootstrap per il colore icona (es. "fg-primary") — default: colore tema
     """
     return {"title": title, "description": description, "icon": icon, "variant": variant}
 
@@ -43,7 +51,7 @@ def ag_feature_grid(items, cols=3):
     items: lista di dict con chiavi title, description, icon, variant (opzionale)
     cols: numero di colonne su desktop (2, 3 o 4)
     """
-    row_cols_class = {2: "row-cols-md-2", 3: "row-cols-md-3", 4: "row-cols-md-4"}.get(cols, "row-cols-md-3")
+    row_cols_class = {2: "md:row-cols-2", 3: "md:row-cols-3", 4: "md:row-cols-4"}.get(cols, "md:row-cols-3")
     return {"items": items, "cols": cols, "row_cols_class": row_cols_class}
 
 
@@ -67,9 +75,10 @@ def ag_badge(text="", variant="primary", pill=False):
     """Badge Bootstrap con colori del tema.
 
     variant: "primary" | "secondary" | "success" | "danger" | "warning" | "info" | "light" | "dark"
+    (in Bootstrap 6: theme-<variant>; "dark" -> theme-inverse, "light" -> theme-secondary)
     pill: True per border-radius massimo
     """
-    return {"text": text, "variant": variant, "pill": pill}
+    return {"text": text, "variant": variant, "theme": _theme(variant), "pill": pill}
 
 
 @register.inclusion_tag("agesci_theme/components/button.html")
@@ -83,6 +92,7 @@ def ag_button(label="", variant="primary", size="", outline=False, href="", type
     return {
         "label": label,
         "variant": variant,
+        "theme": _theme(variant),
         "size": size,
         "outline": outline,
         "href": href,
@@ -102,16 +112,17 @@ def ag_breadcrumb(items=None):
 
 @register.inclusion_tag("agesci_theme/components/dropdown.html")
 def ag_dropdown(label="", items=None, variant="primary", split=False, direction=""):
-    """Dropdown Bootstrap.
+    """Menu Bootstrap 6 (ex dropdown).
 
     items: lista di dict con chiavi label e url; usa {"divider": True} per separatore
     split: True per bottone split
-    direction: "" | "dropup" | "dropstart" | "dropend"
+    direction: "" | "dropup" | "dropstart" | "dropend" (-> data-bs-placement)
     """
     return {
         "label": label,
         "items": items or [],
         "variant": variant,
+        "theme": _theme(variant),
         "split": split,
         "direction": direction,
     }
@@ -130,12 +141,12 @@ def ag_list_group(items=None, flush=False, numbered=False):
 
 @register.inclusion_tag("agesci_theme/components/modal_trigger.html")
 def ag_modal_trigger(modal_id, label="Apri", variant="primary", size=""):
-    """Bottone che apre un modal Bootstrap.
+    """Bottone che apre un dialog Bootstrap 6 (ex modal).
 
     Accoppiato con il template agesci_theme/components/modal.html (via {% include %}).
     size: "sm" | "lg" | ""
     """
-    return {"modal_id": modal_id, "label": label, "variant": variant, "size": size}
+    return {"modal_id": modal_id, "label": label, "variant": variant, "theme": _theme(variant), "size": size}
 
 
 @register.inclusion_tag("agesci_theme/components/masonry_grid.html")
@@ -150,7 +161,7 @@ def ag_masonry_grid(items=None, cols=3):
         <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4/dist/masonry.pkgd.min.js" defer></script>
         {% endblock %}
     """
-    col_class = {2: "col-md-6", 3: "col-md-4", 4: "col-md-3"}.get(cols, "col-md-4")
+    col_class = {2: "md:col-6", 3: "md:col-4", 4: "md:col-3"}.get(cols, "md:col-4")
     return {"items": items or [], "cols": cols, "col_class": col_class}
 
 
