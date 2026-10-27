@@ -1,0 +1,11 @@
+// =============================================================
+//  Prefisso delle CSS custom properties di CoreUI 5.
+//
+//  CoreUI e' una fork di Bootstrap 5.3: i nomi delle variabili sono
+//  identici, cambia solo il prefisso (--cui-* invece di --bs-*;
+//  verificato su CoreUI 5.9.0 / Bootstrap 5.3.8).
+//  I partial _branche, _bootstrap-overrides, _forms e _components di
+//  questa cartella sono copie dei partial BS5 del tema base (che da 3.0
+//  passa a Bootstrap 6): qui restano su BS5/CoreUI 5.
+// =============================================================
+$prefix: "cui-" !default;

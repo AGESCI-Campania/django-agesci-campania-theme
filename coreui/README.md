@@ -45,9 +45,12 @@ TEMPLATES = [{"OPTIONS": {"context_processors": [
 ]}}]
 ```
 
-Le stesse settings `AGESCI_THEME_*` (branca, nome, loghi, favicon) e
-l'opzionale `FORM_RENDERER = "agesci_theme.forms.AgesciFormRenderer"` del
-tema base restano valide.
+Le stesse settings `AGESCI_THEME_*` (branca, nome, loghi, favicon) restano
+valide. Per lo stile dei form (opzionale) usa il renderer CoreUI, non quello
+del tema base:
+`FORM_RENDERER = "agesci_coreui.forms.AgesciCoreuiFormRenderer"`.
+`agesci_coreui` deve stare **prima** di `agesci_theme` in `INSTALLED_APPS`
+(system check `agesci_coreui.E002`).
 
 ## Uso nei template
 

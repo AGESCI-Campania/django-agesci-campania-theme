@@ -44,7 +44,7 @@ def ag_feature_grid(items, cols=3):
     cols: numero di colonne su desktop (2, 3 o 4)
     """
     row_cols_class = {2: "row-cols-md-2", 3: "row-cols-md-3", 4: "row-cols-md-4"}.get(cols, "row-cols-md-3")
-    return {"items": items, "row_cols_class": row_cols_class}
+    return {"items": items, "cols": cols, "row_cols_class": row_cols_class}
 
 
 @register.inclusion_tag("agesci_theme/components/jumbotron.html")
@@ -151,7 +151,7 @@ def ag_masonry_grid(items=None, cols=3):
         {% endblock %}
     """
     col_class = {2: "col-md-6", 3: "col-md-4", 4: "col-md-3"}.get(cols, "col-md-4")
-    return {"items": items or [], "col_class": col_class}
+    return {"items": items or [], "cols": cols, "col_class": col_class}
 
 
 @register.inclusion_tag("agesci_theme/components/password_field.html")

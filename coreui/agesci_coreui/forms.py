@@ -6,7 +6,44 @@ anche dal renderer di default di Django: basta ``agesci_coreui`` in
 ``INSTALLED_APPS``. Il JS viene da ``coreui.bundle.min.js``, già caricato da
 ``agesci_coreui/base.html``.
 """
+from pathlib import Path
+
 from django import forms
+from django.forms.renderers import DjangoTemplates
+from django.utils.functional import cached_property
+
+from agesci_theme.forms import DJANGO_FORMS_TEMPLATES_DIR
+
+COREUI_FORMS_TEMPLATES_DIR = Path(__file__).resolve().parent / "templates"
+
+
+class AgesciCoreuiFormRenderer(DjangoTemplates):
+    """Renderer dei widget di form con il markup Bootstrap 5/CoreUI 5.
+
+    È l'equivalente di ``agesci_theme.forms.AgesciFormRenderer`` per i
+    progetti che usano il tema CoreUI: dal tema base 3.0 quest'ultimo
+    produce markup Bootstrap 6, incompatibile con CoreUI 5. Va attivato
+    nelle settings del progetto (vale per tutti i form Django)::
+
+        FORM_RENDERER = "agesci_coreui.forms.AgesciCoreuiFormRenderer"
+
+    Come per il renderer del tema base, ``DIRS`` ha la precedenza su
+    ``APP_DIRS``: i template ``django/forms/...`` del pacchetto vincono
+    sempre su quelli di Django; gli include (``agesci_theme/components/...``)
+    sono risolti via ``APP_DIRS``, quindi con ``agesci_coreui`` prima di
+    ``agesci_theme`` in ``INSTALLED_APPS`` si ottengono le copie CoreUI.
+    """
+
+    @cached_property
+    def engine(self):
+        return self.backend(
+            {
+                "APP_DIRS": True,
+                "DIRS": [COREUI_FORMS_TEMPLATES_DIR, DJANGO_FORMS_TEMPLATES_DIR],
+                "NAME": "agescicoreuiforms",
+                "OPTIONS": {},
+            }
+        )
 
 
 class InputChip(forms.Widget):

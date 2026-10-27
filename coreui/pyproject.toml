@@ -19,8 +19,9 @@ classifiers = [
     "Intended Audience :: Developers",
 ]
 dependencies = [
-    # palette, branche, form renderer, override allauth, template tag e il
-    # prefisso data-* ({% ag_js %}, introdotto in 2.7.0) vengono dal tema base.
+    # template tag (agesci_tags, agesci_components), context processor, immagini
+    # e palette vengono dal tema base. Template dei componenti, form renderer,
+    # override allauth, JS e SCSS dei partial sono copie proprie (markup BS5).
     "django-agesci-campania-theme>=2.7.0",
 ]
 

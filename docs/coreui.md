@@ -46,17 +46,21 @@ TEMPLATES = [{"OPTIONS": {"context_processors": [
     "agesci_theme.context_processors.agesci_theme",
 ]}}]
 
-# opzionale, come per il tema base
-FORM_RENDERER = "agesci_theme.forms.AgesciFormRenderer"
+# opzionale: renderer dei form con il markup Bootstrap 5/CoreUI 5
+FORM_RENDERER = "agesci_coreui.forms.AgesciCoreuiFormRenderer"
 ```
 
 Le settings `AGESCI_THEME_*` (branca, nome, loghi, favicon) sono le stesse
 del tema base.
 
 ```{important}
-Installare `agesci_coreui` sposta **tutto il progetto** su CoreUI: il tag
-`{% ag_js %}` fa scrivere ai componenti del tema base `data-coreui-*`
-invece di `data-bs-*`, e CoreUI ignora gli attributi `data-bs-*`. Non
+Installare `agesci_coreui` sposta **tutto il progetto** su CoreUI: i template
+dei componenti, dei form e di allauth che differiscono sono **copie con lo
+stesso percorso** di quelli del tema base (`agesci_theme/components/...`,
+`allauth/...`) e scrivono `data-coreui-*` invece di `data-bs-*`, perché
+CoreUI ignora gli attributi `data-bs-*`. Il loader `APP_DIRS` usa il primo
+template trovato, quindi `agesci_coreui` deve stare **prima** di
+`agesci_theme` in `INSTALLED_APPS` (system check `agesci_coreui.E002`). Non
 mescolare pagine che estendono `agesci_theme/base.html` (Bootstrap) con
 pagine CoreUI nello stesso progetto.
 ```
@@ -169,18 +173,11 @@ virgola. Come `SelectMultiploADiscesa`, non richiede `AgesciFormRenderer`.
 ## Il prefisso `data-*`: `{% ag_js %}`
 
 CoreUI legge solo gli attributi `data-coreui-*` (verificato su CoreUI 5.9.0:
-un `data-bs-toggle="modal"` non apre il modal). I template condivisi del
-tema base scrivono quindi:
-
-```django
-{% load agesci_tags %}
-<button data-{% ag_js %}-toggle="modal" data-{% ag_js %}-target="#m">…</button>
-```
-
-`{% ag_js %}` restituisce `coreui` se `agesci_coreui` è in `INSTALLED_APPS`,
-altrimenti `bs`. Non dipende dal contesto, quindi funziona anche negli
-inclusion tag e nei template dei widget. Nei **propri** template, un progetto
-CoreUI può scrivere direttamente `data-coreui-*`.
+un `data-bs-toggle="modal"` non apre il modal). Le copie CoreUI dei template
+dei componenti e dei widget scrivono già `data-coreui-*`, quindi i tag del
+tema (`{% ag_modal_trigger %}`, `{% ag_dropdown %}`, …) funzionano senza
+altro. Nei **propri** template un progetto CoreUI scrive direttamente
+`data-coreui-*`.
 
 ## Progetto demo
 
