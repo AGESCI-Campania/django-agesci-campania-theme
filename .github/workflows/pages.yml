@@ -1,0 +1,68 @@
+name: pages
+
+# Demo statica dei due temi su GitHub Pages, rigenerata a ogni push su main.
+# Richiede, una volta sola: Settings -> Pages -> Source: "GitHub Actions".
+# Indirizzo: https://agesci-campania.github.io/django-agesci-campania-theme/
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un solo deploy alla volta; quello in corso non viene interrotto.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+      - name: Set up Python
+        run: uv python install 3.12
+      - name: Sync
+        run: uv sync
+      # base_path: "/django-agesci-campania-theme" per un sito di progetto,
+      # "" con un dominio personalizzato. Diventa il prefisso dei link.
+      - id: pages
+        uses: actions/configure-pages@v5
+      - name: Migrate (sqlite, serve alle pagine allauth)
+        run: uv run python example_project/manage.py migrate --noinput
+      - name: Demo statica Bootstrap
+        env:
+          PREFIX: ${{ steps.pages.outputs.base_path }}
+        run: >
+          uv run python example_project/manage.py demo_statica
+          --output site/bootstrap --prefix "$PREFIX/bootstrap/"
+      - name: Demo statica CoreUI
+        env:
+          PREFIX: ${{ steps.pages.outputs.base_path }}
+        run: >
+          uv run python example_project/manage.py demo_statica
+          --output site/coreui --prefix "$PREFIX/coreui/"
+          --settings=config.settings_coreui
+      - name: Pagina indice
+        run: |
+          cp example_project/pages/index.html site/index.html
+          touch site/.nojekyll
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

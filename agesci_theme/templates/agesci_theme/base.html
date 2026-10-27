@@ -1,4 +1,4 @@
-{% load static %}
+{% load static agesci_tags %}
 <!DOCTYPE html>
 {# data-bs-theme="light": Bootstrap 6 segue prefers-color-scheme se l'attributo manca; il tema AGESCI e' progettato solo per il chiaro. #}
 <html lang="it" data-bs-theme="light" data-branca="{{ agesci_theme_branca|default:'generico' }}">
@@ -27,7 +27,7 @@
     {# ── Barra superiore: logo + nav icone (desktop) + hamburger (mobile) ── #}
     <div class="ag-header-top px-5 py-3 d-flex flex-wrap align-items-center">
 
-      <a href="{% block brand_url %}/{% endblock %}" class="ag-header-brand my-3 lg:my-0">
+      <a href="{% block brand_url %}{% ag_home_url %}{% endblock %}" class="ag-header-brand my-3 lg:my-0">
         <img src="{% static agesci_theme_logo_navbar %}" alt="{{ agesci_theme_nome }}">
         <span class="d-none sm:d-inline">{% block brand_text %}{{ agesci_theme_nome }}{% endblock %}</span>
       </a>

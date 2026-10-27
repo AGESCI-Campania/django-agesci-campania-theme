@@ -1,11 +1,11 @@
-{% load static %}
+{% load static agesci_tags %}
 <footer class="ag-footer py-12">
   <div class="container">
     <div class="row g-7">
 
       {# Colonna logo + brand #}
       <div class="col-12 md:col-3">
-        <a href="/" class="d-inline-block mb-3">
+        <a href="{% ag_home_url %}" class="d-inline-block mb-3">
           <img src="{% static agesci_theme_logo_navbar %}" alt="{{ agesci_theme_nome }}" class="ag-footer__logo">
         </a>
         <p class="small">{% block footer_brand_text %}{{ agesci_theme_nome }}{% endblock %}</p>

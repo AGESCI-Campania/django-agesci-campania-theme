@@ -1,6 +1,7 @@
 from django import forms
 from django.apps import apps
 from django.shortcuts import render
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 from agesci_theme.forms import SelectMultiploADiscesa
 from agesci_theme.templatetags.agesci_tags import ZONE
@@ -9,15 +10,15 @@ from agesci_theme.templatetags.agesci_tags import ZONE
 def components(request):
     context = {
         "breadcrumb_items": [
-            {"label": "Home", "url": "/"},
+            {"label": "Home", "url": reverse("home")},
             {"label": "Componenti"},
         ],
         "breadcrumb_demo": [
-            {"label": "Home", "url": "/"},
+            {"label": "Home", "url": reverse("home")},
             {"label": "Componenti"},
         ],
         "breadcrumb_demo_long": [
-            {"label": "Home", "url": "/"},
+            {"label": "Home", "url": reverse("home")},
             {"label": "Sezione", "url": "#"},
             {"label": "Sotto-sezione", "url": "#"},
             {"label": "Pagina corrente"},
@@ -105,6 +106,13 @@ def form_demo(request):
     return render(request, "form_demo.html", {"form": form})
 
 
+def form_demo_errori(request):
+    """Il form di form_demo validato a vuoto, per mostrare gli errori."""
+    form = _demo_form_class()({})
+    form.is_valid()
+    return render(request, "form_demo.html", {"form": form})
+
+
 _BRANCHE = [
     ("generico", "Generico"),
     ("capi", "Capi"),
@@ -120,12 +128,12 @@ def home(request):
     context = {
         "branche": _BRANCHE,
         "breadcrumb_items": [
-            {"label": "Demo AGESCI Campania", "url": "/"},
+            {"label": "Demo AGESCI Campania", "url": reverse("home")},
             {"label": "Home"},
         ],
         "zone_list": sorted(ZONE.keys()),
         "demo_breadcrumb": [
-            {"label": "Home", "url": "/"},
+            {"label": "Home", "url": reverse("home")},
             {"label": "Demo v2"},
         ],
         "demo_features": [

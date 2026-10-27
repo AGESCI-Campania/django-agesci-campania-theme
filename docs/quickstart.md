@@ -133,6 +133,10 @@ e i colori della branca selezionata sono già attivi.
 (progetto-demo)=
 ## Progetto demo
 
+Per vedere il tema senza installare nulla c'è la **[demo online](https://agesci-campania.github.io/django-agesci-campania-theme/)**
+([Bootstrap](https://agesci-campania.github.io/django-agesci-campania-theme/bootstrap/), [CoreUI](https://agesci-campania.github.io/django-agesci-campania-theme/coreui/)): è statica, quindi
+l'invio dei form è disattivato.
+
 Il repository include un progetto Django completo che mostra header, sidebar,
 footer, palette, componenti e zone:
 

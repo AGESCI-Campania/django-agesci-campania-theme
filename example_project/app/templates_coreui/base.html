@@ -12,10 +12,11 @@
 {% endblock %}
 
 {% block sidebar_items %}
+  {% url "home" as url_home %}{% url "components" as url_componenti %}{% url "form_demo" as url_form %}{% url "account_login" as url_login %}
   {% ag_nav_title "Demo" %}
-  {% ag_nav_item "Home" "/" icon="house-fill" %}
-  {% ag_nav_item "Componenti" "/components/" icon="grid-fill" %}
-  {% ag_nav_item "Demo form" "/form-demo/" icon="ui-checks" badge="Nuovo" %}
+  {% ag_nav_item "Home" url_home icon="house-fill" %}
+  {% ag_nav_item "Componenti" url_componenti icon="grid-fill" %}
+  {% ag_nav_item "Demo form" url_form icon="ui-checks" badge="Nuovo" %}
   {% ag_nav_title "Associazione" %}
   <li class="nav-group">
     <a class="nav-link nav-group-toggle" href="#">{% bs_icon "people-fill" extra_classes="nav-icon" %} Branche</a>
@@ -26,13 +27,13 @@
     </ul>
   </li>
   {% ag_nav_item "Eventi" "#" icon="calendar-event" %}
-  {% ag_nav_item "Account" "/accounts/login/" icon="person-circle" %}
+  {% ag_nav_item "Account" url_login icon="person-circle" %}
 {% endblock %}
 
 {% block header_nav %}
-  <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-  <li class="nav-item"><a class="nav-link" href="/components/">Componenti</a></li>
-  <li class="nav-item"><a class="nav-link" href="/form-demo/">Form</a></li>
+  <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+  <li class="nav-item"><a class="nav-link" href="{% url 'components' %}">Componenti</a></li>
+  <li class="nav-item"><a class="nav-link" href="{% url 'form_demo' %}">Form</a></li>
 {% endblock %}
 
 {% block header_actions %}

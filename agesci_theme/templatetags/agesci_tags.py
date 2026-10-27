@@ -7,6 +7,7 @@ Uso nei template:
 """
 from django import template
 from django.templatetags.static import static
+from django.urls import get_script_prefix
 from django.utils.safestring import mark_safe
 
 register = template.Library()
@@ -60,3 +61,16 @@ def branca_bg(context):
     """Classe CSS di background corrispondente alla branca corrente."""
     branca = context.get("agesci_theme_branca", "generico")
     return _BRANCA_BG.get(branca, "bg-ag-azzurro")
+
+
+@register.simple_tag
+def ag_home_url():
+    """URL della radice del sito, prefisso di deploy compreso.
+
+    È ``"/"`` in un deploy normale; diventa ad esempio
+    ``"/django-agesci-campania-theme/coreui/"`` quando il sito vive in una
+    sottocartella (``FORCE_SCRIPT_NAME`` o ``SCRIPT_NAME`` del server WSGI),
+    come la demo statica su GitHub Pages. Usato come default del blocco
+    ``brand_url`` e dal link del logo nel footer, al posto di ``"/"`` fisso.
+    """
+    return get_script_prefix()

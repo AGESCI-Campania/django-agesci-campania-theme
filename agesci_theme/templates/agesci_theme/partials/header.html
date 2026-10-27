@@ -1,4 +1,4 @@
-{% load static %}
+{% load static agesci_tags %}
 {% comment %}
   ATTENZIONE: questo partial NON viene più incluso da base.html.
   Il contenuto è stato spostato direttamente in base.html (v2.2.1) in modo che
@@ -11,7 +11,7 @@
   {# ── Barra superiore: logo + nav icone (desktop) + hamburger (mobile) ── #}
   <div class="ag-header-top px-5 py-3 d-flex flex-wrap align-items-center">
 
-    <a href="{% block brand_url %}/{% endblock %}" class="ag-header-brand my-3 lg:my-0">
+    <a href="{% block brand_url %}{% ag_home_url %}{% endblock %}" class="ag-header-brand my-3 lg:my-0">
       <img src="{% static agesci_theme_logo_navbar %}" alt="{{ agesci_theme_nome }}">
       <span class="d-none sm:d-inline">{% block brand_text %}{{ agesci_theme_nome }}{% endblock %}</span>
     </a>
