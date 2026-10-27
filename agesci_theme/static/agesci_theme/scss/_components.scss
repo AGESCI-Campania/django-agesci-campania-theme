@@ -27,8 +27,9 @@
     background-color: var(--ag-primary);
     color: var(--ag-on-primary);
 
-    a:not(.btn) { color: var(--ag-on-primary); }
-    .lead { opacity: .9; }
+    // i bottoni (.btn-solid, .btn-outline…) mantengono i propri colori
+    a:not([class*="btn-"]) { color: var(--ag-on-primary); }
+    p { opacity: .9; }
   }
 
   &--subtle { background-color: var(--ag-primary-subtle); }

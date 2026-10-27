@@ -1,5 +1,5 @@
 // =============================================================
-//  _forms.scss — validazione form (Bootstrap override deliberato)
+//  _forms.scss — validazione form e label (override deliberati)
 // =============================================================
 
 // I nostri div di errore (django/forms/errors/list/default.html,
@@ -14,4 +14,17 @@
 // avvolto in un wrapper.
 .invalid-feedback {
   display: block;
+}
+
+// Bootstrap 6: in .form-field le label di Django (label_tag, senza .form-label)
+// prendono lo stesso peso delle .form-label; quelle dei checkbox stanno in
+// .form-field-content e non sono figlie dirette, quindi restano normali.
+.form-field > label:not(.form-label) {
+  font-weight: 500;
+}
+
+// Il multiselect (button.form-control + .menu) e' un wrapper: il menu si
+// posiziona rispetto a lui.
+.ag-multiselect {
+  position: relative;
 }
