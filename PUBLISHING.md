@@ -71,6 +71,27 @@ gh release create vX.Y.Z --title "vX.Y.Z" --generate-notes
 Alla creazione della release, GitHub Actions eseguirà automaticamente
 `publish.yml`: build del pacchetto, check Django, upload su PyPI.
 
+### Pre-release (serie 3.x su Bootstrap 6 alpha)
+
+Finché Bootstrap 6 è in alpha il tema viene rilasciato come **pre-release PEP 440**
+(`3.0.0a1`, `3.0.0a2`, … poi `b`, `rc`, e `3.0.0` quando Bootstrap 6 è stabile):
+
+```bash
+# versione in pyproject.toml: "3.0.0a1"  (CoreUI: "0.2.0a1" in coreui/pyproject.toml)
+git tag v3.0.0a1                          # tema Bootstrap; per CoreUI: coreui-v0.2.0a1
+git push origin v3.0.0a1
+gh release create v3.0.0a1 --prerelease --title "v3.0.0a1" --notes "Pre-release: Bootstrap 6.0.0-alpha.1"
+```
+
+- Si rilascia dal branch `bootstrap-6` (il tag punta a un commit del branch): `main` resta sulla 2.x e
+  continua a poter pubblicare correzioni `2.x.y`.
+- PyPI e gli installer trattano `3.0.0a1` come pre-release: gli utenti la ottengono solo con
+  `uv add --prerelease allow django-agesci-campania-theme` / `pip install --pre …`.
+- Ad ogni nuova alpha di Bootstrap 6: rileggere `https://getbootstrap.com/llms.txt` e la guida di migrazione
+  ufficiale, aggiornare versione e hash SRI in `base.html` (blocchi `bootstrap_css` / `bootstrap_js`) e
+  ripetere la verifica nel browser (vedi `docs/sviluppo.md`).
+- Il pacchetto CoreUI `0.2.0a1` richiede `django-agesci-campania-theme>=3.0.0a1`: pubblica prima il tema.
+
 ---
 
 ## 3. Rilascio manuale (senza GitHub Actions)

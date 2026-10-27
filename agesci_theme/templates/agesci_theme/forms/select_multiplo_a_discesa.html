@@ -1,22 +1,21 @@
-{% load agesci_tags %}
 {# Contenitore della tendina: bottone chiuso + menu con checkbox. #}
-{# data-{% ag_js %}-auto-close="outside" (Bootstrap 5.2+) tiene il menu aperto #}
-{# finché si clicca dentro, cosa che un dropdown Bootstrap normale non fa #}
-{# selezionando più checkbox di seguito. L'etichetta del bottone è #}
-{# aggiornata da agesci_theme/static/agesci_theme/js/multiselect-dropdown.js. #}
-<div class="dropdown ag-multiselect">
+{# data-bs-auto-close="outside" tiene il menu aperto finché si clicca #}
+{# dentro, cosa che un menu Bootstrap normale non fa selezionando più #}
+{# checkbox di seguito. L'etichetta del bottone è aggiornata da #}
+{# agesci_theme/static/agesci_theme/js/multiselect-dropdown.js. #}
+<div class="ag-multiselect">
   <button type="button"
-          class="form-select ag-multiselect__toggle text-start{% if "aria-invalid" in widget.attrs %} is-invalid{% endif %}"
-          data-{% ag_js %}-toggle="dropdown"
-          data-{% ag_js %}-auto-close="outside"
+          class="form-control form-control-caret ag-multiselect__toggle text-start{% if "aria-invalid" in widget.attrs %} is-invalid{% endif %}"
+          data-bs-toggle="menu"
+          data-bs-auto-close="outside"
           aria-expanded="false">
     <span class="ag-multiselect__label" data-placeholder="{{ widget.placeholder }}">{{ widget.placeholder }}</span>
   </button>
-  <ul class="dropdown-menu ag-multiselect__menu p-2">
+  <div class="menu ag-multiselect__menu p-3">
     {% for group, options, index in widget.optgroups %}
       {% for option in options %}
         {% include option.template_name with widget=option %}
       {% endfor %}
     {% endfor %}
-  </ul>
+  </div>
 </div>

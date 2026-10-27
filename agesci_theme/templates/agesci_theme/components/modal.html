@@ -1,34 +1,29 @@
-{% load agesci_tags %}
 {% comment %}
-  Template per modal Bootstrap v2.
+  Dialog Bootstrap 6 (<dialog> nativo; ex "modal").
 
   Utilizzo:
     {% include "agesci_theme/components/modal.html" with modal_id="myModal" title="Titolo" body=my_safe_html size="lg" %}
 
   Parametri:
-    modal_id (str, obbligatorio): ID univoco del modal
+    modal_id (str, obbligatorio): ID univoco del dialog
     title    (str): titolo nella testata
     body     (safe HTML str): contenuto — usare mark_safe() nella view
     size     (str): "" | "sm" | "lg" | "xl" | "fullscreen"
-    centered (bool): True per centratura verticale
+
+  Aprirlo con data-bs-toggle="dialog" data-bs-target="#myModal" (vedi ag_modal_trigger).
+  Il parametro "centered" della v2 non esiste più: il <dialog> nativo è già centrato.
 {% endcomment %}
-<div class="modal fade"
-     id="{{ modal_id }}"
-     tabindex="-1"
-     aria-labelledby="{{ modal_id }}Label"
-     aria-hidden="true">
-  <div class="modal-dialog{% if size %} modal-{{ size }}{% endif %}{% if centered %} modal-dialog-centered{% endif %} modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="{{ modal_id }}Label">{{ title }}</h5>
-        <button type="button" class="btn-close" data-{% ag_js %}-dismiss="modal" aria-label="Chiudi"></button>
-      </div>
-      <div class="modal-body">
-        {{ body }}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-{% ag_js %}-dismiss="modal">Chiudi</button>
-      </div>
-    </div>
+<dialog class="dialog{% if size %} dialog-{{ size }}{% endif %}"
+        id="{{ modal_id }}"
+        aria-labelledby="{{ modal_id }}Label">
+  <div class="dialog-header">
+    <h5 class="dialog-title" id="{{ modal_id }}Label">{{ title }}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="dialog" aria-label="Chiudi"></button>
   </div>
-</div>
+  <div class="dialog-body">
+    {{ body }}
+  </div>
+  <div class="dialog-footer">
+    <button type="button" class="btn-solid theme-secondary" data-bs-dismiss="dialog">Chiudi</button>
+  </div>
+</dialog>

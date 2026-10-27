@@ -10,9 +10,9 @@ jobs:
   test-build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Install uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@v10.3.2
       - name: Set up Python
         run: uv python install 3.12
       - name: Sync
@@ -21,6 +21,23 @@ jobs:
         run: uv run python example_project/manage.py check
       - name: Django system check (example project, CoreUI)
         run: uv run python example_project/manage.py check --settings=config.settings_coreui
+      - name: Smoke test (example project, Bootstrap)
+        run: uv run python example_project/manage.py test app
+      - name: Smoke test (example project, CoreUI)
+        run: uv run python example_project/manage.py test app --settings=config.settings_coreui
+      - name: Residui Bootstrap 5 nei template del tema base
+        run: python3 scripts/check_bs5_residui.py
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install Node dependencies
+        run: npm ci
+      - name: Rebuild CSS (entrambi i temi)
+        run: npm run build:css
+      - name: CSS compilato allineato agli SCSS
+        run: git diff --exit-code -- agesci_theme/static coreui/agesci_coreui/static
       # Stessa generazione di pages.yml: fallisce su link che su GitHub
       # Pages sarebbero 404 (es. "/" fisso in un template).
       - name: Demo statica (verifica)

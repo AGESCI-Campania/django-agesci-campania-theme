@@ -1,0 +1,145 @@
+// =============================================================
+//  Override Bootstrap + componenti del tema AGESCI Campania
+//  Questo file usa le CSS custom properties definite in _branche.scss
+//  cosi' i componenti reagiscono automaticamente a [data-branca].
+//  Condiviso con il tema CoreUI: le variabili del framework usano il
+//  prefisso di _prefix.scss. Il layout viewport fisso, specifico del
+//  tema Bootstrap, sta in _layout.scss.
+// =============================================================
+@use "palette" as p;
+@use "prefix" as pf;
+
+// --- Tipografia --------------------------------------------------------------
+$ag-font-sans: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+$ag-font-head: "Montserrat", "Open Sans", system-ui, sans-serif;
+
+body {
+  font-family: $ag-font-sans;
+  color: p.$agesci-grigio-scuro;
+}
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: $ag-font-head;
+  font-weight: 700;
+}
+
+// --- Bottoni primari (seguono la branca) ------------------------------------
+.btn-primary {
+  --#{pf.$prefix}btn-bg: var(--ag-primary);
+  --#{pf.$prefix}btn-border-color: var(--ag-primary);
+  --#{pf.$prefix}btn-color: var(--ag-on-primary);
+  --#{pf.$prefix}btn-hover-bg: var(--ag-primary-hover);
+  --#{pf.$prefix}btn-hover-border-color: var(--ag-primary-hover);
+  --#{pf.$prefix}btn-hover-color: var(--ag-on-primary);
+  --#{pf.$prefix}btn-active-bg: var(--ag-primary-active);
+  --#{pf.$prefix}btn-active-border-color: var(--ag-primary-active);
+  --#{pf.$prefix}btn-active-color: var(--ag-on-primary);
+  --#{pf.$prefix}btn-disabled-bg: var(--ag-primary);
+  --#{pf.$prefix}btn-disabled-border-color: var(--ag-primary);
+  --#{pf.$prefix}btn-disabled-color: var(--ag-on-primary);
+}
+
+.btn-outline-primary {
+  --#{pf.$prefix}btn-color: var(--ag-primary);
+  --#{pf.$prefix}btn-border-color: var(--ag-primary);
+  --#{pf.$prefix}btn-hover-bg: var(--ag-primary);
+  --#{pf.$prefix}btn-hover-border-color: var(--ag-primary);
+  --#{pf.$prefix}btn-hover-color: var(--ag-on-primary);
+  --#{pf.$prefix}btn-active-bg: var(--ag-primary);
+  --#{pf.$prefix}btn-active-border-color: var(--ag-primary);
+  --#{pf.$prefix}btn-active-color: var(--ag-on-primary);
+}
+
+// --- Navbar di brand ---------------------------------------------------------
+.navbar-agesci {
+  background-color: var(--ag-primary);
+  --#{pf.$prefix}navbar-color: rgba(255, 255, 255, .85);
+  --#{pf.$prefix}navbar-hover-color: #fff;
+  --#{pf.$prefix}navbar-active-color: #fff;
+  --#{pf.$prefix}navbar-brand-color: #fff;
+  --#{pf.$prefix}navbar-brand-hover-color: #fff;
+  --#{pf.$prefix}navbar-toggler-border-color: rgba(255, 255, 255, .3);
+
+  // se la branca e' chiara (es. LC giallo) il testo bianco e' illeggibile:
+  // si usa .navbar-agesci.text-dark per forzare i link scuri.
+  &.text-dark {
+    --#{pf.$prefix}navbar-color: rgba(0, 0, 0, .65);
+    --#{pf.$prefix}navbar-hover-color: #000;
+    --#{pf.$prefix}navbar-active-color: #000;
+    --#{pf.$prefix}navbar-brand-color: #000;
+  }
+
+  .navbar-brand img {
+    height: 40px;
+    width: auto;
+  }
+}
+
+// --- Link, badge, alert, focus ----------------------------------------------
+a { color: var(--ag-primary); }
+a:hover { color: var(--ag-primary-hover); }
+
+.badge.text-bg-primary {
+  background-color: var(--ag-primary) !important;
+  color: var(--ag-on-primary) !important;
+}
+
+.bg-primary { background-color: var(--ag-primary) !important; }
+.text-primary { color: var(--ag-primary) !important; }
+.border-primary { border-color: var(--ag-primary) !important; }
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--ag-primary);
+  box-shadow: 0 0 0 .25rem rgba(var(--#{pf.$prefix}primary-rgb), .25);
+}
+
+// --- Breadcrumb --------------------------------------------------------------
+.breadcrumb-agesci {
+  background-color: var(--ag-primary-subtle);
+  border-bottom: 1px solid rgba(0, 0, 0, .06);
+
+  .breadcrumb-item + .breadcrumb-item::before { color: var(--ag-primary); }
+  .breadcrumb-item.active { color: var(--ag-primary); font-weight: 600; }
+  a { color: var(--ag-primary); }
+  a:hover { color: var(--ag-primary-hover); }
+}
+
+// --- Subnav secondaria -------------------------------------------------------
+.subnav-agesci {
+  background-color: var(--ag-primary-subtle);
+  border-bottom: 1px solid rgba(0, 0, 0, .08);
+
+  .nav-link {
+    color: var(--ag-primary);
+    border-radius: .375rem;
+
+    &:hover { background-color: rgba(var(--#{pf.$prefix}primary-rgb), .12); color: var(--ag-primary); }
+    &.active { background-color: var(--ag-primary); color: var(--ag-on-primary); }
+  }
+}
+
+// --- Footer ------------------------------------------------------------------
+.footer-agesci {
+  background-color: p.$agesci-grigio-scuro;
+  color: rgba(255, 255, 255, .8);
+  padding: 0.5rem 0;
+  a { color: #fff; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .footer-emblema { height: 56px; width: auto; opacity: .95; }
+}
+
+// --- Utility palette (classi dirette ai colori del manuale) -----------------
+.bg-ag-viola      { background-color: p.$agesci-viola !important;     color: #fff; }
+.bg-ag-azzurro    { background-color: p.$agesci-azzurro !important;   color: #fff; }
+.bg-ag-giallo-lc  { background-color: p.$agesci-giallo-lc !important; color: p.$agesci-nero; }
+.bg-ag-verde-eg   { background-color: p.$agesci-verde-eg !important;  color: #fff; }
+.bg-ag-rosso-rs   { background-color: p.$agesci-rosso-rs !important;  color: #fff; }
+.bg-ag-giallo-oro { background-color: p.$agesci-giallo-oro !important;color: p.$agesci-nero; }
+.bg-ag-generico-2 { background-color: p.$agesci-generico-2 !important; color: #fff; }
+
+.text-ag-viola    { color: p.$agesci-viola !important; }
+.text-ag-azzurro  { color: p.$agesci-azzurro !important; }
+.text-ag-verde-eg { color: p.$agesci-verde-eg !important; }
+.text-ag-rosso-rs { color: p.$agesci-rosso-rs !important; }
+.text-ag-generico-2 { color: p.$agesci-generico-2 !important; }

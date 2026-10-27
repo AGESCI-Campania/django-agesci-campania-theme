@@ -56,12 +56,17 @@
 
 // ── Barra inferiore (ricerca + azioni) ────────────────────────────────────────
 .ag-header-bottom {
-  background-color: var(--bs-body-bg, #fff);
+  background-color: var(--bs-bg-body, #fff);
   border-bottom: 1px solid var(--bs-border-color, #dee2e6);
 }
 
-// ── Offcanvas mobile ──────────────────────────────────────────────────────────
+// ── Drawer mobile (Bootstrap 6: <dialog class="drawer">) ───────────────────────
 #agOffcanvas {
+  // BS6 lo rende un pannello "floating" (inset + angoli): qui a tutta altezza, come prima
+  --bs-drawer-inset: 0;
+  --bs-drawer-border-radius: 0;
+  overflow: hidden;
+
   .ag-offcanvas-header {
     background-color: var(--ag-primary);
     color: var(--ag-on-primary);
@@ -92,11 +97,11 @@
     }
   }
 
-  .offcanvas-body {
+  .drawer-body {
     padding-top: .5rem;
 
     .nav-link {
-      color: var(--bs-body-color, #212529);
+      color: var(--bs-fg-body, #212529);
       padding: .6rem 1rem;
       display: flex;
       align-items: center;

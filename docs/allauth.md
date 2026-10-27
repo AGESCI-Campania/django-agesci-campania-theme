@@ -1,6 +1,6 @@
 # Integrazione con django-allauth
 
-Il tema include override Bootstrap 5 opzionali per le pagine generate da
+Il tema include override Bootstrap 6 opzionali per le pagine generate da
 [django-allauth](https://docs.allauth.org/) (login, logout, registrazione,
 reset password, MFA...), che di default ignorano completamente lo styling
 Bootstrap.
@@ -19,7 +19,7 @@ Il tema fornisce due template, sotto `agesci_theme/templates/allauth/`:
 - `allauth/layouts/base.html` — il layout base di allauth.
 - `allauth/elements/button.html` — mappa i `tags` che allauth passa ai
   bottoni (`prominent`, `outline`, `secondary`, `danger`, `link`) sulle
-  classi Bootstrap `btn btn-*`.
+  classi Bootstrap 6 `btn-solid`/`btn-outline` + `theme-*` (e `btn btn-link`).
 
 Questi due file **non richiedono alcuna configurazione**: `agesci_theme` è
 già un'app installata (requisito documentato per usare il tema), quindi

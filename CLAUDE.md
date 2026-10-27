@@ -4,15 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
-Questo repository è **django-agesci-theme**: un tema Bootstrap 5 riusabile,
+Questo repository è **django-agesci-theme**: un tema Bootstrap 6 riusabile (serie 3.x, pre-release finché Bootstrap 6 è in alpha),
 distribuito come pacchetto Python (`django-agesci-campania-theme`), per le app
 Django dell'AGESCI Campania.
 
-È un **workspace uv con due pacchetti PyPI**: il tema Bootstrap (root,
+È un **workspace uv con due pacchetti PyPI**: il tema Bootstrap 6 (root,
 `agesci_theme/`) e il tema **CoreUI 5** (`coreui/`, pacchetto
-`django-agesci-campania-coreui-theme`, app `agesci_coreui`), che DIPENDE dal
-tema base e lo estende (layout nativo CoreUI + componenti free). Dettagli in
-`docs/coreui.md`.
+`django-agesci-campania-coreui-theme`, app `agesci_coreui`). CoreUI è basato su
+Bootstrap **5.3** (non esiste un CoreUI su Bootstrap 6): dal tema base usa solo
+Python (template tag, context processor), immagini e `_palette.scss`, mentre il
+**markup è duplicato** nel pacchetto CoreUI (vedi sotto). Dettagli in
+`docs/coreui.md`; guida per chi migra da 2.x in `docs/migrazione-bootstrap-6.md`.
 
 ## Cosa NON rompere
 
@@ -26,18 +28,54 @@ tema base e lo estende (layout nativo CoreUI + componenti free). Dettagli in
 - Il **CSS compilato è committato** (`css/agesci.css` e `css/agesci.min.css`,
   più `coreui/.../css/agesci-coreui(.min).css`). Dopo ogni modifica allo SCSS
   rigeneralo con `npm run build:css` (compila ENTRAMBI i temi) e committa.
-- **Mai `data-bs-*` letterali nei template del tema base** (`agesci_theme/templates/`):
-  scrivi `data-{% ag_js %}-toggle` ecc. (`{% load agesci_tags %}`). CoreUI
-  legge SOLO `data-coreui-*` e ignora `data-bs-*` (verificato su CoreUI 5.9.0:
-  il modal non si apre). `{% ag_js %}` decide da `apps.is_installed("agesci_coreui")`,
-  non dal contesto, così funziona negli inclusion tag e nei widget. Nel JS
-  usa `window.coreui || window.bootstrap`.
-- **Mai `--bs-` letterali negli SCSS condivisi** (`_branche`, `_bootstrap-overrides`):
-  usa `--#{pf.$prefix}...` con `@use "prefix" as pf;`. `_prefix.scss` va
-  configurato come PRIMO `@use` dell'entrypoint (`agesci-coreui.scss` lo
-  imposta a `cui-`). Il layout viewport fisso sta in `_layout.scss`, incluso
-  SOLO da `agesci.scss`: il tema CoreUI usa `.wrapper`/`.sidebar`/`.header`
-  nativi e scorre la pagina intera.
+- **Bootstrap 6 (3.x) e CoreUI 5 hanno markup diverso e vivono separati**:
+  Modal/Offcanvas/Dropdown → `dialog`/`drawer`/`menu`, classi `theme-*`, prefissi
+  responsive (`lg:d-none`), `form-control` sui select, `.check`/`.radio`… Il tema
+  base scrive `data-bs-*` fissi (nessun `{% ag_js %}`, rimosso nella 3.0). CoreUI legge
+  SOLO `data-coreui-*` (verificato su CoreUI 5.9.0: `data-bs-*` non apre il modal)
+  e ha **copie proprie** con lo stesso percorso dei template del tema
+  (`coreui/agesci_coreui/templates/agesci_theme/components/…`, `…/forms/…`,
+  `django/forms/…`, `allauth/…`), del JS dei form (`password-toggle.js`,
+  `multiselect-dropdown.js`) e dei partial SCSS (`_prefix` con `cui-`, `_branche`,
+  `_bootstrap-overrides`, `_forms`, `_components`; solo `_palette` è condiviso via
+  `--load-path`). Le copie vincono perché `agesci_coreui` precede `agesci_theme` in
+  `INSTALLED_APPS` (system check `agesci_coreui.E002`: nell'ordine sbagliato non c'è
+  errore, escono pagine col markup sbagliato). Nei form CoreUI usa
+  `agesci_coreui.forms.AgesciCoreuiFormRenderer`. **Una modifica a un componente va
+  fatta nel tema (BS6) e, se serve, anche nella copia CoreUI (BS5)**; i tag Python
+  passano contesto neutro (es. `cols`, `variant`) e le classi si scelgono nel template.
+  Il layout viewport fisso sta in `_layout.scss`, solo `agesci.scss`: CoreUI usa
+  `.wrapper`/`.sidebar`/`.header` nativi e scorre la pagina intera.
+- **Bootstrap 6 usa i `@layer` CSS** (`colors, config, root, reboot, layout, content,
+  forms, components, custom, helpers, utilities`) e il CSS del tema è FUORI dai
+  layer. Due trappole verificate nel browser: (1) un `display:` incondizionato nel
+  tema batte le utility del markup (`d-none`, `lg:d-none`): dichiaralo solo nella
+  media query in cui l'elemento va mostrato (vedi `.ag-sidebar__close`);
+  (2) un `!important` DENTRO un layer batte un `!important` FUORI: `.lg:drawer` da
+  1024px forza `width:auto`, sfondo trasparente, `border:0`, `transition:none` con
+  `!important` in `components`, quindi larghezza/sfondo/transizione della sidebar
+  stanno in `@layer layout { @media (min-width:1024px) { … !important } }` alla fine
+  di `_sidebar.scss`. NON spostarle fuori dal `@layer`.
+- **Il colore di branca passa dai token `--bs-primary-*`** (`_branche.scss`: base, bg,
+  fg, fg-emphasis, bg-subtle, bg-muted, border, focus-ring, contrast): `.theme-primary`,
+  link e focus ring li leggono da soli. NON riscrivere override per singolo componente
+  (`--bs-btn-*`…), non esistono più le varianti `-rgb` (usa `color-mix()`), non
+  ridefinire `--bs-fg-body` (i sottoalberi `data-bs-theme="dark"`, es. il menu utente,
+  devono restare chiari) e NON mettere `a { color }` globale (ricolorerebbe i `.menu-item`).
+- **Bootstrap 6 è pinnato e in alpha**: `base.html` carica `bootstrap@6.0.0-alpha.1`
+  (CSS e bundle ESM) con SRI sha384, nei blocchi `bootstrap_css`/`bootstrap_js`. Il JS è
+  `<script type="module">`: non esiste `window.bootstrap`. `<html>` ha
+  `data-bs-theme="light"` (BS6 segue altrimenti `prefers-color-scheme`). Browser minimi:
+  Chrome/Edge 130, Firefox 132, Safari 18. Ad ogni alpha: vedi `docs/sviluppo.md`
+  ("Aggiornare Bootstrap 6").
+- **Sidebar = `<dialog class="lg:drawer drawer-start">`** (non `<nav>`): da 1024px è
+  in flusso e visibile senza `open`; sotto è un drawer a tutta altezza
+  (`--bs-drawer-inset:0; --bs-drawer-border-radius:0`). Il menu utente è un `.menu`
+  con `data-bs-strategy="fixed"`, `data-bs-placement="top-start"`.
+- I tag che mappano varianti v5 passano anche `theme` (`_theme()` in
+  `agesci_components.py`: `dark`→`inverse`, `light`→`secondary`; BS6 non ha
+  `theme-light`/`theme-dark`) e restano retrocompatibili su `variant`.
+
 - **Tema CoreUI, varianti derivate del primario**: CoreUI colora chip,
   alert, list group ecc. con `--cui-primary-bg-subtle`/`-text-emphasis`/
   `-border-subtle`/`-contrast`, che `_branche.scss` non genera.
@@ -48,10 +86,10 @@ tema base e lo estende (layout nativo CoreUI + componenti free). Dettagli in
   l'istanza della sidebar (al `load`). Il salvataggio legge la classe con
   `setTimeout(0)` dopo il click: l'handler di CoreUI (delegato su `.sidebar`)
   la cambia PRIMA del listener sul bottone (verificato nel browser).
-- Bootstrap 5 è caricato da CDN in `base.html`; `agesci.min.css` va caricato
-  **dopo** di esso e sovrascrive le sue custom properties.
+- `agesci.min.css` va caricato **dopo** `bootstrap.min.css` (vedi `base.html`);
+  essendo fuori dai `@layer` di Bootstrap 6 vince comunque sulle sue regole normali.
 - **Layout viewport fisso**: `body { height: 100vh; overflow: hidden }` è
-  definito in `_bootstrap-overrides.scss`. Lo scroll avviene su `.ag-scroll-area`
+  definito in `_layout.scss` (solo da 1024px). Lo scroll avviene su `.ag-scroll-area`
   (il wrapper flex che contiene `<main>` + `<footer>` come fratelli), non su
   `main` direttamente. NON usare `min-vh-100` sul body. NON rimettere
   `overflow-y: auto` su `main` — lo scroll deve stare su `.ag-scroll-area`
@@ -75,20 +113,22 @@ tema base e lo estende (layout nativo CoreUI + componenti free). Dettagli in
   indipendentemente dalla posizione in `INSTALLED_APPS`. L'unico modo
   supportato è sottoclassare `AgesciFormRenderer` e anteporre la propria
   directory a `engine.dirs` (vedi docstring in `forms.py`).
-- **`django/forms/p.html` usa `<div class="mb-3">`, non `<p>`**: i browser
+- **`django/forms/p.html` usa `<div class="form-field mb-5">`, non `<p>`**: i browser
   chiudono automaticamente un `<p>` quando incontrano un `<div>` annidato
   (es. `.invalid-feedback`), rompendo l'adiacenza CSS richiesta da Bootstrap
-  (`.is-invalid ~ .invalid-feedback`). Scoperto ispezionando il DOM
-  renderizzato in un browser reale, non deducibile dal solo sorgente del
-  template. NON tornare a `<p>`.
+  (`.is-invalid ~ .invalid-feedback`; `.form-field:has(.check.is-invalid) .invalid-feedback`
+  per checkbox/radio). Scoperto ispezionando il DOM renderizzato in un browser reale,
+  non deducibile dal solo sorgente del template. NON tornare a `<p>`. Per i
+  `BooleanField` il controllo va PRIMA della label (layout a due colonne di
+  `.form-field`, label+aiuto+errore in `.form-field-content`).
 - **`.invalid-feedback { display: block; }` (`_forms.scss`) è deliberato**:
   i nostri errori vengono renderizzati solo quando il campo ha davvero un
   errore (vedi `django/forms/errors/list/default.html`), quindi non serve —
   anzi è dannoso — il comportamento di default di Bootstrap che nasconde
-  `.invalid-feedback` finché non è preceduto da un fratello `.is-invalid`.
-  NON rimuovere questa regola pensando sia superflua: senza, gli errori
-  spariscono ogni volta che il campo è avvolto in un wrapper (es.
-  `.input-group` del toggle password).
+  `.invalid-feedback` fuori da posizioni precise rispetto al controllo
+  `.is-invalid`. NON rimuovere questa regola pensando sia superflua: senza, gli
+  errori spariscono ogni volta che il campo è avvolto in un wrapper (es. il
+  multiselect, un `<div>` con dentro il `button.form-control`).
 - **`allauth/layouts/base.html` deve estendere `"base.html"` (letterale),
   MAI `"agesci_theme/base.html"`**: altrimenti le pagine allauth perdono le
   personalizzazioni (nav, breadcrumb) del progetto consumer, che ha il
@@ -129,13 +169,16 @@ uv run python example_project/manage.py runserver
 uv run python example_project/manage.py check   # Django system check (usato anche in CI)
 uv run python example_project/manage.py runserver --settings=config.settings_coreui  # demo CoreUI
 uv run python example_project/manage.py check --settings=config.settings_coreui     # usato anche in CI
+uv run python example_project/manage.py test app        # smoke test pagine demo × 7 branche (anche con --settings=config.settings_coreui; usato in CI)
+python3 scripts/check_bs5_residui.py                    # fallisce se i template del tema base hanno pattern Bootstrap 5 (usato in CI)
 uv run python example_project/manage.py demo_statica --output site/coreui --prefix /x/coreui/ --settings=config.settings_coreui  # demo statica (Pages)
 uv build --package django-agesci-campania-theme          # pacchetto Bootstrap
 uv build --package django-agesci-campania-coreui-theme   # pacchetto CoreUI
 ```
 
 Rilascio: tag `vX.Y.Z` → tema Bootstrap, tag `coreui-vX.Y.Z` → tema CoreUI
-(stesso `publish.yml`, vedi `PUBLISHING.md`).
+(stesso `publish.yml`, vedi `PUBLISHING.md`). La 3.x esce come pre-release
+(`v3.0.0a1`, `gh release create --prerelease`) dal branch `bootstrap-6`.
 
 Modificare i colori (richiede Node.js):
 
@@ -149,23 +192,25 @@ npm run watch:css    # ricompila lo SCSS in tempo reale
 
 `agesci.scss` è solo un entrypoint; l'ordine di inclusione è fisso:
 
-0. `_prefix.scss` — `$prefix` delle custom properties del framework (`bs-`/`cui-`).
-1. `_palette.scss` — variabili Sass `$agesci-*` con i valori Pantone ufficiali.
-2. `_branche.scss` — genera le CSS custom properties `--ag-primary` (e derivati)
-   per ciascuna branca via `@each` + mixin `tema-primario`. La funzione
+1. `_palette.scss` — variabili Sass `$agesci-*` con i valori Pantone ufficiali
+   (l'unico partial condiviso con CoreUI).
+2. `_branche.scss` — per ciascuna branca (`@each` + mixin `tema-primario`) genera i
+   token Bootstrap 6 `--bs-primary-*` e le `--ag-primary` (e derivati). La funzione
    `on-color()` sceglie testo nero/bianco in base alla luminosità del primario.
-3. `_layout.scss` — layout viewport fisso e `.ag-scroll-area` (solo Bootstrap).
-4. `_bootstrap-overrides.scss` — rimappa i token del framework (`--bs-primary`,
-   link, pulsanti) alle variabili `--ag-*`.
-5. `_header.scss` — stili dell'header a due barre e del pannello offcanvas.
-6. `_sidebar.scss` — sidebar collapsible con stato persistito in `localStorage`.
-7. `_footer.scss` — footer con colonne e riga copyright.
-8. `_components.scss` — componenti opzionali (hero, jumbotron, ecc.).
+3. `_layout.scss` — layout viewport fisso (≥ 1024px) e `.ag-scroll-area`.
+4. `_bootstrap-overrides.scss` — font, `.ag-btn-light`, navbar-agesci, breadcrumb,
+   subnav, footer e utility `bg-ag-*`/`text-ag-*` (il colore dei componenti NON si
+   override qui: vedi i token in `_branche.scss`).
+5. `_forms.scss` — `.invalid-feedback`, label nei `.form-field`, `.ag-multiselect`.
+6. `_header.scss` — header a due barre e drawer mobile.
+7. `_sidebar.scss` — sidebar collapsible (stato in `localStorage`) con il blocco
+   `@layer layout` finale.
+8. `_footer.scss`, 9. `_components.scss` — footer e componenti opzionali.
 
-`coreui/agesci_coreui/static/agesci_coreui/scss/agesci-coreui.scss` riusa
-`_prefix` (con `cui-`), `_palette`, `_branche`, `_bootstrap-overrides`,
-`_forms`, `_components` del tema base (la build passa
-`--load-path=agesci_theme/static/agesci_theme/scss`) e aggiunge
+`coreui/agesci_coreui/static/agesci_coreui/scss/agesci-coreui.scss` usa
+`_prefix` (default `cui-`), `_branche`, `_bootstrap-overrides`, `_forms`,
+`_components` **propri** (copie BS5 nella stessa cartella), `_palette` dal tema base
+(la build passa `--load-path=agesci_theme/static/agesci_theme/scss`) e aggiunge
 `_coreui-layout.scss` e `_coreui-components.scss`.
 
 ## Struttura
@@ -177,11 +222,11 @@ agesci_theme/                  # il package Python distribuibile
   static/agesci_theme/js/      # script JS (sidebar.js, password-toggle.js)
   static/agesci_theme/img/     # loghi, emblemi, zone, favicon
   templates/agesci_theme/
-    base.html                  # template base da estendere
+    base.html                  # template base da estendere (blocchi bootstrap_css / bootstrap_js)
     partials/                  # header.html, sidebar.html, footer.html, breadcrumb.html
     components/                # 13 template dei componenti opzionali
-  templates/django/forms/      # override Bootstrap 5 per AgesciFormRenderer (opt-in)
-  templates/allauth/           # override Bootstrap 5 per django-allauth (opt-in)
+  templates/django/forms/      # override Bootstrap 6 per AgesciFormRenderer (opt-in)
+  templates/allauth/           # override Bootstrap 6 per django-allauth (opt-in)
   templatetags/
     agesci_tags.py             # emblema_zona, branca_bg, zone_disponibili, ag_js, ag_home_url
     agesci_components.py       # 13 inclusion tag (ag_hero, ag_feature_grid, ag_password_field, ag_multiselect_dropdown, ecc.)
@@ -191,9 +236,12 @@ coreui/                        # secondo pacchetto: django-agesci-campania-coreu
   pyproject.toml               # dipende da django-agesci-campania-theme (workspace)
   agesci_coreui/
     templates/agesci_coreui/base.html   # layout nativo CoreUI (sidebar + header)
+    templates/agesci_theme/, django/, allauth/   # COPIE BS5 dei template del tema (stesso percorso: vincono)
+    static/agesci_coreui/js/            # layout.js + copie di password-toggle / multiselect-dropdown
+    static/agesci_coreui/scss/          # partial BS5 propri (_prefix, _branche, …) + _coreui-*
     templatetags/agesci_coreui.py       # ag_nav_item, ag_nav_title, ag_callout, ag_avatar, ag_chip
-    forms.py                   # InputChip / CampoChip (chip-input di CoreUI)
-    checks.py                  # agesci_coreui.E001: richiede agesci_theme installata
+    forms.py                   # AgesciCoreuiFormRenderer, InputChip / CampoChip (chip-input)
+    checks.py                  # E001: richiede agesci_theme; E002: agesci_coreui prima di agesci_theme
 example_project/               # progetto Django demo (/, /components/, /accounts/, /form-demo/)
   config/settings_coreui.py    # stessa demo col tema CoreUI
   app/templates_coreui/        # template CoreUI, cercati PRIMA di app/templates/
@@ -205,9 +253,11 @@ example_project/               # progetto Django demo (/, /components/, /account
 
 - Codice e commenti in italiano (è il contesto associativo).
 - Branche valide: `generico, capi, lc, eg, rs, viola, generico2`. Se ne aggiungi
-  una, aggiornala in QUATTRO punti: `_branche.scss`,
+  una, aggiornala in CINQUE punti: `_branche.scss`
+  (anche la copia in `coreui/.../scss/_branche.scss`),
   `context_processors.BRANCHE_VALIDE`, `agesci_tags._BRANCA_BG`,
-  `_bootstrap-overrides.scss` (classe `.bg-ag-*`), poi ricompila il CSS.
+  `_bootstrap-overrides.scss` (classe `.bg-ag-*`, anche la copia CoreUI), poi
+  ricompila il CSS.
 - Il `base.html` CoreUI (`agesci_coreui/base.html`) riusa gli stessi nomi di
   blocco dove esiste un equivalente e segue la stessa regola: i blocchi vanno
   definiti DIRETTAMENTE nel file, mai in un `{% include %}`.
@@ -217,7 +267,8 @@ example_project/               # progetto Django demo (/, /components/, /account
   `sidebar`, `sidebar_items`, `sidebar_user`, `main_class`, `messages`, `content`,
   `footer`, `footer_brand_text`, `footer_columns`, `footer_col1_title`,
   `footer_col1_links`, `footer_col2_title`, `footer_col2_links`, `footer_text`,
-  `footer_copyright`, `footer_links`, `extra_js`.
+  `footer_copyright`, `footer_links`, `extra_js`, e dalla 3.0 `bootstrap_css`,
+  `bootstrap_js`.
 - `breadcrumb_items` nel contesto della view attiva la breadcrumb automaticamente
   nella barra inferiore dell'header (`ag-header-bottom`). Lista di dict
   `{"label": "...", "url": "..."}` — l'ultimo elemento è `active` senza link.
@@ -226,8 +277,9 @@ example_project/               # progetto Django demo (/, /components/, /account
   opzionale (`[icons]`). App name: `django_bootstrap_icons`. Templatetag:
   `{% load bootstrap_icons %}` poi `{% bs_icon "nome" %}`. Raccomandare sempre
   `BS_ICONS_CACHE` in settings per le prestazioni.
-- **Form Bootstrap 5 e django-allauth (opzionale)**: attivazione esplicita
-  via `FORM_RENDERER = "agesci_theme.forms.AgesciFormRenderer"` nelle
+- **Form Bootstrap 6 e django-allauth (opzionale)**: attivazione esplicita
+  via `FORM_RENDERER = "agesci_theme.forms.AgesciFormRenderer"` (con CoreUI:
+  `agesci_coreui.forms.AgesciCoreuiFormRenderer`) nelle
   settings del consumer — vale per tutti i form Django del progetto, non
   solo per allauth. `django-allauth` resta un extra opzionale (`[allauth]`,
   testato con `65.19.1`), mai una dipendenza hard. Dettagli in
@@ -263,7 +315,7 @@ Il context processor espone in ogni template le variabili `agesci_theme_*`
 `AGESCI_THEME_LOGO_NAVBAR`, `AGESCI_THEME_EMBLEMA`, `AGESCI_THEME_FAVICON_32`,
 `AGESCI_THEME_FAVICON_16`, `AGESCI_THEME_NAVBAR_TESTO_SCURO`.
 
-Passo opzionale, per lo styling Bootstrap 5 dei form Django (e di
+Passo opzionale, per lo styling Bootstrap 6 dei form Django (e di
 django-allauth, se installato) — vedi `docs/forms.md`:
 
 ```python

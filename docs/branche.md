@@ -20,8 +20,10 @@ Il flusso è:
      /* ... */
    }
    ```
-5. Tutti i componenti Bootstrap (pulsanti, link, badge…) usano `--bs-primary`
-   che è rimappato su `--ag-primary` da `_bootstrap-overrides.scss`.
+5. Tutti i componenti Bootstrap (pulsanti `btn-solid theme-primary`, link, badge,
+   focus ring…) derivano il colore primario dai token `--bs-primary-*` di
+   Bootstrap 6, che `_branche.scss` genera per ogni branca a partire dallo
+   stesso colore.
 
 ---
 
@@ -50,9 +52,16 @@ Per ogni branca `_branche.scss` genera queste custom properties:
 | `--ag-primary-active` | Versione ancora più scura per stato active (`-14%`) |
 | `--ag-primary-subtle` | Versione molto chiara per sfondi (`+42%`) |
 | `--ag-on-primary` | Colore del testo sul primario (nero o bianco, calcolato automaticamente) |
-| `--bs-primary` | Ridirezione Bootstrap verso `--ag-primary` |
-| `--bs-link-color` | Colore dei link Bootstrap |
-| `--bs-link-hover-color` | Hover dei link Bootstrap |
+| `--bs-primary-base`, `--bs-primary-bg`, `--bs-primary-fg` | Token Bootstrap 6 = colore primario (bottoni solid, link, testo) |
+| `--bs-primary-fg-emphasis` | Primario più scuro (`-20%`) per testo enfatizzato |
+| `--bs-primary-bg-subtle`, `--bs-primary-bg-muted` | Sfondi chiari (`+42%`, `+32%`) per alert, list group |
+| `--bs-primary-border` | Bordo chiaro (`+18%`) |
+| `--bs-primary-focus-ring` | Focus ring (primario al 50% su bianco) |
+| `--bs-primary-contrast` | Testo sul primario (come `--ag-on-primary`) |
+
+I link (`--bs-link-color`) e il focus ring leggono direttamente questi token.
+Bootstrap 6 non ha più le varianti `-rgb` (`--bs-primary-rgb`): per le
+trasparenze usa `color-mix(in srgb, var(--ag-primary) 12%, transparent)`.
 
 ---
 
@@ -90,8 +99,9 @@ Imposta:
 AGESCI_THEME_NAVBAR_TESTO_SCURO = True
 ```
 
-Questo aggiunge la classe `.text-dark` alla navbar, che sovrascrive le
-variabili `--bs-navbar-*` con toni scuri.
+Questo aggiunge la classe `.ag-navbar--testo-scuro` alla navbar
+(`partials/navbar.html`; in Bootstrap 6 `.text-dark` non esiste più), che
+sovrascrive le variabili `--bs-navbar-*` con toni scuri.
 
 ---
 

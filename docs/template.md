@@ -8,21 +8,23 @@ Tutti i template della tua applicazione devono estendere il base template del te
 {% extends "agesci_theme/base.html" %}
 ```
 
-Il `base.html` carica automaticamente Bootstrap 5 (via CDN), i font del Manuale
-Immagine Coordinata (Montserrat e Open Sans), il CSS del tema AGESCI e i partial
-di header e footer.
+Il `base.html` carica automaticamente Bootstrap 6 (via CDN, con SRI e versione
+pinnata), i font del Manuale Immagine Coordinata (Montserrat e Open Sans), il
+CSS del tema AGESCI e i partial di header e footer. Imposta `data-bs-theme="light"`
+su `<html>`: Bootstrap 6 altrimenti seguirebbe `prefers-color-scheme` e il tema
+AGESCI è progettato solo per il chiaro.
 
 ---
 
 ## Struttura HTML generata
 
 ```
-<html data-branca="...">
+<html data-bs-theme="light" data-branca="...">
   <head>
-    Bootstrap CSS · Font · agesci.min.css · [extra_head]
+    [bootstrap_css] · Font · agesci.min.css · [extra_head]
   </head>
   <body class="d-flex flex-column">
-    [header]                         ← barra superiore + barra inferiore + offcanvas
+    [header]                         ← barra superiore + barra inferiore + drawer
     <div class="d-flex flex-grow-1 overflow-hidden">
       [sidebar]                      ← vuoto di default; attivare con il blocco sidebar
       <div class="ag-scroll-area flex-grow-1">
@@ -44,7 +46,7 @@ di header e footer.
 
 ### `header`
 
-Sostituisce l'intera testata (entrambe le barre + offcanvas). Normalmente non
+Sostituisce l'intera testata (entrambe le barre + drawer). Normalmente non
 si sovrascrive questo blocco: si usano i sotto-blocchi specifici.
 
 ```django
@@ -104,7 +106,8 @@ La classe `ag-nav-icon` con `display: block` centra l'icona sopra l'etichetta.
 
 ### `offcanvas_nav`
 
-Voci di navigazione nel pannello offcanvas, visibili **solo su mobile/tablet**
+Voci di navigazione nel drawer (`<dialog class="drawer">`; il nome del blocco è
+rimasto quello della v2), visibili **solo su mobile/tablet**
 (< lg). Struttura consigliata: semplici `<li>` con `nav-link`:
 
 ```django
@@ -123,7 +126,7 @@ Vuoto di default (la barra inferiore non viene nascosta ma rimane libera).
 
 ```django
 {% block header_search %}
-  <form class="col-12 col-lg-auto me-lg-auto" role="search">
+  <form class="col-12 lg:col-auto lg:me-auto" role="search">
     <input type="search" class="form-control" placeholder="Cerca..." aria-label="Cerca">
   </form>
 {% endblock %}
@@ -137,8 +140,8 @@ Pulsanti o link nella barra inferiore, posizionati a destra.
 
 ```django
 {% block header_actions %}
-  <a href="{% url 'login' %}" class="btn btn-light text-dark">Accedi</a>
-  <a href="{% url 'register' %}" class="btn btn-primary">Registrati</a>
+  <a href="{% url 'login' %}" class="btn-solid ag-btn-light">Accedi</a>
+  <a href="{% url 'register' %}" class="btn-solid theme-primary">Registrati</a>
 {% endblock %}
 ```
 
@@ -178,31 +181,30 @@ il partial dedicato:
 
 ### `sidebar_user`
 
-Dropdown utente in fondo alla sidebar (avatar con iniziali + nome + link "Esci").
+Menu utente in fondo alla sidebar (avatar con iniziali + nome + link "Esci").
 Visibile di default se `request.user.is_authenticated`. Sovrascrivibile per
 cambiare i link (es. URL di logout specifico del progetto):
 
 ```django
 {% block sidebar %}
 {% load static %}
-<nav class="ag-sidebar ag-sidebar--dark" id="agSidebar" ...>
+<dialog class="ag-sidebar ag-sidebar--dark lg:drawer drawer-start" id="agSidebar" tabindex="-1" ...>
   ...
   {% block sidebar_user %}
   {% if request.user.is_authenticated %}
   <div class="ag-sidebar__user">
-    <div class="dropdown dropup">
-      <a href="#" class="ag-sidebar__user-toggle dropdown-toggle" data-bs-toggle="dropdown">
-        <span class="ag-sidebar__user-avatar">{{ request.user.username|first|upper }}</span>
-        <span class="ag-sidebar__label">{{ request.user.get_full_name|default:request.user.username }}</span>
-      </a>
-      <ul class="dropdown-menu dropdown-menu-dark shadow">
-        <li><a class="dropdown-item" href="{% url 'account_logout' %}">Esci</a></li>
-      </ul>
+    <a href="#" class="ag-sidebar__user-toggle" role="button"
+       data-bs-toggle="menu" data-bs-placement="top-start" data-bs-strategy="fixed">
+      <span class="ag-sidebar__user-avatar">{{ request.user.username|first|upper }}</span>
+      <span class="ag-sidebar__label">{{ request.user.get_full_name|default:request.user.username }}</span>
+    </a>
+    <div class="menu shadow" data-bs-theme="dark">
+      <a class="menu-item" href="{% url 'account_logout' %}">Esci</a>
     </div>
   </div>
   {% endif %}
   {% endblock %}
-</nav>
+</dialog>
 {% endblock %}
 ```
 
@@ -218,7 +220,7 @@ Vedi [Sidebar](componenti.md#sidebar) per dettagli ed esempi.
 
 ### `main_class`
 
-Classi CSS applicate al tag `<main>`. Default: `container py-4`.
+Classi CSS applicate al tag `<main>`. Default: `container py-7`.
 
 ```django
 {# Tutta larghezza senza padding (es. mappa o dashboard) #}
@@ -229,7 +231,7 @@ Classi CSS applicate al tag `<main>`. Default: `container py-4`.
 
 ### `messages`
 
-Mostra i messaggi Django come alert Bootstrap 5. Raramente va sovrascritto.
+Mostra i messaggi Django come alert Bootstrap 6. Raramente va sovrascritto.
 
 ```django
 {% block messages %}{% endblock %}  {# nasconde tutti i messaggi #}
@@ -284,11 +286,11 @@ più colonne o cambiarne la struttura.
 
 ```django
 {% block footer_columns %}
-  <div class="col-6 col-md-2">
+  <div class="col-6 md:col-2">
     <h5>{% block footer_col1_title %}Sezione{% endblock %}</h5>
     <ul class="ag-footer__nav">{% block footer_col1_links %}{% endblock %}</ul>
   </div>
-  <div class="col-6 col-md-2">
+  <div class="col-6 md:col-2">
     <h5>{% block footer_col2_title %}Contatti{% endblock %}</h5>
     <ul class="ag-footer__nav">{% block footer_col2_links %}{% endblock %}</ul>
   </div>
@@ -397,11 +399,12 @@ parent (es. la libreria Masonry quando usi `ag_masonry_grid`).
 |---|---|---|
 | `title` | `<title>` | Titolo pagina |
 | `extra_head` | fine `<head>` | CSS, meta aggiuntivi |
+| `bootstrap_css` | `<link>` di Bootstrap 6 | Self-hosting / altra versione (dal 3.0) |
 | `header` | intera testata | Sostituzione completa |
 | `brand_url` | link brand | URL homepage custom |
 | `brand_text` | nome brand | Nome sezione/zona |
 | `header_nav` | nav desktop (con icone) | Voci menu desktop |
-| `offcanvas_nav` | nav mobile offcanvas | Voci menu mobile |
+| `offcanvas_nav` | nav mobile (drawer) | Voci menu mobile |
 | `header_search` | barra inferiore — sx | Campo di ricerca |
 | `header_actions` | barra inferiore — dx | Pulsanti login/azioni |
 | `sidebar` | colonna laterale sx | Sidebar collapsible |
@@ -418,6 +421,7 @@ parent (es. la libreria Masonry quando usi `ag_masonry_grid`).
 | `footer_text` | testo centrale footer | Nome / slogan |
 | `footer_copyright` | riga copyright | Anno e nome |
 | `footer_links` | link legali footer | Privacy, contatti |
+| `bootstrap_js` | `<script type="module">` di Bootstrap 6 | Self-hosting / altra versione (dal 3.0) |
 | `extra_js` | fine `<body>` | Script custom |
 
 ---

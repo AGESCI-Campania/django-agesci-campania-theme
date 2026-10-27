@@ -41,10 +41,11 @@ L'entrypoint è `agesci.scss`, che include i file nell'ordine fisso seguente:
 ```
 agesci.scss
 ├── _palette.scss              ← variabili $agesci-* (Pantone ufficiali)
-├── _branche.scss              ← genera le --ag-* custom properties per branca
-├── _bootstrap-overrides.scss  ← rimappa i token Bootstrap, layout (.ag-scroll-area), utility
-├── _forms.scss                ← validazione form (.invalid-feedback sempre visibile)
-├── _header.scss               ← stili header a due barre e offcanvas
+├── _branche.scss              ← genera i token --bs-primary-* e le --ag-* per branca
+├── _layout.scss               ← layout viewport fisso (.ag-scroll-area)
+├── _bootstrap-overrides.scss  ← navbar, breadcrumb, .ag-btn-light, utility palette
+├── _forms.scss                ← validazione form (.invalid-feedback), label, multiselect
+├── _header.scss               ← stili header a due barre e drawer mobile
 ├── _sidebar.scss              ← sidebar collapsible
 ├── _footer.scss               ← footer
 └── _components.scss           ← componenti opzionali (hero, jumbotron, ecc.)
@@ -60,24 +61,60 @@ ufficiali.
 
 ### `_branche.scss`
 
-Genera le CSS custom properties `--ag-primary` e derivati per ciascuna branca
-tramite `@each` sulla mappa `$branche` e il mixin `tema-primario`.
+Genera, per ciascuna branca (`@each` sulla mappa `$branche`, mixin
+`tema-primario`), i **token primary di Bootstrap 6** (`--bs-primary-base`,
+`-bg`, `-fg`, `-fg-emphasis`, `-bg-subtle`, `-bg-muted`, `-border`,
+`-focus-ring`, `-contrast`) e le variabili `--ag-primary` e derivate.
+Bootstrap 6 deriva da quei token bottoni `theme-primary`, link e focus ring:
+non servono override per singolo componente.
 
 La funzione `on-color()` calcola automaticamente se il testo sul primario
 deve essere nero o bianco in base alla luminosità HSL (soglia 62%).
 
 ### `_bootstrap-overrides.scss`
 
-- Rimappa `--bs-primary` e i token dei componenti Bootstrap verso `--ag-*`.
-- Definisce il **layout viewport fisso** via `.ag-scroll-area` (solo su desktop ≥ 992px, breakpoint `lg`).
-- Stila navbar, breadcrumb, sub-navbar, footer con le custom properties del tema.
-- Definisce le classi utility `bg-ag-*` e `text-ag-*`.
+- Stila navbar (`.navbar-agesci`, `.ag-navbar--testo-scuro`), breadcrumb, sub-navbar e footer con le custom properties del tema.
+- Definisce `.ag-btn-light` (bottoni su header colorato) e le classi utility `bg-ag-*` e `text-ag-*`.
+- Il **layout viewport fisso** (`.ag-scroll-area`, solo ≥ 1024px, breakpoint `lg`) sta in `_layout.scss`.
+
+```{important}
+**Bootstrap 6 usa i `@layer` CSS** (`colors, config, root, reboot, layout, content,
+forms, components, custom, helpers, utilities`). Due conseguenze per chi scrive SCSS del tema:
+
+1. Il CSS del tema è **fuori dai layer** e quindi vince sempre sulle regole normali
+   di Bootstrap: un `display:` incondizionato su un elemento che nel markup ha
+   `d-none` / `lg:d-none` annulla l'utility. Dichiara `display` solo nella media
+   query in cui l'elemento deve comparire (vedi `.ag-sidebar__close` in `_sidebar.scss`).
+2. Un `!important` **dentro** un layer batte un `!important` **fuori** dai layer.
+   `.lg:drawer` da 1024px forza `width:auto`, sfondo trasparente, `border:0` e
+   `transition:none` con `!important` nel layer `components`: per sovrascriverli
+   (larghezza e colore della sidebar) servono regole `!important` in un layer
+   **precedente**, `@layer layout { … }` — vedi la fine di `_sidebar.scss`. Non spostarle
+   fuori dal blocco `@layer`.
+```
+
+### Aggiornare Bootstrap 6 (ad ogni alpha)
+
+Bootstrap 6 è in alpha e le classi possono cambiare tra una versione e l'altra. Per aggiornare:
+
+1. `npm view bootstrap@next version` e rileggere `https://getbootstrap.com/llms.txt` e la
+   [guida alla migrazione](https://getbootstrap.com/docs/6.0/guides/migration/) ufficiale
+   (c'è anche una *skill* per assistenti AI: `npx skills add twbs/bootstrap`).
+2. In `base.html` (blocchi `bootstrap_css` / `bootstrap_js`) cambiare versione e hash SRI:
+   `curl -s https://cdn.jsdelivr.net/npm/bootstrap@VERSIONE/dist/css/bootstrap.min.css | openssl dgst -sha384 -binary | openssl base64 -A`
+   (idem per `js/bootstrap.bundle.min.js`; prefisso `sha384-`).
+3. Verificare nel browser (Chrome, desktop e 390 px, tutte le branche): sidebar fissa e collassata,
+   drawer dell'header e della sidebar, menu utente e menu branche, dialog, multiselect, form con
+   errori, console senza errori di integrità.
+4. Controllare i residui con uno script che confronti le classi usate nei template con il
+   CSS di Bootstrap (`rg` dei pattern v5, vedi [Migrazione a Bootstrap 6](migrazione-bootstrap-6.md)).
 
 ### `_forms.scss`
 
-Una sola regola deliberata: `.invalid-feedback { display: block; }`. Vedi
+`.invalid-feedback { display: block; }` (vedi
 [Form e validazione](forms.md#perche-invalid-feedback-display-block) per il
-perché — **non rimuoverla** pensando sia superflua.
+perché — **non rimuoverla** pensando sia superflua), il peso delle label nei
+`.form-field` e `.ag-multiselect { position: relative }`.
 
 ---
 
@@ -120,6 +157,20 @@ Per una verifica Django:
 
 ```bash
 uv run python example_project/manage.py check
+```
+
+La CI esegue anche questi controlli, utili da lanciare in locale prima del commit:
+
+```bash
+# smoke test: le pagine demo si renderizzano per tutte le 7 branche
+uv run python example_project/manage.py test app
+uv run python example_project/manage.py test app --settings=config.settings_coreui
+
+# nessun residuo Bootstrap 5 nei template del tema base (CoreUI è escluso)
+python3 scripts/check_bs5_residui.py
+
+# il CSS compilato committato deve coincidere con lo SCSS
+npm run build:css && git diff --exit-code -- agesci_theme/static coreui/agesci_coreui/static
 ```
 
 ---

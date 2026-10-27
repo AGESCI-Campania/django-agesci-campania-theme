@@ -64,7 +64,7 @@ Restituisce la lista ordinata alfabeticamente delle chiavi di zona.
 ```django
 {% zone_disponibili as zone %}
 
-<select name="zona" class="form-select">
+<select name="zona" class="form-control">
   {% for zona in zone %}
     <option value="{{ zona }}">{{ zona|title }}</option>
   {% endfor %}
@@ -147,7 +147,7 @@ Card singola per sezioni feature (icona + titolo + descrizione).
 | Parametro | Descrizione |
 |---|---|
 | `icon` | Nome icona Bootstrap (es. `"star-fill"`) |
-| `variant` | Classe colore icona (es. `"text-primary"`) |
+| `variant` | Classe colore icona (es. `"fg-primary"`; in Bootstrap 6 `text-primary` non esiste più) |
 
 ```django
 {% ag_feature_card icon="people-fill" title="Comunità" description="Oltre 180.000 soci in Italia." %}
@@ -185,7 +185,7 @@ features = [
 
 ### `ag_jumbotron`
 
-Jumbotron (rimosso da Bootstrap 5, riproposto come componente custom).
+Jumbotron (rimosso da Bootstrap 6, riproposto come componente custom).
 
 ```
 {% ag_jumbotron [title=""] [lead=""] [cta_text=""] [cta_url="#"] [variant=""] %}
@@ -205,7 +205,10 @@ Jumbotron (rimosso da Bootstrap 5, riproposto come componente custom).
 
 ### `ag_badge`
 
-Badge Bootstrap con colori del tema.
+Badge Bootstrap con colori del tema (`badge theme-<variant>`). Bootstrap 6 non ha
+`theme-light`/`theme-dark`: `variant="dark"` diventa `theme-inverse` e
+`variant="light"` diventa `theme-secondary`; lo stesso vale per `ag_button`,
+`ag_dropdown` e `ag_modal_trigger`.
 
 ```
 {% ag_badge [text=""] [variant="primary"] [pill=False] %}
@@ -220,7 +223,8 @@ Badge Bootstrap con colori del tema.
 
 ### `ag_button`
 
-Bottone Bootstrap (renderizza `<button>` o `<a>` se `href` è valorizzato).
+Bottone Bootstrap 6 (`btn-solid`/`btn-outline` + `theme-<variant>`; renderizza
+`<button>` o `<a>` se `href` è valorizzato).
 
 ```
 {% ag_button [label=""] [variant="primary"] [size=""] [outline=False] [href=""] [type="button"] %}
@@ -271,7 +275,8 @@ preferisci posizionare la breadcrumb manualmente all'interno del blocco `content
 
 ### `ag_dropdown`
 
-Menu dropdown Bootstrap.
+Menu Bootstrap 6 (ex dropdown: `data-bs-toggle="menu"` + `.menu`). Il nome del tag è
+rimasto `ag_dropdown`.
 
 ```
 {% ag_dropdown [label=""] [items=None] [variant="primary"] [split=False] [direction=""] %}
@@ -281,7 +286,7 @@ Menu dropdown Bootstrap.
 |---|---|
 | `items` | Lista di dict con `label`, `url`, `active` (opt.), `disabled` (opt.). Usa `{"divider": True}` per un separatore. |
 | `split` | `True` per bottone split (freccia separata) |
-| `direction` | `""` · `"dropup"` · `"dropstart"` · `"dropend"` |
+| `direction` | `""` · `"dropup"` · `"dropstart"` · `"dropend"` (diventano `data-bs-placement` `top-start` · `start-start` · `end-start`) |
 
 ```python
 voci = [
@@ -329,7 +334,8 @@ voci = [
 
 ### `ag_modal_trigger`
 
-Bottone che apre un modal Bootstrap.
+Bottone che apre un dialog Bootstrap 6 (ex modal: `<dialog class="dialog">`,
+`data-bs-toggle="dialog"`). Il nome del tag è rimasto `ag_modal_trigger`.
 
 ```
 {% ag_modal_trigger modal_id [label="Apri"] [variant="primary"] [size=""] %}
@@ -341,7 +347,7 @@ Va accoppiato con il template `agesci_theme/components/modal.html` tramite `{% i
 {# Pulsante trigger #}
 {% ag_modal_trigger modal_id="conferma" label="Conferma" %}
 
-{# Shell del modal (in fondo alla pagina, fuori dal flusso) #}
+{# Shell del dialog (in fondo alla pagina, fuori dal flusso) #}
 {% include "agesci_theme/components/modal.html" with
     modal_id="conferma"
     title="Conferma operazione"
@@ -359,7 +365,7 @@ context["modal_body"] = mark_safe("<p>Contenuto <strong>HTML</strong>.</p>")
 
 ```django
 {% include "agesci_theme/components/modal.html" with
-    modal_id="info" title="Informazioni" body=modal_body centered=True %}
+    modal_id="info" title="Informazioni" body=modal_body %}
 ```
 
 **Parametri di `modal.html`:**
@@ -370,7 +376,7 @@ context["modal_body"] = mark_safe("<p>Contenuto <strong>HTML</strong>.</p>")
 | `title` | `""` | Titolo nell'intestazione |
 | `body` | `""` | Corpo (HTML come `mark_safe`) |
 | `size` | `""` | `"sm"` · `"lg"` · `"xl"` · `"fullscreen"` |
-| `centered` | `False` | `True` per centratura verticale |
+| `centered` | — | **Rimosso nella 3.0**: il `<dialog>` nativo è già centrato |
 
 ---
 
@@ -453,7 +459,7 @@ Con un form Django, passa i valori dal campo esplicitamente:
 
 ### `ag_multiselect_dropdown`
 
-Tendina Bootstrap chiusa con checkbox multiple (bottone + menu dropdown,
+Tendina Bootstrap chiusa con checkbox multiple (bottone `form-control` + `.menu`,
 `data-bs-auto-close="outside"`). Utilizzabile in qualsiasi form scritto a
 mano, **senza** bisogno di attivare `FORM_RENDERER` — vedi
 [Form e validazione](forms.md) per il widget equivalente

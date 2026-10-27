@@ -1,19 +1,32 @@
 {# I browser chiudono automaticamente un <p> quando incontrano un <div> #}
 {# annidato (es. .invalid-feedback), rompendo l'adiacenza CSS richiesta #}
 {# da Bootstrap (.is-invalid ~ .invalid-feedback). Per questo il wrapper #}
-{# è <div class="mb-3"> e non <p> come nel default di Django. Verificato #}
+{# è <div class="mb-5"> e non <p> come nel default di Django. Verificato #}
 {# ispezionando il DOM in un browser reale. NON tornare a <p>. #}
 {{ errors }}
 {% if errors and not fields %}
   <p>{% for field in hidden_fields %}{{ field }}{% endfor %}</p>
 {% endif %}
 {% for field, errors in fields %}
-  <div class="mb-3{% with classes=field.css_classes %}{% if classes %} {{ classes }}{% endif %}{% endwith %}">
-    {% if field.label %}{{ field.label_tag }}{% endif %}
-    {{ field }}
-    {{ errors }}
-    {% if field.help_text %}
-      <span class="helptext"{% if field.auto_id %} id="{{ field.auto_id }}_helptext"{% endif %}>{{ field.help_text|safe }}</span>
+  {# .form-field (Bootstrap 6): griglia label / controllo / aiuto / errore. Per i checkbox il controllo va PRIMA, #}
+  {# nella colonna di sinistra, e label+aiuto+errore in .form-field-content (colonna di destra). #}
+  <div class="form-field mb-5{% with classes=field.css_classes %}{% if classes %} {{ classes }}{% endif %}{% endwith %}">
+    {% if field.widget_type == "checkbox" %}
+      {{ field }}
+      <div class="form-field-content">
+        {% if field.label %}{{ field.label_tag }}{% endif %}
+        {% if field.help_text %}
+          <small class="helptext form-text"{% if field.auto_id %} id="{{ field.auto_id }}_helptext"{% endif %}>{{ field.help_text|safe }}</small>
+        {% endif %}
+        {{ errors }}
+      </div>
+    {% else %}
+      {% if field.label %}{{ field.label_tag }}{% endif %}
+      {{ field }}
+      {{ errors }}
+      {% if field.help_text %}
+        <span class="helptext form-text"{% if field.auto_id %} id="{{ field.auto_id }}_helptext"{% endif %}>{{ field.help_text|safe }}</span>
+      {% endif %}
     {% endif %}
     {% if forloop.last %}
       {% for field in hidden_fields %}{{ field }}{% endfor %}

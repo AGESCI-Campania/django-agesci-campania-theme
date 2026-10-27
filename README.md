@@ -4,12 +4,17 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/Django-6.0%2B-092E20.svg?logo=django&logoColor=white)](https://www.djangoproject.com/)
-[![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3.svg?logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-6.0%20alpha-7952B3.svg?logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 [![uv](https://img.shields.io/badge/packaged%20with-uv-DE5FE9.svg?logo=uv&logoColor=white)](https://github.com/astral-sh/uv)
-[![Version](https://img.shields.io/badge/version-2.7.0-informational.svg)](pyproject.toml)
+[![Version](https://img.shields.io/badge/version-3.0.0a1-informational.svg)](pyproject.toml)
 [![Code style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-Tema **Bootstrap 5** riusabile per le applicazioni **Django** dell'**AGESCI Campania**.
+Tema **Bootstrap 6** riusabile per le applicazioni **Django** dell'**AGESCI Campania**.
+
+> **Pre-release 3.0.0a1** — Bootstrap 6 è in alpha (`6.0.0-alpha.1`); installa con
+> `uv add --prerelease allow django-agesci-campania-theme`. Arrivi dalla 2.x? Leggi la
+> [guida alla migrazione](docs/migrazione-bootstrap-6.md) (browser minimi: Chrome/Edge 130,
+> Firefox 132, Safari 18). Il pacchetto CoreUI resta su Bootstrap 5/CoreUI 5.
 
 🔗 **[Demo online](https://agesci-campania.github.io/django-agesci-campania-theme/)**: [tema Bootstrap](https://agesci-campania.github.io/django-agesci-campania-theme/bootstrap/) ·
 [tema CoreUI](https://agesci-campania.github.io/django-agesci-campania-theme/coreui/), aggiornata a ogni modifica di `main`.
@@ -17,7 +22,7 @@ Tema **Bootstrap 5** riusabile per le applicazioni **Django** dell'**AGESCI Camp
 Fornisce un `base.html` pronto all'uso con **header a due barre** (barra brand
 + barra ricerca/azioni), **sidebar collapsible**, footer ridisegnato e una
 libreria di **componenti opzionali** (`ag_hero`, `ag_feature_grid`,
-`ag_jumbotron` e altri 9). Include anche, opzionalmente, styling **Bootstrap 5
+`ag_jumbotron` e altri 9). Include anche, opzionalmente, styling **Bootstrap 6
 per i form Django** (`is-invalid`/`invalid-feedback`, toggle mostra/nascondi
 password) e per le pagine di **django-allauth**. Tutto brandizzato con la
 palette ufficiale del *Manuale Immagine Coordinata AGESCI 2011* e con la
@@ -149,7 +154,7 @@ STATIC_URL = "static/"
   </li>
 {% endblock %}
 
-{# Nav mobile (offcanvas) #}
+{# Nav mobile (drawer) #}
 {% block offcanvas_nav %}
   <li><a href="/" class="nav-link active">Home</a></li>
 {% endblock %}
@@ -158,7 +163,7 @@ STATIC_URL = "static/"
   {% ag_hero title="Benvenuti!" subtitle="Il tema AGESCI è operativo."
              cta_text="Scopri di più" cta_url="/chi-siamo/" %}
 
-  <button class="btn btn-primary">Pulsante in colore branca</button>
+  <button class="btn-solid theme-primary">Pulsante in colore branca</button>
 
   {# Emblema di una Zona Campania #}
   {% emblema_zona "vesuvio" css_class="img-fluid" %}
@@ -174,17 +179,18 @@ STATIC_URL = "static/"
 |---|---|
 | `title` | `<title>` della pagina |
 | `extra_head` | fine `<head>` |
+| `bootstrap_css` / `bootstrap_js` | tag `<link>` / `<script type="module">` di Bootstrap 6 (self-hosting o altra versione) |
 | `header` | intera testata (sostituzione completa) |
 | `brand_url` | URL brand nella barra superiore |
 | `brand_text` | testo brand nella barra superiore |
 | `header_nav` | nav desktop con icone (solo ≥ lg) |
-| `offcanvas_nav` | nav mobile nel pannello offcanvas |
+| `offcanvas_nav` | nav mobile nel drawer |
 | `header_search` | campo ricerca in barra inferiore |
 | `header_actions` | pulsanti azione in barra inferiore |
 | `sidebar` | sidebar collapsible (vuota = assente) |
 | `sidebar_items` | voci `<li>` della sidebar |
-| `sidebar_user` | dropdown utente in fondo alla sidebar (default: `request.user` se autenticato) |
-| `main_class` | classi CSS del `<main>` (default: `container py-4`) |
+| `sidebar_user` | menu utente in fondo alla sidebar (default: `request.user` se autenticato) |
+| `main_class` | classi CSS del `<main>` (default: `container py-7`) |
 | `messages` | messaggi Django (alert Bootstrap) |
 | `content` | **contenuto principale** |
 | `footer` | footer (sostituzione completa) |
@@ -198,13 +204,13 @@ STATIC_URL = "static/"
 
 ### Layout applicazione (viewport fisso)
 
-Da ≥ 992 px il `base.html` applica `body { height: 100vh; overflow: hidden }` e
+Da ≥ 1024 px il `base.html` applica `body { height: 100vh; overflow: hidden }` e
 `.ag-scroll-area { min-height: 0; overflow-y: auto }` tramite il CSS del tema.
 Il risultato è un layout a **viewport fisso**: header e sidebar fissi; solo
 `.ag-scroll-area` (che contiene `<main>` + `<footer>` come fratelli) scorre.
 Il footer occupa tutta la larghezza dell'area (viewport − sidebar),
 indipendentemente dal `max-width` del `.container` di `<main>`.
-Su mobile/tablet (< 992 px) il layout torna al flusso normale.
+Su mobile/tablet (< 1024 px) il layout torna al flusso normale.
 
 ### Breadcrumb
 
@@ -253,9 +259,9 @@ Uso nei template:
 {% bs_icon "calendar-event" size="1.5em" %}
 ```
 
-### Form Bootstrap 5, validazione e django-allauth (opzionale)
+### Form Bootstrap 6, validazione e django-allauth (opzionale)
 
-Il tema include, senza dipendenze aggiuntive, styling Bootstrap 5 per i form
+Il tema include, senza dipendenze aggiuntive, styling Bootstrap 6 per i form
 Django (`form-control`/`is-invalid`, errori come `invalid-feedback`, toggle
 mostra/nascondi password) e override per le pagine di
 [django-allauth](https://docs.allauth.org/). Va attivato esplicitamente:
@@ -335,7 +341,7 @@ uv run python example_project/manage.py runserver
 
 Apri `http://127.0.0.1:8000/` nel browser.
 
-Il demo include un **selettore di branca** nella barra dell'header: il dropdown
+Il demo include un **selettore di branca** nella barra dell'header: il menu
 permette di passare in tempo reale tra `generico`, `capi`, `lc`, `eg`, `rs`,
 `viola` e `generico2` senza ricaricare la pagina, con la scelta persistita in
 `localStorage`.

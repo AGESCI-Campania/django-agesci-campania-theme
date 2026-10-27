@@ -2,8 +2,8 @@
 
 {% block title %}Componenti — {{ agesci_theme_nome }}{% endblock %}
 
-{# I componenti del tema base funzionano anche con CoreUI: il prefisso data-* #}
-{# (data-coreui-* invece di data-bs-*) lo sceglie {% ag_js %}. #}
+{# Contenuto in templates_coreui/_components_content.html: copia BS5 di quello del tema base. #}
+{# I template dei componenti con data-coreui-* sono quelli di agesci_coreui (prima di agesci_theme). #}
 {% block content %}
 {% include "_components_content.html" %}
 {% endblock %}

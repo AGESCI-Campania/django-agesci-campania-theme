@@ -1,9 +1,10 @@
 # Form e validazione
 
-Il tema include, opzionalmente, uno styling Bootstrap 5 completo per i form
-Django: classi `form-control`/`form-select`/`form-check-input`, stato
-`is-invalid`, messaggi di errore come `invalid-feedback`, e un campo
-password con pulsante mostra/nascondi.
+Il tema include, opzionalmente, uno styling Bootstrap 6 completo per i form
+Django: classi `form-control` (anche per i `<select>`), `check`/`radio` per
+checkbox e radio, wrapper `.form-field`, stato `is-invalid`, messaggi di
+errore come `invalid-feedback`, e un campo password con pulsante
+mostra/nascondi.
 
 ---
 
@@ -30,27 +31,31 @@ utile anche a chi non usa affatto allauth.
 
 Con `AgesciFormRenderer` attivo:
 
-- Ogni widget di input riceve `form-control` (`form-select` per i `<select>`,
-  `form-check-input` per checkbox/radio), più `is-invalid` quando il campo
-  ha un errore di validazione.
-- `{{ form.as_p }}` avvolge ogni campo in `<div class="mb-3">` invece del
-  `<p>` di default di Django.
+- Ogni widget di input riceve `form-control` (anche i `<select>`: in
+  Bootstrap 6 `form-select` non esiste più) e i checkbox/radio ricevono
+  `check`/`radio` (non più `form-check-input`), più `is-invalid` quando il
+  campo ha un errore di validazione.
+- `{{ form.as_p }}` avvolge ogni campo in `<div class="form-field mb-5">`
+  (la griglia label / controllo / aiuto / errore di Bootstrap 6) invece del
+  `<p>` di default di Django. Per i `BooleanField` il controllo viene
+  prima della label, che sta in `.form-field-content` insieme ad aiuto ed
+  errore (layout a due colonne di Bootstrap 6).
 - Gli errori di campo diventano `<div class="invalid-feedback">`; gli
   errori non di campo (`form.non_field_errors`) diventano
-  `<div class="alert alert-danger">`.
+  `<div class="alert theme-danger">`.
 - I campi `forms.PasswordInput` ricevono un pulsante mostra/nascondi con
   icona SVG inline, dentro un `.input-group`.
 
 ---
 
-## Perché `<div class="mb-3">` e non `<p>`
+## Perché `<div class="form-field">` e non `<p>`
 
 Il default `.as_p()` di Django mette gli errori dentro un `<p>` insieme al
 campo. Un `<div>` (compreso `.invalid-feedback`) non è "phrasing content":
 il parser HTML del browser chiude `</p>` **prima** del div, spostandolo
 fuori dal genitore e rompendo silenziosamente l'adiacenza richiesta dal CSS
 di Bootstrap (`.is-invalid ~ .invalid-feedback`). Per questo l'override di
-`django/forms/p.html` nel tema usa `<div class="mb-3">` al suo posto.
+`django/forms/p.html` nel tema usa `<div class="form-field mb-5">` al suo posto.
 Verificato ispezionando il DOM renderizzato in un browser reale, non
 deducibile dal solo sorgente del template.
 
@@ -58,11 +63,13 @@ deducibile dal solo sorgente del template.
 
 ## Perché `.invalid-feedback { display: block; }`
 
-Bootstrap nasconde di default `.invalid-feedback` finché non è preceduto,
-nello stesso genitore, da un fratello `.is-invalid` (selettore
-`.is-invalid ~ .invalid-feedback`). Il problema: qualunque wrapper attorno
-al campo (ad es. il `.input-group` del toggle password) rende l'errore
-**non più fratello diretto** dell'input, e Bootstrap lo nasconderebbe anche
+Bootstrap nasconde di default `.invalid-feedback` e lo mostra solo in
+posizioni precise rispetto a un controllo `.is-invalid` (fratello
+successivo: `.is-invalid ~ .invalid-feedback`; per `.check`/`.radio` e per
+l'`.input-group` basta un discendente dello stesso `.form-field`). Il
+problema: un wrapper in più attorno al campo (ad es. il multiselect, che è
+un `<div>` con dentro il pulsante `.form-control`) rende l'errore **non più
+raggiungibile** da quei selettori, e Bootstrap lo nasconderebbe anche
 quando presente.
 
 Il tema risolve il problema diversamente da Bootstrap: il div dell'errore
@@ -176,7 +183,7 @@ sia in `INSTALLED_APPS`. È un widget opt-in per singolo campo: le altre
 `CheckboxSelectMultiple` del progetto non cambiano comportamento.
 
 Il menu resta aperto durante la selezione di più checkbox
-(`data-bs-auto-close="outside"`, Bootstrap 5.2+) e l'etichetta del bottone
+(`data-bs-auto-close="outside"`) e l'etichetta del bottone
 si aggiorna via JS (`agesci_theme/static/agesci_theme/js/multiselect-dropdown.js`,
 caricato globalmente da `base.html`): placeholder se nessuna opzione è
 selezionata, l'etichetta della singola opzione se una sola, altrimenti
@@ -191,6 +198,8 @@ scritti a mano senza passare da `MultipleChoiceField`:
    choices=lista_gruppi placeholder="Tutti" %}
 ```
 
+Il widget è un `<button class="form-control form-control-caret">` seguito da un
+`.menu` (Bootstrap 6) con un `.form-field > input.check` per opzione.
 Widget e tag condividono lo stesso partial di markup
 (`components/_multiselect_dropdown_menu.html`), stessa dualità di
 `ag_password_field`/`password.html`. Riferimento completo dei parametri in

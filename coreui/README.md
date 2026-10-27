@@ -6,7 +6,7 @@
 [![Django](https://img.shields.io/badge/Django-6.0%2B-092E20.svg?logo=django&logoColor=white)](https://www.djangoproject.com/)
 [![CoreUI](https://img.shields.io/badge/CoreUI-5-3399FF.svg)](https://coreui.io/bootstrap/)
 [![uv](https://img.shields.io/badge/packaged%20with-uv-DE5FE9.svg?logo=uv&logoColor=white)](https://github.com/astral-sh/uv)
-[![Version](https://img.shields.io/badge/version-0.1.0-informational.svg)](pyproject.toml)
+[![Version](https://img.shields.io/badge/version-0.2.0a1-informational.svg)](pyproject.toml)
 
 Tema **CoreUI 5** (versione free, MIT) per le applicazioni **Django**
 dell'**AGESCI Campania**.
@@ -45,9 +45,12 @@ TEMPLATES = [{"OPTIONS": {"context_processors": [
 ]}}]
 ```
 
-Le stesse settings `AGESCI_THEME_*` (branca, nome, loghi, favicon) e
-l'opzionale `FORM_RENDERER = "agesci_theme.forms.AgesciFormRenderer"` del
-tema base restano valide.
+Le stesse settings `AGESCI_THEME_*` (branca, nome, loghi, favicon) restano
+valide. Per lo stile dei form (opzionale) usa il renderer CoreUI, non quello
+del tema base:
+`FORM_RENDERER = "agesci_coreui.forms.AgesciCoreuiFormRenderer"`.
+`agesci_coreui` deve stare **prima** di `agesci_theme` in `INSTALLED_APPS`
+(system check `agesci_coreui.E002`).
 
 ## Uso nei template
 
@@ -82,8 +85,9 @@ alle pagine allauth, che estendono letteralmente `"base.html"`):
 `variant="primary"` (callout, chip) segue sempre il colore della branca.
 Tutti i componenti opzionali del tema base (`ag_hero`, `ag_feature_grid`,
 `ag_dropdown`, `ag_modal_trigger`, `ag_password_field`,
-`ag_multiselect_dropdown`, ecc.) funzionano invariati: scrivono
-`data-coreui-*` invece di `data-bs-*` grazie a `{% ag_js %}`.
+`ag_multiselect_dropdown`, ecc.) funzionano invariati: la logica è del tema base,
+ma i template che renderizzano sono le copie CoreUI di questo pacchetto (Bootstrap 5,
+`data-coreui-*` invece di `data-bs-*`).
 
 ### Chip-input nei form
 

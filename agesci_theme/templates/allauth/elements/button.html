@@ -6,7 +6,7 @@
 {% if attrs.name %}name="{{ attrs.name }}"{% endif %}
 {% if attrs.value %}value="{{ attrs.value }}"{% endif %}
 {% if attrs.type %}type="{{ attrs.type }}"{% endif %}
-class="btn {% if "danger" in attrs.tags %}{% if "outline" in attrs.tags %}btn-outline-danger{% else %}btn-danger{% endif %}{% elif "secondary" in attrs.tags %}{% if "outline" in attrs.tags %}btn-outline-secondary{% else %}btn-secondary{% endif %}{% elif "link" in attrs.tags %}btn-link{% elif "outline" in attrs.tags %}btn-outline-primary{% else %}btn-primary{% endif %}"
+class="{% if "danger" in attrs.tags %}{% if "outline" in attrs.tags %}btn-outline theme-danger{% else %}btn-solid theme-danger{% endif %}{% elif "secondary" in attrs.tags %}{% if "outline" in attrs.tags %}btn-outline theme-secondary{% else %}btn-solid theme-secondary{% endif %}{% elif "link" in attrs.tags %}btn btn-link{% elif "outline" in attrs.tags %}btn-outline theme-primary{% else %}btn-solid theme-primary{% endif %}"
 >
 {% slot %}
 {% endslot %}

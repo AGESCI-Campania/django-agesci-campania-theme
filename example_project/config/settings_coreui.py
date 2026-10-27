@@ -19,3 +19,7 @@ TEMPLATES[0]["DIRS"] = [
     BASE_DIR / "app" / "templates_coreui",
     BASE_DIR / "app" / "templates",
 ]
+
+# Renderer dei form con il markup Bootstrap 5/CoreUI 5 (il renderer del tema
+# base, da 3.0, produce markup Bootstrap 6).
+FORM_RENDERER = "agesci_coreui.forms.AgesciCoreuiFormRenderer"

@@ -3,14 +3,16 @@
 //
 //  Come agesci.scss NON include il framework: va caricato DOPO
 //  coreui.min.css e ne sovrascrive le variabili --cui-*.
-//  I partial condivisi (palette, branche, override, form, componenti)
-//  vengono dal tema base: la build passa
-//      --load-path=agesci_theme/static/agesci_theme/scss
+//  Solo _palette (valori Pantone ufficiali) viene dal tema base: la build
+//  passa  --load-path=agesci_theme/static/agesci_theme/scss
+//  Gli altri partial (prefix, branche, bootstrap-overrides, forms,
+//  components) sono copie BS5 in questa cartella, indipendenti dal tema
+//  base (che e' su Bootstrap 6).
 //  Compilare dalla root del repo con:  npm run build:css
 // =============================================================
 
-// DEVE essere il primo @use: configura il prefisso per tutti i partial.
-@use "prefix" with ($prefix: "cui-");
+// Prefisso --cui-* (vedi _prefix.scss).
+@use "prefix";
 
 @use "palette";
 @use "branche";

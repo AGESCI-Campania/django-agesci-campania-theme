@@ -1,22 +1,27 @@
-{% load agesci_tags %}
-{% load static %}
-<nav class="navbar navbar-expand-lg navbar-agesci{% if agesci_theme_navbar_testo_scuro %} text-dark{% endif %}">
+{% load static agesci_tags %}
+<nav class="navbar lg:navbar-expand navbar-agesci{% if agesci_theme_navbar_testo_scuro %} ag-navbar--testo-scuro{% endif %}">
   <div class="container">
-    <a class="navbar-brand d-flex align-items-center gap-2" href="{% block brand_url %}{% ag_home_url %}{% endblock %}">
+    <a class="navbar-brand d-flex align-items-center gap-3" href="{% block brand_url %}{% ag_home_url %}{% endblock %}">
       <img src="{% static agesci_theme_logo_navbar %}" alt="{{ agesci_theme_nome }}">
-      <span class="fw-bold d-none d-sm-inline">{% block brand_text %}{{ agesci_theme_nome }}{% endblock %}</span>
+      <span class="fw-bold d-none sm:d-inline">{% block brand_text %}{{ agesci_theme_nome }}{% endblock %}</span>
     </a>
-    <button class="navbar-toggler" type="button" data-{% ag_js %}-toggle="collapse"
-            data-{% ag_js %}-target="#agNavbar" aria-controls="agNavbar"
+    <button class="btn-icon navbar-toggler" type="button" data-bs-toggle="drawer"
+            data-bs-target="#agNavbar" aria-controls="agNavbar"
             aria-expanded="false" aria-label="Apri menu">
-      <span class="navbar-toggler-icon"></span>
+      <span class="navbar-toggler-icon" aria-hidden="true"></span>
     </button>
-    <div class="collapse navbar-collapse" id="agNavbar">
-      <ul class="navbar-nav ms-auto">
-        {% block nav_items %}
-        <li class="nav-item"><a class="nav-link" href="{% ag_home_url %}">Home</a></li>
-        {% endblock %}
-      </ul>
-    </div>
+    <dialog class="drawer drawer-end" tabindex="-1" id="agNavbar" aria-labelledby="agNavbarLabel">
+      <div class="drawer-header">
+        <h5 class="drawer-title" id="agNavbarLabel">Menu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="drawer" aria-label="Chiudi"></button>
+      </div>
+      <div class="drawer-body">
+        <ul class="navbar-nav ms-auto">
+          {% block nav_items %}
+          <li class="nav-item"><a class="nav-link" href="{% ag_home_url %}">Home</a></li>
+          {% endblock %}
+        </ul>
+      </div>
+    </dialog>
   </div>
 </nav>

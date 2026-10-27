@@ -129,8 +129,8 @@
   {# Prima di coreui.bundle: ripristina lo stato "unfoldable" prima che CoreUI inizializzi la sidebar #}
   <script src="{% static 'agesci_coreui/js/layout.js' %}"></script>
   <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.9.0/dist/js/coreui.bundle.min.js"></script>
-  <script src="{% static 'agesci_theme/js/password-toggle.js' %}" defer></script>
-  <script src="{% static 'agesci_theme/js/multiselect-dropdown.js' %}" defer></script>
+  <script src="{% static 'agesci_coreui/js/password-toggle.js' %}" defer></script>
+  <script src="{% static 'agesci_coreui/js/multiselect-dropdown.js' %}" defer></script>
   {% block extra_js %}{% endblock %}
 </body>
 </html>

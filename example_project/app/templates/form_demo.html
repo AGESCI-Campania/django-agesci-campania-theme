@@ -3,8 +3,8 @@
 {% block title %}Demo form — {{ agesci_theme_nome }}{% endblock %}
 
 {% block content %}
-  <h1 class="h3 mb-4">Demo validazione form (AgesciFormRenderer)</h1>
-  <p class="text-secondary">
+  <h1 class="h3 mb-7">Demo validazione form (AgesciFormRenderer)</h1>
+  <p class="fg-secondary">
     Questo form Django semplice (non allauth) è renderizzato con
     <code>FORM_RENDERER = "agesci_theme.forms.AgesciFormRenderer"</code>.
     Invialo vuoto, oppure apri la <a href="{% url 'form_demo_errori' %}">versione
@@ -15,9 +15,9 @@
     multiple (menu che resta aperto finché non clicchi fuori).
   </p>
 
-  <form method="post" class="col-md-6" novalidate>
+  <form method="post" class="md:col-6" novalidate>
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Invia</button>
+    <button type="submit" class="btn-solid theme-primary">Invia</button>
   </form>
 {% endblock %}

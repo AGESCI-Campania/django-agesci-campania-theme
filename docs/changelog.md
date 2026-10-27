@@ -5,9 +5,66 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
-## [Non rilasciato]
+## [3.0.0a1] — 2026-10-27 (pre-release)
+
+Il tema base passa a **Bootstrap 6** (`6.0.0-alpha.1`). Pre-release: Bootstrap 6 è in
+alpha e può cambiare; installare con `uv add --prerelease allow` / `pip install --pre`.
+Guida completa per chi aggiorna: [Migrazione a Bootstrap 6](migrazione-bootstrap-6.md).
+
+### Modificato (breaking)
+
+- **Bootstrap 5.3.8 → 6.0.0-alpha.1**, da CDN con **SRI** e versione pinnata. Il JS è
+  ESM (`<script type="module">`): non esiste più `window.bootstrap`. Browser minimi:
+  Chrome/Edge 130, Firefox 132, Safari 18.
+- `base.html` imposta `data-bs-theme="light"` su `<html>` (Bootstrap 6 segue altrimenti
+  `prefers-color-scheme`; il tema è solo chiaro).
+- **Markup migrato**: Offcanvas → **Drawer** (`<dialog class="drawer">`, sidebar con
+  `lg:drawer`), Dropdown → **Menu** (`.menu`, `data-bs-placement`, `data-bs-strategy="fixed"`
+  al posto di `popperConfig`), Modal → **Dialog** (`<dialog class="dialog">`); bottoni, badge
+  e alert con `theme-*` (`btn-solid theme-primary`, `badge theme-primary`, `alert theme-danger`);
+  classi responsive con prefisso (`lg:d-none`, `md:col-6`); scala spacer a parità di rem
+  (`mb-3` → `mb-5`); `fg-*`/`fs-*` al posto di `text-*`/`lead`/`display-*`; breadcrumb con
+  `breadcrumb-link`/`breadcrumb-divider`.
+- **Form**: `form-select` → `form-control`, `form-check-input` → `check`/`radio`,
+  `p.html` avvolge i campi in `.form-field` (checkbox con controllo prima e
+  `.form-field-content`), password toggle `btn-outline theme-secondary input-group-btn`,
+  multiselect come `.menu` con `.form-field > input.check`. Override allauth `button.html` con `theme-*`.
+- **SCSS**: `_branche.scss` genera i token `--bs-primary-*` di Bootstrap 6 (sparisce il blocco
+  di override `btn-*`/`navbar-*`; non esistono più le varianti `-rgb`); `_prefix.scss` rimosso
+  (il tema usa `--bs-*` letterali); breakpoint `lg` 992 → **1024 px** (`xxl` → `2xl`);
+  `.navbar-agesci.text-dark` → `.ag-navbar--testo-scuro`; nuova `.ag-btn-light`.
+  Dalla sidebar in poi alcune regole stanno in `@layer layout` con `!important` perché Bootstrap 6
+  usa i cascade layer (vedi [Sviluppo](sviluppo.md)).
+- Tag Python: `ag_badge`, `ag_button`, `ag_dropdown`, `ag_modal_trigger` passano anche la chiave
+  di contesto `theme` (`dark` → `inverse`, `light` → `secondary`: Bootstrap 6 non ha
+  `theme-light`/`theme-dark`); `ag_feature_grid`/`ag_masonry_grid` passano `cols` e le classi
+  `md:row-cols-N` / `md:col-N`.
+- `sidebar.js` non usa più API Bootstrap.
+
+### Rimosso
+
+- Template tag **`{% ag_js %}`** (introdotto in 2.7.0): i template del tema scrivono `data-bs-*`.
+- Parametro `centered` di `components/modal.html` (il `<dialog>` è già centrato).
 
 ### Aggiunto
+
+- Blocchi **`bootstrap_css`** e **`bootstrap_js`** in `base.html` per self-hosting o per
+  pinnare un'altra versione di Bootstrap.
+- Guida [Migrazione a Bootstrap 6](migrazione-bootstrap-6.md).
+
+### Pacchetto CoreUI (0.2.0a1, pre-release)
+
+Il tema CoreUI resta su Bootstrap 5.3 / CoreUI 5 e **non dipende più dal markup del tema base**
+(ora richiede `django-agesci-campania-theme>=3.0.0a1`, perché le sue copie dei template usano la
+chiave di contesto `cols`):
+
+- Copie proprie (BS5, `data-coreui-*`) dei template di componenti, form e allauth (stesso
+  percorso di quelli del tema, che vincono perché `agesci_coreui` precede `agesci_theme`),
+  del JS dei form e dei partial SCSS (`_prefix`, `_branche`, `_bootstrap-overrides`, `_forms`, `_components`).
+- Nuovo `agesci_coreui.forms.AgesciCoreuiFormRenderer` (usalo come `FORM_RENDERER`).
+- Nuovo system check **`agesci_coreui.E002`**: `agesci_coreui` deve precedere `agesci_theme` in `INSTALLED_APPS`.
+
+### Dalla linea 2.x (già su `main`)
 
 - Template tag **`{% ag_home_url %}`** (`agesci_tags`): URL della radice del
   sito con il prefisso di deploy (`FORCE_SCRIPT_NAME`/`SCRIPT_NAME`). È il

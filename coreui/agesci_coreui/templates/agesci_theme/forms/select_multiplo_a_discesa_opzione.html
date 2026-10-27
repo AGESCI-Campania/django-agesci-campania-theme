@@ -1,0 +1,17 @@
+{# Nota: qui "widget" nel contesto è il dict della singola opzione, non il #}
+{# widget nel suo insieme (convenzione standard Django, vedi #}
+{# django/forms/widgets/input_option.html). Markup scritto a mano invece di #}
+{# includere django/forms/widgets/attrs.html apposta: non deve ereditare gli #}
+{# attributi del widget completo (es. data-placeholder) su ogni checkbox — #}
+{# solo id/checked della singola opzione. #}
+<li>
+  <div class="form-check">
+    <input type="checkbox"
+           class="form-check-input ag-multiselect__checkbox"
+           name="{{ widget.name }}"
+           value="{{ widget.value }}"
+           id="{{ widget.attrs.id }}"
+           {% if widget.attrs.checked %}checked{% endif %}>
+    <label class="form-check-label" for="{{ widget.attrs.id }}">{{ widget.label }}</label>
+  </div>
+</li>

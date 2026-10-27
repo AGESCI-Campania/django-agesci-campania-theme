@@ -4,19 +4,8 @@
   var key     = 'ag-sidebar-collapsed';
   if (!sidebar || !toggle) return;
 
-  // Bootstrap (window.bootstrap, data-bs-*) oppure CoreUI (window.coreui,
-  // data-coreui-*): vedi il template tag ag_js in agesci_tags.py.
-  var ui = window.coreui || window.bootstrap;
-  var prefix = window.coreui ? 'coreui' : 'bs';
-
-  sidebar.querySelectorAll('[data-' + prefix + '-toggle="dropdown"]').forEach(function (el) {
-    ui.Dropdown.getOrCreateInstance(el, {
-      popperConfig: function (defaultConfig) {
-        return Object.assign({}, defaultConfig, { strategy: 'fixed' });
-      },
-    });
-  });
-
+  // Nessuna API Bootstrap: dal 3.0 (Bootstrap 6) la strategia "fixed" dei menu
+  // si imposta con data-bs-strategy="fixed" nel markup (vedi partials/sidebar.html).
   if (localStorage.getItem(key) === '1') {
     sidebar.classList.add('ag-sidebar--collapsed');
     toggle.setAttribute('aria-expanded', 'false');

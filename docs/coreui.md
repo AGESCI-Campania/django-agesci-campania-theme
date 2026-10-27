@@ -2,8 +2,18 @@
 
 `django-agesci-campania-coreui-theme` è la variante **CoreUI 5** del tema:
 un secondo pacchetto PyPI, sviluppato nello stesso repository (cartella
-`coreui/`), che **estende** `django-agesci-campania-theme` invece di
-duplicarlo.
+`coreui/`), che si appoggia a `django-agesci-campania-theme` per template tag,
+context processor, immagini e palette, ma ha il **proprio markup**.
+
+```{note}
+Dalla 3.0 il tema base passa a **Bootstrap 6** (vedi la
+[guida alla migrazione](migrazione-bootstrap-6.md)), mentre CoreUI 5 è basato su
+Bootstrap 5.3 e non esiste ancora un CoreUI su Bootstrap 6. Per questo i
+template dei componenti, dei form e di allauth, il JS dei form e i partial SCSS
+(branche, override, form, componenti) sono **copie proprie del pacchetto CoreUI**
+in versione Bootstrap 5/CoreUI 5: le modifiche al markup del tema base non lo
+toccano.
+```
 
 CoreUI è una fork di Bootstrap 5: contiene tutte le classi e i componenti di
 Bootstrap, più un layout "admin" nativo (sidebar e header) e componenti
@@ -15,9 +25,10 @@ licenza commerciale e non sono inclusi.
 
 | Parte | Origine |
 |---|---|
-| Palette ufficiale, colore per branca (`data-branca`) | tema base, ricompilato sulle variabili `--cui-*` |
-| `AgesciFormRenderer`, `SelectMultiploADiscesa`, override django-allauth | tema base, invariati |
-| Template tag `agesci_tags` e `agesci_components` (`ag_hero`, `ag_modal_trigger`, …) | tema base: scrivono `data-coreui-*` grazie a `{% ag_js %}` |
+| Palette ufficiale (`_palette.scss`) | tema base |
+| Colore per branca (`data-branca`) | **CoreUI**: copia BS5 di `_branche.scss`, ricompilata sulle variabili `--cui-*` |
+| `AgesciCoreuiFormRenderer`, `SelectMultiploADiscesa`, override django-allauth | **CoreUI** (copie BS5 dei template del tema, stesso percorso) |
+| Template tag `agesci_tags` e `agesci_components` (`ag_hero`, `ag_modal_trigger`, …) | tema base (la logica Python); i **template** che renderizzano sono le copie CoreUI, con `data-coreui-*` |
 | Layout `agesci_coreui/base.html` (sidebar + header nativi CoreUI) | **CoreUI** |
 | `{% ag_nav_item %}`, `{% ag_nav_title %}`, `{% ag_callout %}`, `{% ag_avatar %}`, `{% ag_chip %}` | **CoreUI** |
 | Widget `InputChip` / campo `CampoChip` (chip-input) | **CoreUI** |
@@ -46,17 +57,21 @@ TEMPLATES = [{"OPTIONS": {"context_processors": [
     "agesci_theme.context_processors.agesci_theme",
 ]}}]
 
-# opzionale, come per il tema base
-FORM_RENDERER = "agesci_theme.forms.AgesciFormRenderer"
+# opzionale: renderer dei form con il markup Bootstrap 5/CoreUI 5
+FORM_RENDERER = "agesci_coreui.forms.AgesciCoreuiFormRenderer"
 ```
 
 Le settings `AGESCI_THEME_*` (branca, nome, loghi, favicon) sono le stesse
 del tema base.
 
 ```{important}
-Installare `agesci_coreui` sposta **tutto il progetto** su CoreUI: il tag
-`{% ag_js %}` fa scrivere ai componenti del tema base `data-coreui-*`
-invece di `data-bs-*`, e CoreUI ignora gli attributi `data-bs-*`. Non
+Installare `agesci_coreui` sposta **tutto il progetto** su CoreUI: i template
+dei componenti, dei form e di allauth che differiscono sono **copie con lo
+stesso percorso** di quelli del tema base (`agesci_theme/components/...`,
+`allauth/...`) e scrivono `data-coreui-*` invece di `data-bs-*`, perché
+CoreUI ignora gli attributi `data-bs-*`. Il loader `APP_DIRS` usa il primo
+template trovato, quindi `agesci_coreui` deve stare **prima** di
+`agesci_theme` in `INSTALLED_APPS` (system check `agesci_coreui.E002`). Non
 mescolare pagine che estendono `agesci_theme/base.html` (Bootstrap) con
 pagine CoreUI nello stesso progetto.
 ```
@@ -166,21 +181,14 @@ Invio o la virgola creano un chip, Backspace o la "x" lo rimuovono; il JS di
 CoreUI invia i valori in un campo nascosto con lo stesso `name`, separati da
 virgola. Come `SelectMultiploADiscesa`, non richiede `AgesciFormRenderer`.
 
-## Il prefisso `data-*`: `{% ag_js %}`
+## Il prefisso `data-*`: `data-coreui-*`
 
 CoreUI legge solo gli attributi `data-coreui-*` (verificato su CoreUI 5.9.0:
-un `data-bs-toggle="modal"` non apre il modal). I template condivisi del
-tema base scrivono quindi:
-
-```django
-{% load agesci_tags %}
-<button data-{% ag_js %}-toggle="modal" data-{% ag_js %}-target="#m">…</button>
-```
-
-`{% ag_js %}` restituisce `coreui` se `agesci_coreui` è in `INSTALLED_APPS`,
-altrimenti `bs`. Non dipende dal contesto, quindi funziona anche negli
-inclusion tag e nei template dei widget. Nei **propri** template, un progetto
-CoreUI può scrivere direttamente `data-coreui-*`.
+un `data-bs-toggle="modal"` non apre il modal). Le copie CoreUI dei template
+dei componenti e dei widget scrivono già `data-coreui-*`, quindi i tag del
+tema (`{% ag_modal_trigger %}`, `{% ag_dropdown %}`, …) funzionano senza
+altro. Nei **propri** template un progetto CoreUI scrive direttamente
+`data-coreui-*`.
 
 ## Progetto demo
 
