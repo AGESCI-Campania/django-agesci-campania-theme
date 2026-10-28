@@ -19,6 +19,12 @@ Tema **Bootstrap 6** riusabile per le applicazioni **Django** dell'**AGESCI Camp
 🔗 **[Demo online](https://agesci-campania.github.io/django-agesci-campania-theme/)**: [tema Bootstrap](https://agesci-campania.github.io/django-agesci-campania-theme/bootstrap/) ·
 [tema CoreUI](https://agesci-campania.github.io/django-agesci-campania-theme/coreui/), aggiornata a ogni modifica di `main`.
 
+> 🤖 **Scrivi codice con un assistente AI?** Bootstrap 6 è in alpha e gli assistenti lo confondono con il 5:
+> installa la skill nel tuo progetto con `npx skills add AGESCI-Campania/django-agesci-campania-theme`,
+> oppure dai loro [`llms.txt`](https://django-agesci-campania-theme.readthedocs.io/it/latest/llms.txt) /
+> [`llms-full.txt`](https://django-agesci-campania-theme.readthedocs.io/it/latest/llms-full.txt).
+> Le regole da rispettare sono in [Usare il tema con un assistente AI](https://django-agesci-campania-theme.readthedocs.io/it/latest/assistenti-ai.html).
+
 Fornisce un `base.html` pronto all'uso con **header a due barre** (barra brand
 + barra ricerca/azioni), **sidebar collapsible**, footer ridisegnato e una
 libreria di **componenti opzionali** (`ag_hero`, `ag_feature_grid`,
@@ -89,14 +95,6 @@ pip install django-agesci-campania-theme
 uv add "git+https://github.com/AGESCI-Campania/django-agesci-campania-theme.git"
 pip install "git+https://github.com/AGESCI-Campania/django-agesci-campania-theme.git"
 ```
-
-## Uso con assistenti AI
-
-Il tema è su Bootstrap 6 (alpha), che gli assistenti conoscono poco e confondono con il 5.
-Nel tuo progetto puoi installare la skill (`npx skills add AGESCI-Campania/django-agesci-campania-theme`)
-o dare all'assistente [`llms.txt`](https://django-agesci-campania-theme.readthedocs.io/it/latest/llms.txt) /
-[`llms-full.txt`](https://django-agesci-campania-theme.readthedocs.io/it/latest/llms-full.txt).
-Le regole da rispettare sono in [Usare il tema con un assistente AI](https://django-agesci-campania-theme.readthedocs.io/it/latest/assistenti-ai.html).
 
 ## Configurazione
 
