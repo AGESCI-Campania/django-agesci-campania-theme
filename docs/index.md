@@ -49,7 +49,7 @@ Il colore si applica rimappando i token *primary* di Bootstrap 6 (`--bs-primary-
 in funzione dell'attributo `data-branca` sul tag `<html>`.
 **Nessun ricompilo Sass necessario**: basta cambiare una riga in `settings.py`.
 
-```{note}
+````{note}
 Esiste anche una variante **CoreUI 5** con layout nativo (sidebar + header),
 distribuita come secondo pacchetto PyPI,
 [`django-agesci-campania-coreui-theme`](https://pypi.org/project/django-agesci-campania-coreui-theme/),
@@ -62,7 +62,7 @@ Vedi [Tema CoreUI](coreui.md).
 JavaScript e browser minimi diversi da Bootstrap 5. Se aggiorni da una 2.x leggi la
 [guida alla migrazione](migrazione-bootstrap-6.md).
 ```
-```
+````
 
 ---
 
@@ -76,6 +76,7 @@ installazione
 configurazione
 quickstart
 migrazione-bootstrap-6
+assistenti-ai
 ```
 
 ```{toctree}

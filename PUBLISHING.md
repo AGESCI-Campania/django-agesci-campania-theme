@@ -181,6 +181,7 @@ Build locale: `uv build --package django-agesci-campania-coreui-theme`.
 
 - [ ] Versione aggiornata in `pyproject.toml` e nel badge `README.md`
 - [ ] CSS rigenerato con `npm run build:css` e committato
+- [ ] Istruzioni AI allineate: `docs/assistenti-ai.md` e `skills/django-agesci-theme/SKILL.md` (a ogni bump di Bootstrap 6 o cambio di blocchi/tag)
 - [ ] Commit pushato su `main`
 - [ ] Tag `vX.Y.Z` pushato su GitHub
 - [ ] Release GitHub creata → il workflow pubblica automaticamente su PyPI

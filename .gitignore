@@ -26,3 +26,5 @@ docs/_build/
 .vscode/
 *.swp
 .DS_Store
+# llms.txt / llms-full.txt (generati da scripts/build_llms_txt.py)
+docs/_llms/

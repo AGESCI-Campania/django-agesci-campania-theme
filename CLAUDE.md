@@ -160,6 +160,13 @@ Python (template tag, context processor), immagini e `_palette.scss`, mentre il
   `/accounts/login/` nel browser: il commento multi-riga di `p.html`
   compariva come testo visibile nella pagina.
 
+- **Istruzioni per gli assistenti dei consumer** (diverse da questo file): `docs/assistenti-ai.md`,
+  `skills/django-agesci-theme/SKILL.md` e `llms.txt`/`llms-full.txt` (generati da
+  `scripts/build_llms_txt.py` dal toctree di `docs/index.md`, pubblicati da `docs/conf.py`, verificati in
+  `build.yml`). Se cambi una trappola, un blocco di `base.html`, un tag o la versione di Bootstrap 6,
+  aggiornali insieme alla documentazione. Una pagina nuova in `docs/` va nel toctree e, se vuoi la
+  descrizione in `llms.txt`, in `DESCRIZIONI` dello script.
+
 ## Comandi (uv)
 
 ```bash

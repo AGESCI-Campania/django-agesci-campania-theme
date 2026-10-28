@@ -90,6 +90,14 @@ uv add "git+https://github.com/AGESCI-Campania/django-agesci-campania-theme.git"
 pip install "git+https://github.com/AGESCI-Campania/django-agesci-campania-theme.git"
 ```
 
+## Uso con assistenti AI
+
+Il tema è su Bootstrap 6 (alpha), che gli assistenti conoscono poco e confondono con il 5.
+Nel tuo progetto puoi installare la skill (`npx skills add AGESCI-Campania/django-agesci-campania-theme`)
+o dare all'assistente [`llms.txt`](https://django-agesci-campania-theme.readthedocs.io/it/latest/llms.txt) /
+[`llms-full.txt`](https://django-agesci-campania-theme.readthedocs.io/it/latest/llms-full.txt).
+Le regole da rispettare sono in [Usare il tema con un assistente AI](https://django-agesci-campania-theme.readthedocs.io/it/latest/assistenti-ai.html).
+
 ## Configurazione
 
 In `settings.py`:

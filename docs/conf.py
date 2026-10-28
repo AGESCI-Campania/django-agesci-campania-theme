@@ -53,3 +53,18 @@ rinoh_documents = [
         "author": author,
     }
 ]
+
+# llms.txt e llms-full.txt, generati dai sorgenti e pubblicati alla radice del sito.
+# Generati subito (non in builder-inited): Sphinx controlla html_extra_path prima.
+def _genera_llms():
+    import importlib.util
+
+    percorso = Path(__file__).parent.parent / "scripts" / "build_llms_txt.py"
+    spec = importlib.util.spec_from_file_location("build_llms_txt", percorso)
+    modulo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(modulo)
+    modulo.genera(Path(__file__).parent / "_llms")
+
+
+_genera_llms()
+html_extra_path = ["_llms"]

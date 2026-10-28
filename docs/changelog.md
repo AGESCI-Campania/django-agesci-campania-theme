@@ -5,6 +5,18 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
+## [Non rilasciato]
+
+### Aggiunto
+
+- **Istruzioni per assistenti AI**: pagina [Usare il tema con un assistente AI](assistenti-ai.md)
+  con le regole del tema (Bootstrap 6 al posto di 5, ordine di `INSTALLED_APPS`, form, colori, CoreUI),
+  `llms.txt` e `llms-full.txt` pubblicati alla radice della documentazione (generati da
+  `scripts/build_llms_txt.py`, verificati in CI) e una *skill* installabile con
+  `npx skills add AGESCI-Campania/django-agesci-campania-theme` (`skills/django-agesci-theme/`).
+
+---
+
 ## [3.0.0a2] — 2026-10-27 (pre-release)
 
 ### Corretto

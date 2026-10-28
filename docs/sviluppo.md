@@ -218,6 +218,18 @@ Loghi, emblemi e favicon si trovano in `agesci_theme/static/agesci_theme/img/`.
 
 ---
 
+## Istruzioni per assistenti AI
+
+Tre cose da tenere allineate al codice (vedi [Usare il tema con un assistente AI](assistenti-ai.md)):
+
+- `docs/assistenti-ai.md`: le regole per i progetti che usano il tema. Aggiornala quando cambia una
+  trappola nota, un blocco di `base.html` o un tag.
+- `skills/django-agesci-theme/SKILL.md`: la skill installabile dai consumer (tabella v5 → v6 e regole del tema).
+  Ad ogni alpha di Bootstrap 6 ricontrolla la tabella.
+- `llms.txt` / `llms-full.txt`: generati da `scripts/build_llms_txt.py` (`python3 scripts/build_llms_txt.py`,
+  output in `docs/_llms/`, non committato). Le pagine vengono dal toctree di `docs/index.md`; per una pagina
+  nuova aggiungi la descrizione in `DESCRIZIONI` dello script.
+
 ## Rilascio
 
 Il tema usa [Hatchling](https://hatch.pypa.io/) come build backend. La
