@@ -5,7 +5,7 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
-## [Non rilasciato]
+## [3.0.0a3] — 2026-11-03 (pre-release)
 
 ### Aggiunto
 
@@ -39,6 +39,12 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
   (prima quasi bianco), mentre le altre branche restano invariate.
 - Voci della nav dell'header: sfondo chiaro sotto il testo bianco quando una voce è a fuoco o con il
   menu aperto (`:focus` / `.show`).
+
+### Pacchetto CoreUI (0.2.0a3)
+
+- Stessa correzione dei colori "subtle" della branca `generico` (copia di `_branche.scss`).
+- Copie CoreUI di `agesci_theme/components/avatar.html` e `chip.html`: `{% ag_avatar %}` e
+  `{% ag_chip %}` di `agesci_components` danno l'avatar e il chip di CoreUI, come quelli di `agesci_coreui`.
 
 ---
 

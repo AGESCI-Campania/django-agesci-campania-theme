@@ -74,13 +74,13 @@ Alla creazione della release, GitHub Actions eseguirà automaticamente
 ### Pre-release (serie 3.x su Bootstrap 6 alpha)
 
 Finché Bootstrap 6 è in alpha il tema viene rilasciato come **pre-release PEP 440**
-(`3.0.0a1`, `3.0.0a2`, … poi `b`, `rc`, e `3.0.0` quando Bootstrap 6 è stabile):
+(`3.0.0a1`, `3.0.0a2`, `3.0.0a3`, … poi `b`, `rc`, e `3.0.0` quando Bootstrap 6 è stabile):
 
 ```bash
-# versione in pyproject.toml: "3.0.0a2"  (CoreUI: "0.2.0a2" in coreui/pyproject.toml)
-git tag v3.0.0a2                          # tema Bootstrap; per CoreUI: coreui-v0.2.0a2
-git push origin v3.0.0a2
-gh release create v3.0.0a2 --verify-tag --prerelease --title "v3.0.0a2" --notes "Pre-release: Bootstrap 6.0.0-alpha.1"
+# versione in pyproject.toml: "3.0.0a3"  (CoreUI: "0.2.0a3" in coreui/pyproject.toml)
+git tag v3.0.0a3                          # tema Bootstrap; per CoreUI: coreui-v0.2.0a3
+git push origin v3.0.0a3
+gh release create v3.0.0a3 --verify-tag --prerelease --title "v3.0.0a3" --notes "Pre-release: Bootstrap 6.0.0-alpha.1"
 ```
 
 - Si rilascia da `main` (Bootstrap 6). Le correzioni alla serie 2.x (Bootstrap 5) si fanno nel branch
@@ -92,7 +92,7 @@ gh release create v3.0.0a2 --verify-tag --prerelease --title "v3.0.0a2" --notes 
 - Ad ogni nuova alpha di Bootstrap 6: rileggere `https://getbootstrap.com/llms.txt` e la guida di migrazione
   ufficiale, aggiornare versione e hash SRI in `base.html` (blocchi `bootstrap_css` / `bootstrap_js`) e
   ripetere la verifica nel browser (vedi `docs/sviluppo.md`).
-- Il pacchetto CoreUI `0.2.0a2` richiede `django-agesci-campania-theme>=3.0.0a1`: pubblica prima il tema.
+- Il pacchetto CoreUI `0.2.0a3` richiede `django-agesci-campania-theme>=3.0.0a1`: pubblica prima il tema.
 
 ---
 
