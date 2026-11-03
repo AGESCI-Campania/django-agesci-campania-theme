@@ -5,6 +5,7 @@
 //  in base all'attributo [data-branca] sul tag <html> o <body>.
 // =============================================================
 @use "sass:color";
+@use "sass:math";
 @use "sass:map";
 @use "palette" as p;
 @use "prefix" as pf;
@@ -19,6 +20,14 @@ $branche: (
   "viola":    p.$agesci-viola,        // alias esplicito
   "generico2": p.$agesci-generico-2,  // variante "Generico 2"
 );
+
+// Funzione: schiarisce il primario senza superare il 95% di luminosità.
+// color.adjust non limita il risultato: col generico (luminosità 60%) +42%
+// dava hsl(…, 102%), cioè bianco, e i componenti "subtle" sparivano.
+@function schiarisci($c, $quanto) {
+  $l: color.channel($c, "lightness", $space: hsl);
+  @return color.change($c, $lightness: math.min($l + $quanto, 95%), $space: hsl);
+}
 
 // Funzione: restituisce un colore di testo leggibile sul primario
 @function on-color($c) {
@@ -36,7 +45,7 @@ $branche: (
   --ag-primary: #{$primario};
   --ag-primary-hover: #{color.adjust($primario, $lightness: -8%)};
   --ag-primary-active: #{color.adjust($primario, $lightness: -14%)};
-  --ag-primary-subtle: #{color.adjust($primario, $lightness: 42%)};
+  --ag-primary-subtle: #{schiarisci($primario, 42%)};
   --ag-on-primary: #{on-color($primario)};
 
   --#{pf.$prefix}link-color: #{$primario};

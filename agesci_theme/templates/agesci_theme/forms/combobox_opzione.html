@@ -1,0 +1,4 @@
+<button class="menu-item{% if widget.selected %} selected{% endif %}" type="button" role="option" data-bs-value="{{ widget.value|stringformat:'s' }}" aria-selected="{% if widget.selected %}true{% else %}false{% endif %}"{% if widget.attrs.disabled %} disabled aria-disabled="true"{% endif %}>
+  {{ widget.label }}
+  <svg class="menu-item-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 16 16" aria-hidden="true"><path d="m2 7 4 5 8-8"/></svg>
+</button>

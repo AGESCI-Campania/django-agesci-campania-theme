@@ -430,7 +430,8 @@ cui questo componente condivide il markup del toggle.
 ```
 {% ag_password_field [name="password"] [id=""] [label=""] [value=""]
                       [placeholder=""] [help_text=""] [errors=None]
-                      [required=False] [autocomplete="current-password"] %}
+                      [required=False] [autocomplete="current-password"]
+                      [strength=False] [min_length=8] %}
 ```
 
 | Parametro | Default | Descrizione |
@@ -441,6 +442,8 @@ cui questo componente condivide il markup del toggle.
 | `errors` | `None` | Lista di messaggi d'errore: se non vuota, mostra `is-invalid` + `invalid-feedback` |
 | `required` | `False` | Aggiunge `required` all'`<input>` e `*` all'etichetta |
 | `autocomplete` | `"current-password"` | Usa `"new-password"` in un form di registrazione |
+| `strength` | `False` | Aggiunge l'indicatore di robustezza di Bootstrap 6 (come il widget `PasswordConRobustezza`; solo tema Bootstrap 6) |
+| `min_length` | `8` | Con `strength`: lunghezza minima per il primo segmento |
 
 ```django
 {% load agesci_components %}
@@ -488,3 +491,99 @@ menu.
 {% ag_multiselect_dropdown name="gruppo" label="Gruppo"
    choices=lista_gruppi placeholder="Tutti" %}
 ```
+
+---
+
+## Componenti nuovi di Bootstrap 6
+
+I tag che seguono producono markup **Bootstrap 6** e stanno sempre in `agesci_components`.
+`ag_avatar` e `ag_chip` hanno la stessa firma degli omonimi CoreUI, e il tema CoreUI ha una copia
+propria dei loro template: danno l'avatar e il chip di CoreUI. Accordion, stepper e carousel invece
+sono **solo per il tema Bootstrap 6**.
+
+### `ag_accordion`
+
+È un accordion fatto con `<details>` nativi, senza JS.
+
+```
+{% ag_accordion items [id=""] [always_open=False] [flush=False] [gap=False] [size=""] [variant=""] %}
+```
+
+| Parametro | Default | Descrizione |
+|---|---|---|
+| `items` | — | Lista di dict `title`, `content` (HTML con `mark_safe`), `open` (opzionale) |
+| `id` | generato | `name` comune dei `<details>`: rende le voci esclusive |
+| `always_open` | `False` | `True` per lasciare aperte più voci insieme |
+| `flush` / `gap` | `False` | Senza bordi esterni / voci separate |
+| `size` | `""` | `"sm"` per la versione compatta |
+| `variant` | `""` | Colore della voce aperta, es. `"primary"` (branca) |
+
+```django
+{% ag_accordion items=faq variant="primary" %}
+```
+
+### `ag_avatar`
+
+```
+{% ag_avatar [name=""] [image_url=""] [size="md"] [status=""] [variant="primary"] [subtle=False] %}
+```
+
+| Parametro | Default | Descrizione |
+|---|---|---|
+| `name` | `""` | Nome: dà le iniziali e il testo alternativo |
+| `image_url` | `""` | Immagine al posto delle iniziali |
+| `size` | `"md"` | `"xs"`, `"sm"`, `"md"`, `"lg"`, `"xl"` |
+| `status` | `""` | `"online"`, `"away"`, `"busy"`, `"offline"` (o i nomi CoreUI `success`, `warning`, `danger`, `secondary`) |
+| `variant` / `subtle` | `"primary"` / `False` | Colore delle iniziali; `subtle=True` per la versione tenue |
+
+```django
+{% ag_avatar name="Anna Bianchi" status="online" size="lg" %}
+```
+
+### `ag_chip`
+
+```
+{% ag_chip label [variant=""] [icon=""] [active=False] %}
+```
+
+È un chip statico. `variant` (`"primary"` = branca, `"success"`…) dà il colore tenue, `active=True` la
+versione piena, `icon` un Bootstrap Icon (richiede l'extra `[icons]`). Per i chip modificabili in un
+form usa il widget `InputChip` ([Form](forms.md#widget-dei-componenti-form-di-bootstrap-6)).
+
+### `ag_stepper`
+
+```
+{% ag_stepper steps [current=1] [vertical=False] %}
+```
+
+| Parametro | Default | Descrizione |
+|---|---|---|
+| `steps` | — | Lista di stringhe, o di dict `label` + `url` (con un `url` i passi diventano link) |
+| `current` | `1` | Numero (da 1) del passo corrente: i passi fino a lui sono colorati; `0` = nessuno |
+| `vertical` | `False` | Elenco verticale (di default orizzontale, scorrevole se non ci sta) |
+
+```python
+# views.py
+context = {"passi": ["Dati personali", "Gruppo", "Quota", "Conferma"]}
+```
+
+```django
+{% ag_stepper steps=passi current=2 %}
+```
+
+### `ag_carousel`
+
+```
+{% ag_carousel items [id=""] [indicators=True] [autoplay=False] [interval=5000] [fade=False] %}
+```
+
+| Parametro | Default | Descrizione |
+|---|---|---|
+| `items` | — | Lista di dict `image_url`, `alt`, `title` e `text` (opzionali, didascalia in basso) |
+| `id` | generato | `id` del carousel, usato da controlli e indicatori |
+| `indicators` | `True` | Pallini di navigazione |
+| `autoplay` / `interval` | `False` / `5000` | Scorrimento automatico, con il pulsante pausa/riproduci richiesto da WCAG 2.2.2 |
+| `fade` | `False` | Dissolvenza invece dello scorrimento |
+
+Il carousel di Bootstrap 6 usa lo scroll-snap del browser. Non ha più `.carousel-caption`: la
+didascalia è `.ag-carousel-caption` del tema.

@@ -148,7 +148,7 @@ STATIC_URL = "static/"
 
 {# Nav desktop: icona sopra + etichetta sotto #}
 {% block header_nav %}
-  <li>
+  <li class="nav-item">
     <a href="/" class="nav-link active">
       <span class="ag-nav-icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
@@ -303,11 +303,17 @@ poseidonia, salerno, samnium, vesuvio, volturno`.
 
 **`{% load agesci_components %}`**
 
-13 componenti UI opzionali: `{% ag_hero %}`, `{% ag_feature_card %}`,
+18 componenti UI opzionali: `{% ag_hero %}`, `{% ag_feature_card %}`,
 `{% ag_feature_grid %}`, `{% ag_jumbotron %}`, `{% ag_badge %}`,
 `{% ag_button %}`, `{% ag_breadcrumb %}`, `{% ag_dropdown %}`,
 `{% ag_list_group %}`, `{% ag_modal_trigger %}`, `{% ag_masonry_grid %}`,
-`{% ag_password_field %}`, `{% ag_multiselect_dropdown %}`.
+`{% ag_password_field %}`, `{% ag_multiselect_dropdown %}` e, nuovi di
+Bootstrap 6, `{% ag_accordion %}`, `{% ag_avatar %}`, `{% ag_chip %}`,
+`{% ag_stepper %}`, `{% ag_carousel %}`.
+
+Per i controlli nuovi dei form di Bootstrap 6 (datepicker, OTP, robustezza
+password, adorn, combobox, chip input, range) ci sono widget Django in
+`agesci_theme.forms`: vedi [Form e validazione](https://django-agesci-campania-theme.readthedocs.io/it/latest/forms.html#widget-dei-componenti-form-di-bootstrap-6).
 
 I template sono in `agesci_theme/components/` e sono sovrascrivibili.
 Vedi la [documentazione completa](https://django-agesci-campania-theme.readthedocs.io/).

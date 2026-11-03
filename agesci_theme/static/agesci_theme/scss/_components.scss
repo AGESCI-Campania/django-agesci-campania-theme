@@ -73,3 +73,19 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+// ── Carousel (ag_carousel) ───────────────────────────────────────────────────
+// Bootstrap 6 non ha piu' .carousel-caption: didascalia sulla parte bassa
+// dell'immagine, su una sfumatura scura per restare leggibile su ogni foto.
+.carousel-item:has(.ag-carousel-caption) {
+  position: relative;
+}
+
+.ag-carousel-caption {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  padding: 2.5rem 1.5rem 1.25rem;
+  color: #fff;
+  background: linear-gradient(to top, rgba(0, 0, 0, .65), transparent);
+}

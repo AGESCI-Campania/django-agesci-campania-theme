@@ -3,7 +3,7 @@
   --bs-primary-bg: #6689cc;
   --bs-primary-fg: #6689cc;
   --bs-primary-fg-emphasis: #335699;
-  --bs-primary-bg-subtle: hsl(219.4117647059, 50%, 102%);
+  --bs-primary-bg-subtle: rgb(235.875, 240.25, 248.625);
   --bs-primary-bg-muted: rgb(224.4, 231.4, 244.8);
   --bs-primary-border: rgb(170.85, 190.1, 226.95);
   --bs-primary-focus-ring: color-mix(in srgb, #6689cc 50%, white);
@@ -11,7 +11,7 @@
   --ag-primary: #6689cc;
   --ag-primary-hover: rgb(71.4, 113.4, 193.8);
   --ag-primary-active: rgb(58.65, 98.9, 175.95);
-  --ag-primary-subtle: hsl(219.4117647059, 50%, 102%);
+  --ag-primary-subtle: rgb(235.875, 240.25, 248.625);
   --ag-on-primary: #ffffff;
 }
 
@@ -20,7 +20,7 @@
   --bs-primary-bg: #6689cc;
   --bs-primary-fg: #6689cc;
   --bs-primary-fg-emphasis: #335699;
-  --bs-primary-bg-subtle: hsl(219.4117647059, 50%, 102%);
+  --bs-primary-bg-subtle: rgb(235.875, 240.25, 248.625);
   --bs-primary-bg-muted: rgb(224.4, 231.4, 244.8);
   --bs-primary-border: rgb(170.85, 190.1, 226.95);
   --bs-primary-focus-ring: color-mix(in srgb, #6689cc 50%, white);
@@ -28,7 +28,7 @@
   --ag-primary: #6689cc;
   --ag-primary-hover: rgb(71.4, 113.4, 193.8);
   --ag-primary-active: rgb(58.65, 98.9, 175.95);
-  --ag-primary-subtle: hsl(219.4117647059, 50%, 102%);
+  --ag-primary-subtle: rgb(235.875, 240.25, 248.625);
   --ag-on-primary: #ffffff;
 }
 
@@ -54,7 +54,7 @@
   --bs-primary-bg: #f9d616;
   --bs-primary-fg: #f9d616;
   --bs-primary-fg-emphasis: rgb(164.7573221757, 140.0083682008, 4.2426778243);
-  --bs-primary-bg-subtle: rgb(254.3774058577, 250.7456066946, 230.8225941423);
+  --bs-primary-bg-subtle: rgb(254.359832636, 250.6255230126, 230.140167364);
   --bs-primary-bg-muted: rgb(253.0970711297, 241.9966527197, 181.1029288703);
   --bs-primary-border: rgb(251.3046025105, 229.7481171548, 111.4953974895);
   --bs-primary-focus-ring: color-mix(in srgb, #f9d616 50%, white);
@@ -62,7 +62,7 @@
   --ag-primary: #f9d616;
   --ag-primary-hover: rgb(224.4209205021, 190.709623431, 5.7790794979);
   --ag-primary-active: rgb(194.5891213389, 165.3589958159, 5.0108786611);
-  --ag-primary-subtle: rgb(254.3774058577, 250.7456066946, 230.8225941423);
+  --ag-primary-subtle: rgb(254.359832636, 250.6255230126, 230.140167364);
   --ag-on-primary: #ffffff;
 }
 
@@ -88,7 +88,7 @@
   --bs-primary-bg: #ef3340;
   --bs-primary-fg: #ef3340;
   --bs-primary-fg-emphasis: rgb(174.3272727273, 13.6727272727, 24.7818181818);
-  --bs-primary-bg-subtle: rgb(254.5781818182, 249.6218181818, 249.9645454545);
+  --bs-primary-bg-subtle: rgb(253.1454545455, 231.3545454545, 232.8613636364);
   --bs-primary-bg-muted: rgb(250.8690909091, 202.3309090909, 205.6872727273);
   --bs-primary-border: rgb(245.6763636364, 136.1236363636, 143.6990909091);
   --bs-primary-focus-ring: color-mix(in srgb, #ef3340 50%, white);
@@ -96,7 +96,7 @@
   --ag-primary: #ef3340;
   --ag-primary-hover: rgb(231.0763636364, 18.1236363636, 32.8490909091);
   --ag-primary-active: rgb(202.7018181818, 15.8981818182, 28.8154545455);
-  --ag-primary-subtle: rgb(254.5781818182, 249.6218181818, 249.9645454545);
+  --ag-primary-subtle: rgb(253.1454545455, 231.3545454545, 232.8613636364);
   --ag-on-primary: #ffffff;
 }
 
@@ -316,12 +316,16 @@ h1, h2, h3, h4, h5, h6,
   display: block;
 }
 
-.form-field > label:not(.form-label) {
+.form-field > label:not(.form-label, .form-control) {
   font-weight: 500;
 }
 
 .ag-multiselect {
   position: relative;
+}
+
+.chip-input.is-invalid {
+  --bs-control-border-color: var(--bs-danger-border);
 }
 
 .ag-header-top {
@@ -350,7 +354,7 @@ h1, h2, h3, h4, h5, h6,
   text-align: center;
   padding: 0.4rem 0.75rem;
 }
-.ag-header-top .ag-header-nav .nav-link:hover, .ag-header-top .ag-header-nav .nav-link.active {
+.ag-header-top .ag-header-nav .nav-link:hover, .ag-header-top .ag-header-nav .nav-link:focus, .ag-header-top .ag-header-nav .nav-link.active, .ag-header-top .ag-header-nav .nav-link.show {
   opacity: 1;
   background-color: rgba(0, 0, 0, 0.12);
   border-radius: 0.375rem;
@@ -358,6 +362,9 @@ h1, h2, h3, h4, h5, h6,
 .ag-header-top .ag-header-nav .nav-link .ag-nav-icon {
   display: block;
   margin: 0 auto 0.2rem;
+}
+.ag-header-top .ag-header-nav-overflow > .ag-header-nav {
+  justify-content: flex-end;
 }
 .ag-header-top .ag-header-toggler {
   background: none;
@@ -812,4 +819,17 @@ h1, h2, h3, h4, h5, h6,
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.carousel-item:has(.ag-carousel-caption) {
+  position: relative;
+}
+
+.ag-carousel-caption {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  padding: 2.5rem 1.5rem 1.25rem;
+  color: #fff;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent);
 }

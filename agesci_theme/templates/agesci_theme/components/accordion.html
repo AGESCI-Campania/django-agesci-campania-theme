@@ -1,0 +1,12 @@
+{# Accordion Bootstrap 6: <details> nativi. Lo stesso name rende le voci esclusive (se ne apre una alla volta). #}
+<div class="accordion{% if theme %} theme-{{ theme }}{% endif %}{% if flush %} accordion-flush{% endif %}{% if gap %} accordion-gap{% endif %}{% if size == "sm" %} accordion-sm{% endif %}">
+  {% for item in items %}
+    <details class="accordion-item"{% if not always_open %} name="{{ name }}"{% endif %}{% if item.open %} open{% endif %}>
+      <summary class="accordion-header">
+        {{ item.title }}
+        <svg class="accordion-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 5 6 6 6-6"/></svg>
+      </summary>
+      <div class="accordion-body">{{ item.content }}</div>
+    </details>
+  {% endfor %}
+</div>

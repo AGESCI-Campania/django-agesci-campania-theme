@@ -1,0 +1,5 @@
+{# OTP input Bootstrap 6 (CodiceOTP): un solo <input>, le caselle le disegna il JS di Bootstrap. #}
+{# is-invalid va sul contenitore .otp, non sull'input. #}
+<div class="otp{% if widget.connesso %} otp-connected{% endif %}{% if widget.invalido %} is-invalid{% endif %}" data-bs-otp data-bs-type="{{ widget.tipo }}"{% if widget.gruppi %} data-bs-groups="{{ widget.gruppi }}"{% endif %}{% if widget.maschera %} data-bs-mask="true"{% endif %}>
+  {% include "django/forms/widgets/input.html" %}
+</div>

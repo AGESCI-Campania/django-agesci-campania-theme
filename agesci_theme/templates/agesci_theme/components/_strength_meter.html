@@ -1,0 +1,10 @@
+{# Partial interno: indicatore di robustezza Bootstrap 6 (.strength), condiviso da #}
+{# agesci_theme/forms/password_robustezza.html e dal tag ag_password_field strength=True. #}
+{# messaggi: JSON {"weak": ..., "fair": ..., "good": ..., "strong": ...} letto dal JS di Bootstrap. #}
+<div class="strength mt-2" data-bs-strength{% if input_id %} data-bs-input="#{{ input_id }}"{% endif %} data-bs-min-length="{{ lunghezza_minima|default:8 }}" data-bs-messages="{{ messaggi }}">
+  <div class="strength-segment"></div>
+  <div class="strength-segment"></div>
+  <div class="strength-segment"></div>
+  <div class="strength-segment"></div>
+</div>
+<small class="strength-text form-text" aria-live="polite"></small>

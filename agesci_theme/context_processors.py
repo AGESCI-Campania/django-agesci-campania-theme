@@ -28,6 +28,9 @@ DEFAULTS = {
     "AGESCI_THEME_FAVICON_16": "agesci_theme/img/favicon/favicon16x16.png",
     # navbar scura quando la branca ha colore chiaro (es. LC giallo)
     "AGESCI_THEME_NAVBAR_TESTO_SCURO": False,
+    # Bootstrap 6 nav overflow: le voci di header_nav che non ci stanno
+    # finiscono nel menu "Altro" invece di andare a capo
+    "AGESCI_THEME_HEADER_NAV_OVERFLOW": False,
 }
 
 

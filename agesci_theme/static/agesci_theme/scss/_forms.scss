@@ -19,7 +19,8 @@
 // Bootstrap 6: in .form-field le label di Django (label_tag, senza .form-label)
 // prendono lo stesso peso delle .form-label; quelle dei checkbox stanno in
 // .form-field-content e non sono figlie dirette, quindi restano normali.
-.form-field > label:not(.form-label) {
+// Escluse le label che fanno da bordo del campo (form adorn: label.form-control).
+.form-field > label:not(.form-label, .form-control) {
   font-weight: 500;
 }
 
@@ -27,4 +28,10 @@
 // posiziona rispetto a lui.
 .ag-multiselect {
   position: relative;
+}
+
+// Chip input (widget InputChip): Bootstrap 6 colora di rosso il bordo di
+// .form-control.is-invalid, ma .chip-input non e' un .form-control.
+.chip-input.is-invalid {
+  --bs-control-border-color: var(--bs-danger-border);
 }

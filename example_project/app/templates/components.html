@@ -53,10 +53,10 @@
 
 {# ── Header ── #}
 {% block header_nav %}
-  <li><a href="{% url 'home' %}" class="nav-link">
+  <li class="nav-item"><a href="{% url 'home' %}" class="nav-link">
     <span class="ag-nav-icon">{% bs_icon "house-fill" %}</span>Home
   </a></li>
-  <li><a href="{% url 'components' %}" class="nav-link active">
+  <li class="nav-item"><a href="{% url 'components' %}" class="nav-link active">
     <span class="ag-nav-icon">{% bs_icon "grid-fill" %}</span>Componenti
   </a></li>
 {% endblock %}
@@ -72,6 +72,7 @@
 {# ── Contenuto ── #}
 {% block content %}
 {% include "_components_content.html" %}
+{% include "_components_bs6.html" %}
 {% endblock %}
 
 {% block extra_js %}{{ block.super }}

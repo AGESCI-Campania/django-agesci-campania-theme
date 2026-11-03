@@ -1,11 +1,17 @@
-"""Componenti opzionali del tema AGESCI v2.
+"""Componenti opzionali del tema AGESCI.
 
 Uso nei template:
     {% load agesci_components %}
     {% ag_hero title="Benvenuto" subtitle="Testo di esempio" %}
     {% ag_feature_card icon="star-fill" title="Funzionalità" description="..." %}
 """
+import json
+import uuid
+
 from django import template
+from django.apps import apps
+
+from agesci_theme.forms import MESSAGGI_ROBUSTEZZA
 
 register = template.Library()
 
@@ -179,8 +185,14 @@ def ag_password_field(
     errors=None,
     required=False,
     autocomplete="current-password",
+    strength=False,
+    min_length=8,
 ):
     """Campo password con pulsante mostra/nascondi (icona SVG inline).
+
+    strength=True aggiunge l'indicatore di robustezza di Bootstrap 6
+    (come il widget ``PasswordConRobustezza``; ``min_length`` è la soglia
+    del primo segmento). Ha senso con ``autocomplete="new-password"``.
 
     Utilizzabile in qualsiasi form, anche senza attivare FORM_RENDERER —
     non dipende dal meccanismo AgesciFormRenderer (vedi agesci_theme.forms):
@@ -209,6 +221,9 @@ def ag_password_field(
         "errors": errors or [],
         "required": required,
         "autocomplete": autocomplete,
+        "strength": strength,
+        "min_length": min_length,
+        "messaggi": json.dumps(MESSAGGI_ROBUSTEZZA),
     }
 
 
@@ -256,4 +271,147 @@ def ag_multiselect_dropdown(
         "help_text": help_text,
         "errors": errors or [],
         "required": required,
+    }
+
+
+# ── Componenti nuovi di Bootstrap 6 ───────────────────────────────────────
+
+
+def _id_univoco(prefisso):
+    return f"{prefisso}-{uuid.uuid4().hex[:8]}"
+
+
+def _icona(nome, classi=""):
+    """SVG di Bootstrap Icons via django-bootstrap-icons (extra opzionale
+    ``[icons]``). Senza l'app installata l'icona è omessa."""
+    if not nome or not apps.is_installed("django_bootstrap_icons"):
+        return ""
+    from django_bootstrap_icons.templatetags.bootstrap_icons import bs_icon
+
+    return bs_icon(nome, extra_classes=classi)
+
+
+@register.inclusion_tag("agesci_theme/components/accordion.html")
+def ag_accordion(items=None, id="", always_open=False, flush=False, gap=False, size="", variant=""):
+    """Accordion Bootstrap 6 (``<details>`` nativi, nessun JS).
+
+    items: lista di dict con chiavi title, content (HTML con mark_safe) e
+    open (opzionale, voce aperta al caricamento).
+    always_open: True per lasciare aperte più voci insieme (di default
+    aprirne una chiude le altre).
+    flush: senza bordi esterni; gap: voci separate; size: "" | "sm".
+    variant: colore della voce aperta, es. "primary" (colore della branca).
+    """
+    return {
+        "items": items or [],
+        "name": id or _id_univoco("ag-accordion"),
+        "always_open": always_open,
+        "flush": flush,
+        "gap": gap,
+        "size": size,
+        "theme": _theme(variant),
+    }
+
+
+def _iniziali(nome):
+    parole = [p for p in (nome or "").split() if p]
+    return "".join(p[0] for p in parole[:2]).upper()
+
+
+# Stato dell'avatar: nomi CoreUI (success/warning/…) -> classi Bootstrap 6.
+_STATO_AVATAR = {
+    "success": "online", "online": "online",
+    "secondary": "offline", "offline": "offline",
+    "danger": "busy", "busy": "busy",
+    "warning": "away", "away": "away",
+}
+_STATO_AVATAR_COREUI = {"online": "success", "offline": "secondary", "busy": "danger", "away": "warning"}
+_STATO_AVATAR_ETICHETTA = {"online": "In linea", "offline": "Non in linea", "busy": "Occupato", "away": "Assente"}
+
+
+@register.inclusion_tag("agesci_theme/components/avatar.html")
+def ag_avatar(name="", image_url="", size="md", status="", variant="primary", subtle=False):
+    """Avatar Bootstrap 6: immagine se ``image_url``, altrimenti le iniziali
+    di ``name`` (di default sul colore della branca).
+
+    size: "xs" | "sm" | "md" (default) | "lg" | "xl"
+    status: "" | "online" | "away" | "busy" | "offline" (accetta anche i
+    nomi CoreUI "success" | "warning" | "danger" | "secondary")
+    variant / subtle: colore delle iniziali (theme-<variant>, avatar-subtle)
+
+    Stessa firma di ``ag_avatar`` del tema CoreUI, che ha una copia propria
+    di questo template.
+    """
+    stato = _STATO_AVATAR.get(status, "")
+    return {
+        "name": name,
+        "iniziali": _iniziali(name),
+        "image_url": image_url,
+        "size": size,
+        "stato": stato,
+        "stato_etichetta": _STATO_AVATAR_ETICHETTA.get(stato, ""),
+        "status": _STATO_AVATAR_COREUI.get(stato, ""),
+        "theme": _theme(variant),
+        "subtle": subtle,
+    }
+
+
+@register.inclusion_tag("agesci_theme/components/chip.html")
+def ag_chip(label, variant="", icon="", active=False):
+    """Chip Bootstrap 6 statico (etichetta compatta e tenue).
+
+    variant: "" (neutro) | "primary" (colore della branca) | "success" | …
+    icon: nome Bootstrap Icon opzionale; richiede l'extra ``[icons]``
+    active: True per la versione piena (sfondo del colore).
+    Per un campo di form con chip modificabili usa il widget
+    ``agesci_theme.forms.InputChip``. Stessa firma di ``ag_chip`` del tema
+    CoreUI (che ignora ``active``).
+    """
+    return {
+        "label": label,
+        "variant": variant,
+        "theme": _theme(variant),
+        "icona": _icona(icon),
+        "icon": _icona(icon, "chip-icon"),
+        "active": active,
+    }
+
+
+@register.inclusion_tag("agesci_theme/components/stepper.html")
+def ag_stepper(steps=None, current=1, vertical=False):
+    """Stepper Bootstrap 6: i passi di un percorso (es. un'iscrizione in più
+    fasi), con i passi fatti e quello corrente evidenziati.
+
+    steps: lista di stringhe, oppure di dict con label e url (opzionale: se
+    almeno un passo ha url, i passi diventano link).
+    current: numero (da 1) del passo corrente; 0 = nessuno.
+    vertical: True per l'elenco verticale (default orizzontale, con
+    scorrimento se non ci sta).
+    """
+    passi = []
+    for indice, passo in enumerate(steps or [], start=1):
+        if isinstance(passo, str):
+            passo = {"label": passo}
+        passi.append({**passo, "fatto": indice <= current, "corrente": indice == current})
+    return {"passi": passi, "con_link": any(p.get("url") for p in passi), "vertical": vertical}
+
+
+@register.inclusion_tag("agesci_theme/components/carousel.html")
+def ag_carousel(items=None, id="", indicators=True, autoplay=False, interval=5000, fade=False):
+    """Carousel Bootstrap 6 (scroll-snap) con controlli e indicatori
+    sovrapposti alle immagini.
+
+    items: lista di dict con chiavi image_url, alt, title (opz.) e text
+    (opz.): title/text compaiono in una didascalia sulla parte bassa.
+    autoplay: scorre da solo ogni ``interval`` ms e mostra il pulsante
+    pausa/riproduci (obbligatorio per l'accessibilità, WCAG 2.2.2).
+    fade: dissolvenza invece dello scorrimento.
+    """
+    return {
+        "items": items or [],
+        "id": id or _id_univoco("ag-carousel"),
+        "indicators": indicators,
+        "autoplay": autoplay,
+        "interval": interval,
+        "fade": fade,
     }

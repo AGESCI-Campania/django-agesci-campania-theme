@@ -1,0 +1,6 @@
+{# Form adorn Bootstrap 6 (InputConAdorno): il <label> fa da bordo del campo e porta il focus all'input. #}
+{# L'adorno è decorativo (aria-hidden): il nome del campo resta quello della label del form. #}
+<label class="form-control form-adorn{% if widget.alla_fine %} form-adorn-end{% endif %}{% if widget.invalido %} is-invalid{% endif %}">
+  {% if widget.icona %}<span class="form-adorn-icon" aria-hidden="true">{{ widget.icona }}</span>{% elif widget.adorno %}<span class="form-adorn-text" aria-hidden="true">{{ widget.adorno }}</span>{% endif %}
+  {% include "django/forms/widgets/input.html" %}
+</label>

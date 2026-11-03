@@ -45,7 +45,7 @@ AGESCI_THEME_NOME   = "La mia app scout"
 
 {# Nav desktop: icona sopra + etichetta sotto #}
 {% block header_nav %}
-  <li>
+  <li class="nav-item">
     <a href="/" class="nav-link active">
       <span class="ag-nav-icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
@@ -55,7 +55,7 @@ AGESCI_THEME_NOME   = "La mia app scout"
       Home
     </a>
   </li>
-  <li>
+  <li class="nav-item">
     <a href="/eventi/" class="nav-link">
       <span class="ag-nav-icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">

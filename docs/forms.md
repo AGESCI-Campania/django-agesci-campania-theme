@@ -204,3 +204,129 @@ Widget e tag condividono lo stesso partial di markup
 (`components/_multiselect_dropdown_menu.html`), stessa dualità di
 `ag_password_field`/`password.html`. Riferimento completo dei parametri in
 [Template tag → `ag_multiselect_dropdown`](templatetags.md).
+
+## Widget dei componenti form di Bootstrap 6
+
+Bootstrap 6 introduce nuovi controlli per i form: datepicker, OTP input, indicatore di robustezza della
+password, form adorn, combobox, chip input e range con bolla. `agesci_theme.forms` li espone come
+widget Django. Valgono le stesse regole di `SelectMultiploADiscesa`: sono **opt-in per singolo campo**,
+hanno template nel namespace proprio `agesci_theme/forms/...` e **non richiedono** `AgesciFormRenderer`
+(il renderer serve solo per le classi e gli errori dei campi normali). Calcolano da soli le classi Bootstrap
+e `is-invalid` quando il campo ha errori. Il comportamento è del JS di Bootstrap 6, caricato da `base.html`.
+
+```{important}
+Sono widget **solo Bootstrap 6**: il loro markup e il loro JS non esistono in CoreUI 5. Con il tema CoreUI
+usa i widget di `agesci_coreui.forms` (es. `InputChip` / `CampoChip`).
+```
+
+| Widget | Campo tipico | Componente Bootstrap 6 |
+|---|---|---|
+| `SelettoreData` | `DateField` | Datepicker (Vanilla Calendar Pro, già nel bundle) |
+| `CodiceOTP` | `CharField` | OTP input |
+| `PasswordConRobustezza` | `CharField` | Password strength + toggle mostra/nascondi del tema |
+| `InputConAdorno` | `CharField`, `DecimalField`, `EmailField`… | Form adorn |
+| `Combobox` / `ComboboxMultiplo` | `ChoiceField` / `MultipleChoiceField` | Combobox |
+| `InputChip` (con `CampoChip`) | `CampoChip` (lista di stringhe) | Chip input |
+| `Cursore` | `IntegerField` | Range |
+
+La demo li usa tutti in `/form-demo/` (`DemoFormBootstrap6` in `example_project/app/views.py`).
+
+### `SelettoreData`
+
+```python
+from agesci_theme.forms import SelettoreData
+
+data = forms.DateField(widget=SelettoreData(data_min="2026-01-01", data_max="2026-12-31"))
+```
+
+Parametri: `data_min`, `data_max` (`"AAAA-MM-GG"` o `date`) e `locale` (default `"it-IT"`: mesi in
+italiano, settimana da lunedì). Il campo mostra `GG/MM/AAAA`. Il server scrive il valore in ISO e il
+datepicker lo riformatta. Al submit `value_from_datadict` riconverte `GG/MM/AAAA` in ISO, quindi il
+`DateField` lo accetta con qualunque `LANGUAGE_CODE`. Quando c'è già una data, il widget aggiunge
+`data-bs-selected-dates`: senza, Bootstrap crea il datepicker solo al primo focus e il campo
+mostrerebbe la data in ISO. Gestisce una sola data, non gli intervalli.
+
+### `CodiceOTP`
+
+```python
+from agesci_theme.forms import CodiceOTP
+
+codice = forms.CharField(min_length=6, max_length=6, widget=CodiceOTP(gruppi=[3, 3]))
+```
+
+Parametri: `lunghezza` (default 6), `tipo` (`"numeric"`, `"alphanumeric"`, `"alpha"`), `gruppi`
+(es. `[3, 3]`), `maschera` e `connesso` (default `True`). È un solo `<input>` con
+`autocomplete="one-time-code"`. Le caselle le disegna il JS, e incolla e autofill funzionano.
+In caso di errore `is-invalid` va sul contenitore `.otp`.
+
+### `PasswordConRobustezza`
+
+```python
+from agesci_theme.forms import PasswordConRobustezza
+
+password1 = forms.CharField(widget=PasswordConRobustezza(attrs={"autocomplete": "new-password"}))
+```
+
+Ha il toggle mostra/nascondi del tema più la barra a 4 segmenti di Bootstrap 6 con il testo in
+italiano (Debole / Sufficiente / Buona / Robusta; si cambia con `messaggi={...}`). `lunghezza_minima`
+(default 8) è la soglia del primo segmento. L'indicatore è **solo un aiuto visivo**: la validazione
+resta quella di `AUTH_PASSWORD_VALIDATORS`. Lo stesso indicatore c'è anche in `{% ag_password_field strength=True %}`.
+
+### `InputConAdorno`
+
+```python
+from agesci_theme.forms import InputConAdorno
+
+quota = forms.DecimalField(localize=True, widget=InputConAdorno(prefisso="€"))
+utente = forms.CharField(widget=InputConAdorno(suffisso="@agesci.it"))
+cerca = forms.CharField(widget=InputConAdorno(icona=bs_icon("search"), input_type="search"))
+```
+
+Accetta `prefisso` **oppure** `suffisso` (testo), oppure `icona` (markup SVG, es. il risultato di
+`bs_icon` di `django-bootstrap-icons`). `input_type` imposta il tipo dell'input. L'adorno è
+decorativo (`aria-hidden`): il nome del campo resta quello della label del form. Per i decimali con la
+virgola usa `localize=True` sul campo.
+
+### `Combobox` e `ComboboxMultiplo`
+
+```python
+from agesci_theme.forms import Combobox, ComboboxMultiplo
+
+zona = forms.ChoiceField(choices=ZONE, widget=Combobox(placeholder="Scegli…", ricerca=True))
+branche = forms.MultipleChoiceField(choices=BRANCHE, widget=ComboboxMultiplo(placeholder="Nessuna"))
+```
+
+`ricerca=True` aggiunge un campo che filtra le voci, e le `choices` raggruppate diventano intestazioni
+del menu. Il JS di Bootstrap crea l'`<input type="hidden">` da inviare. Nella variante multipla i
+valori sono uniti da virgola e `ComboboxMultiplo` li divide di nuovo. Le scelte con valore vuoto (es.
+`"---------"` dei `ModelChoiceField`) sono omesse e al loro posto c'è il placeholder. Bootstrap 6 scrive
+nel bottone "*N* selected" in inglese, senza un'opzione per cambiarlo: lo traduce in "*N* selezionate"
+`agesci_theme/js/combobox.js`, caricato da `base.html`. Senza JS il campo non invia nulla.
+
+### `InputChip` e `CampoChip`
+
+```python
+from agesci_theme.forms import CampoChip, InputChip
+
+tag = CampoChip(required=False, max_chip=5, widget=InputChip(placeholder="Scrivi e premi Invio…"))
+```
+
+L'API è la stessa del `CampoChip` di CoreUI: `CampoChip` restituisce una lista di stringhe e
+`max_chip` limita le voci sia nel browser sia nella validazione. Bootstrap 6 non crea un campo da
+inviare col form: lo mantiene `agesci_theme/js/chip-input.js` (caricato da `base.html`) sull'evento
+`change.bs.chips`.
+
+### `Cursore`
+
+```python
+from agesci_theme.forms import Cursore
+
+partecipanti = forms.IntegerField(
+    min_value=0, max_value=100, step_size=5,
+    widget=Cursore(tacche=[(0, "0"), (50, "50"), (100, "100")]),
+)
+```
+
+È uno slider con la traccia riempita del colore della branca. `bolla` (default `True`) mostra il valore
+sopra il cursore, `tacche` è una lista di `(valore, etichetta)` (etichetta vuota = solo tacca).
+`min`/`max`/`step` vengono dal campo.

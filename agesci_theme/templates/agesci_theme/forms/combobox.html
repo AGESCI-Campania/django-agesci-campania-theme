@@ -1,0 +1,21 @@
+{# Combobox Bootstrap 6 (Combobox / ComboboxMultiplo): il JS crea l'<input type="hidden" name=...> col valore. #}
+{# Le scelte con valore vuoto (es. "---------") sono omesse: al loro posto c'è il placeholder. #}
+<button type="button" class="form-control combobox-toggle{% if widget.invalido %} is-invalid{% endif %}"{% if widget.attrs.id %} id="{{ widget.attrs.id }}"{% endif %}
+        data-bs-toggle="combobox" data-bs-name="{{ widget.name }}" data-bs-placeholder="{{ widget.placeholder }}"{% if widget.multiplo %} data-bs-multiple="true"{% endif %}{% if widget.ricerca %} data-bs-search="true"{% endif %}{% if widget.attrs.disabled %} disabled{% endif %}{% for nome, valore in widget.attrs.items %}{% if nome == "aria-describedby" or nome == "aria-invalid" %} {{ nome }}="{{ valore }}"{% endif %}{% endfor %}>
+  <span class="combobox-value">{{ widget.placeholder }}</span>
+  <svg class="combobox-caret" width="10" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M0.46967 5.46967C0.762563 5.17678 1.23744 5.17678 1.53033 5.46967L5 8.93934L8.46967 5.46967C8.76256 5.17678 9.23744 5.17678 9.53033 5.46967C9.82322 5.76256 9.82322 6.23744 9.53033 6.53033L5.53033 10.5303C5.23744 10.8232 4.76256 10.8232 4.46967 10.5303L0.46967 6.53033C0.176777 6.23744 0.176777 5.76256 0.46967 5.46967Z" fill="currentcolor"/></svg>
+</button>
+<div class="menu">
+  {% if widget.ricerca %}
+    <div class="combobox-search">
+      <input type="text" class="form-control combobox-search-input" placeholder="Cerca…" autocomplete="off" aria-label="Cerca">
+    </div>
+  {% endif %}
+  {% for group_name, group_choices, group_index in widget.optgroups %}
+    {% if group_name %}<div class="menu-header">{{ group_name }}</div>{% endif %}
+    {% for option in group_choices %}
+      {% if option.value != "" and option.value is not None %}{% include option.template_name with widget=option %}{% endif %}
+    {% endfor %}
+  {% endfor %}
+  {% if widget.ricerca %}<div class="combobox-no-results d-none">Nessun risultato</div>{% endif %}
+</div>

@@ -1,0 +1,41 @@
+{# Carousel Bootstrap 6 (scroll-snap). Bootstrap 6 non ha più .carousel-caption: la didascalia è .ag-carousel-caption (_components.scss). #}
+<div id="{{ id }}" class="carousel{% if fade %} carousel-fade{% else %} slide{% endif %}"{% if autoplay %} data-bs-autoplay="true" data-bs-interval="{{ interval }}"{% endif %} aria-roledescription="carousel">
+  <div class="carousel-inner rounded-5">
+    {% for item in items %}
+      <div class="carousel-item{% if forloop.first %} active{% endif %}" aria-roledescription="slide" aria-label="{{ forloop.counter }} di {{ items|length }}">
+        <img src="{{ item.image_url }}" class="d-block w-100" alt="{{ item.alt|default:'' }}">
+        {% if item.title or item.text %}
+          <div class="ag-carousel-caption">
+            {% if item.title %}<p class="h5 mb-1">{{ item.title }}</p>{% endif %}
+            {% if item.text %}<p class="mb-0">{{ item.text }}</p>{% endif %}
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+  <div class="d-flex justify-content-between align-items-center mt-3">
+    {% if indicators %}
+      <div class="carousel-indicators">
+        {% for item in items %}
+          <button type="button" data-bs-target="#{{ id }}" data-bs-slide-to="{{ forloop.counter0 }}"{% if forloop.first %} class="active" aria-current="true"{% endif %} aria-label="Immagine {{ forloop.counter }}"></button>
+        {% endfor %}
+      </div>
+    {% else %}<span></span>{% endif %}
+    <div>
+      {% if autoplay %}
+        <button class="btn-icon btn-sm carousel-control-play-pause" type="button" data-bs-target="#{{ id }}" aria-label="Pausa" data-bs-pause-label="Pausa" data-bs-play-label="Riproduci">
+          <span class="carousel-icon-pause" aria-hidden="true"></span>
+          <span class="carousel-icon-play" aria-hidden="true"></span>
+        </button>
+      {% endif %}
+      <button class="btn-icon btn-sm" type="button" data-bs-target="#{{ id }}" data-bs-slide="prev">
+        <span class="carousel-icon-prev" aria-hidden="true"></span>
+        <span class="visually-hidden">Precedente</span>
+      </button>
+      <button class="btn-icon btn-sm" type="button" data-bs-target="#{{ id }}" data-bs-slide="next">
+        <span class="carousel-icon-next" aria-hidden="true"></span>
+        <span class="visually-hidden">Successiva</span>
+      </button>
+    </div>
+  </div>
+</div>

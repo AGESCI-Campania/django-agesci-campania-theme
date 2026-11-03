@@ -75,8 +75,15 @@ risultato non dà errori ma esce rotto (classi che non fanno nulla, modal che no
 Per tabelle, card o altro che il tema non fornisce, usa i componenti di Bootstrap 6. Quelli del tema sono tag
 (`{% load agesci_components %}`): `ag_hero`, `ag_feature_card`, `ag_feature_grid`, `ag_jumbotron`, `ag_badge`, `ag_button`,
 `ag_breadcrumb`, `ag_dropdown`, `ag_list_group`, `ag_modal_trigger`, `ag_masonry_grid`, `ag_password_field`,
-`ag_multiselect_dropdown`; in `agesci_tags`: `emblema_zona`, `zone_disponibili`, `branca_bg`, `ag_home_url`.
+`ag_multiselect_dropdown` e, nuovi di Bootstrap 6, `ag_accordion`, `ag_avatar`, `ag_chip`, `ag_stepper`,
+`ag_carousel`; in `agesci_tags`: `emblema_zona`, `zone_disponibili`, `branca_bg`, `ag_home_url`.
 Parametri e esempi in [Template tag](templatetags.md) e [Componenti](componenti.md).
+
+Per datepicker, codici OTP, robustezza della password, testo o icona dentro il campo, select con ricerca, chip e
+slider usa i widget di `agesci_theme.forms` (`SelettoreData`, `CodiceOTP`, `PasswordConRobustezza`, `InputConAdorno`,
+`Combobox`/`ComboboxMultiplo`, `InputChip`/`CampoChip`, `Cursore`) invece di scrivere a mano il markup Bootstrap 6.
+Sono solo per il tema Bootstrap 6: vedi [Form e validazione](forms.md#widget-dei-componenti-form-di-bootstrap-6).
+Con `AGESCI_THEME_HEADER_NAV_OVERFLOW = True` le voci di `header_nav` devono essere `<li class="nav-item">`.
 
 ## Per chi aggiorna da una 2.x
 

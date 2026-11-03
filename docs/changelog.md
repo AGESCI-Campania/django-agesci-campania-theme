@@ -14,6 +14,31 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
   `llms.txt` e `llms-full.txt` pubblicati alla radice della documentazione (generati da
   `scripts/build_llms_txt.py`, verificati in CI) e una *skill* installabile con
   `npx skills add AGESCI-Campania/django-agesci-campania-theme` (`skills/django-agesci-theme/`).
+- **Widget per i componenti form nuovi di Bootstrap 6** (`agesci_theme.forms`, opt-in per campo, non
+  richiedono `AgesciFormRenderer`): `SelettoreData` (datepicker, `GG/MM/AAAA` accettato con qualunque
+  `LANGUAGE_CODE`), `CodiceOTP`, `PasswordConRobustezza` (toggle + indicatore di robustezza in italiano),
+  `InputConAdorno` (prefisso/suffisso/icona dentro il campo), `Combobox` / `ComboboxMultiplo`,
+  `InputChip` / `CampoChip` (stessa API di CoreUI) e `Cursore` (range con bolla e tacche). Vedi
+  [Form e validazione](forms.md#widget-dei-componenti-form-di-bootstrap-6).
+- **Template tag per i componenti nuovi di Bootstrap 6**: `ag_accordion`, `ag_avatar`, `ag_chip`,
+  `ag_stepper`, `ag_carousel`. `ag_avatar` e `ag_chip` hanno la stessa firma degli omonimi CoreUI, e il
+  tema CoreUI ha copie dei loro template.
+- `{% ag_password_field strength=True %}`: indicatore di robustezza della password.
+- **`AGESCI_THEME_HEADER_NAV_OVERFLOW`** (default `False`): le voci della `header_nav` che non ci stanno
+  vanno nel menu «Altro» (nav overflow di Bootstrap 6). Le voci devono essere `<li class="nav-item">`.
+- JS caricati da `base.html`: `chip-input.js` (invio dei chip col form) e `combobox.js` (traduce
+  "*N* selected" del combobox multiplo).
+- Demo: i nuovi widget in `/form-demo/` e i nuovi componenti in `/components/` (solo tema Bootstrap 6).
+
+### Corretto
+
+- **Colori "subtle" della branca `generico`** (la branca di default): `--bs-primary-bg-subtle` e
+  `--ag-primary-subtle` erano `hsl(…, 102%)`, cioè bianco. Erano quindi invisibili gli sfondi tenui del
+  colore di branca: hero `subtle`, jumbotron, chip e avatar tenui. Ora la schiaritura è limitata al 95% di
+  luminosità (`schiarisci()` in `_branche.scss`, anche nella copia CoreUI). Cambia di poco anche R/S
+  (prima quasi bianco), mentre le altre branche restano invariate.
+- Voci della nav dell'header: sfondo chiaro sotto il testo bianco quando una voce è a fuoco o con il
+  menu aperto (`:focus` / `.show`).
 
 ---
 

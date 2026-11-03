@@ -1,0 +1,98 @@
+{# Componenti nuovi di Bootstrap 6: solo nella demo Bootstrap 6 (components.html), non in quella CoreUI. #}
+{% load agesci_components %}
+  <h2 class="h3 mt-12 mb-7 pb-3 border-bottom">Componenti nuovi di Bootstrap 6</h2>
+
+  {# ── Accordion ── #}
+  <section class="mb-12">
+    <h2>Accordion <code>{% templatetag openblock %} ag_accordion {% templatetag closeblock %}</code></h2>
+    <div class="row g-7">
+      <div class="md:col-6">
+        <h3 class="h5">Una voce aperta alla volta</h3>
+        {% ag_accordion items=demo_accordion variant="primary" %}
+      </div>
+      <div class="md:col-6">
+        <h3 class="h5">always_open, gap, size="sm"</h3>
+        {% ag_accordion items=demo_accordion always_open=True gap=True size="sm" %}
+      </div>
+    </div>
+  </section>
+
+  {# ── Avatar, Chip ── #}
+  <div class="row g-7 mb-12">
+    <div class="md:col-6">
+      <h2>Avatar <code>{% templatetag openblock %} ag_avatar {% templatetag closeblock %}</code></h2>
+      <div class="d-flex flex-wrap align-items-center gap-3 mt-5">
+        {% ag_avatar name="Mario Rossi" size="xs" %}
+        {% ag_avatar name="Anna Bianchi" size="sm" status="online" %}
+        {% ag_avatar name="Luca Verdi" status="away" %}
+        {% ag_avatar name="Sara Neri" size="lg" status="busy" subtle=True %}
+        {% ag_avatar name="Paolo Gialli" size="xl" status="offline" variant="secondary" %}
+      </div>
+    </div>
+    <div class="md:col-6">
+      <h2>Chip <code>{% templatetag openblock %} ag_chip {% templatetag closeblock %}</code></h2>
+      <div class="d-flex flex-wrap gap-3 mt-5">
+        {% ag_chip "Neutro" %}
+        {% ag_chip "Branca" variant="primary" %}
+        {% ag_chip "Attivo" variant="primary" active=True %}
+        {% ag_chip "Con icona" variant="success" icon="check-circle-fill" %}
+        {% ag_chip "Attenzione" variant="warning" %}
+      </div>
+    </div>
+  </div>
+
+  {# ── Stepper ── #}
+  <section class="mb-12">
+    <h2>Stepper <code>{% templatetag openblock %} ag_stepper {% templatetag closeblock %}</code></h2>
+    <div class="row g-7 mt-3">
+      <div class="md:col-8">
+        <h3 class="h5">Orizzontale, passo 2 di 4</h3>
+        {% ag_stepper steps=demo_passi current=2 %}
+        <h3 class="h5 mt-7">Con link</h3>
+        {% ag_stepper steps=demo_passi_link current=1 %}
+      </div>
+      <div class="md:col-4">
+        <h3 class="h5">Verticale</h3>
+        {% ag_stepper steps=demo_passi current=3 vertical=True %}
+      </div>
+    </div>
+  </section>
+
+  {# ── Carousel ── #}
+  <section class="mb-12">
+    <h2>Carousel <code>{% templatetag openblock %} ag_carousel {% templatetag closeblock %}</code></h2>
+    <div class="lg:col-8 mt-5">
+      {% ag_carousel items=demo_carousel id="carouselDemo" %}
+    </div>
+  </section>
+
+  {# ── Toggler ── #}
+  <section class="mb-12">
+    <h2>Toggler <small class="fg-secondary">(solo markup, nessun tag)</small></h2>
+    <p>Un bottone che aggiunge/toglie una classe o un attributo su un altro elemento.</p>
+    <button class="btn-solid theme-primary" type="button" data-bs-toggle="toggler" data-bs-target="#togglerDemo">Mostra/nascondi i dettagli</button>
+    <div id="togglerDemo" class="mt-3 p-5 rounded border" data-bs-attribute="hidden" data-bs-value="true" hidden="true">
+      Dettagli mostrati con <code>data-bs-toggle="toggler"</code> e <code>data-bs-attribute="hidden"</code>.
+    </div>
+  </section>
+
+  {# ── Nav overflow ── #}
+  <section class="mb-12">
+    <h2>Nav overflow <small class="fg-secondary">(AGESCI_THEME_HEADER_NAV_OVERFLOW)</small></h2>
+    <p>
+      Con <code>AGESCI_THEME_HEADER_NAV_OVERFLOW = True</code> (attivo in questa demo) le voci della
+      <code>header_nav</code> che non ci stanno finiscono nel menu «Altro». Le voci devono essere
+      <code>&lt;li class="nav-item"&gt;</code>. Lo stesso markup funziona in qualsiasi <code>.nav</code>:
+    </p>
+    <div class="nav-overflow border rounded p-2" data-bs-toggle="nav-overflow" data-bs-more-text="Altro" style="max-width: 32rem">
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Gruppo</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Reparto</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Branco</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Clan</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Comunità capi</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Censimenti</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Documenti</a></li>
+      </ul>
+    </div>
+  </section>

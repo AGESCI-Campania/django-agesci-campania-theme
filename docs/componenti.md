@@ -36,13 +36,13 @@ drawer Bootstrap 6 (`<dialog class="drawer">`) con i link del blocco `offcanvas_
 
 {# Nav desktop: icona sopra + etichetta sotto #}
 {% block header_nav %}
-  <li>
+  <li class="nav-item">
     <a href="/" class="nav-link active">
       <span class="ag-nav-icon">{% bs_icon "house-fill" %}</span>
       Home
     </a>
   </li>
-  <li>
+  <li class="nav-item">
     <a href="/eventi/" class="nav-link">
       <span class="ag-nav-icon">{% bs_icon "calendar-event" %}</span>
       Eventi
@@ -314,6 +314,33 @@ utilizzabile in qualsiasi form scritto a mano — vedi
 [Form e validazione](forms.md#il-widget-selectmultiploadiscesa) per il
 widget Django equivalente `SelectMultiploADiscesa`, con cui condivide il
 markup.
+
+Componenti nuovi di Bootstrap 6: `{% ag_accordion %}`, `{% ag_avatar %}`,
+`{% ag_chip %}`, `{% ag_stepper %}` e `{% ag_carousel %}`. Si vedono nella pagina `/components/`
+della demo, e i parametri sono in
+[Template tag → Componenti nuovi di Bootstrap 6](templatetags.md#componenti-nuovi-di-bootstrap-6).
+I controlli dei form (datepicker, OTP, robustezza password, adorn, combobox, chip input, range) sono
+widget Django: vedi [Form e validazione](forms.md#widget-dei-componenti-form-di-bootstrap-6).
+
+Due componenti di Bootstrap 6 non hanno un tag perché bastano gli attributi:
+
+- **Nav overflow**: per la nav dell'header si attiva con
+  [`AGESCI_THEME_HEADER_NAV_OVERFLOW`](configurazione.md). Per una
+  `.nav` qualsiasi, avvolgila in
+  `<div class="nav-overflow" data-bs-toggle="nav-overflow" data-bs-more-text="Altro">`, con le voci
+  `<li class="nav-item">`. Il testo di default del pulsante è "More": passa sempre
+  `data-bs-more-text`.
+- **Toggler**: un bottone con `data-bs-toggle="toggler" data-bs-target="#id"` aggiunge o toglie la
+  classe o l'attributo indicati sull'elemento bersaglio con `data-bs-attribute` e `data-bs-value`.
+  Per un attributo, il valore iniziale deve essere **uguale** a `data-bs-value`: con
+  `data-bs-value="true"` scrivi `hidden="true"`, non `hidden`. Altrimenti il primo click imposta
+  l'attributo invece di toglierlo (Bootstrap confronta le due stringhe).
+
+```django
+<button class="btn-solid theme-primary" type="button"
+        data-bs-toggle="toggler" data-bs-target="#dettagli">Dettagli</button>
+<div id="dettagli" data-bs-attribute="hidden" data-bs-value="true" hidden="true">…</div>
+```
 
 Vedi [Template tag — agesci_components](templatetags.md#agesci-components)
 per la documentazione completa di ogni tag.

@@ -133,6 +133,29 @@ cambia visivamente, e come estendere ulteriormente gli override).
 
 ---
 
+### `AGESCI_THEME_HEADER_NAV_OVERFLOW`
+
+**Tipo:** `bool` — **Default:** `False`
+
+Attiva il *nav overflow* di Bootstrap 6 sulla nav dell'header (blocco `header_nav`, da 1024px). Le voci
+che non entrano nella barra finiscono nel menu «Altro» invece di andare a capo. Il calcolo segue lo
+spazio disponibile, non la larghezza dello schermo.
+
+```python
+AGESCI_THEME_HEADER_NAV_OVERFLOW = True
+```
+
+Le voci della `header_nav` devono essere `<li class="nav-item">`: Bootstrap 6 conta solo quelle.
+Un semplice `<li>` resta sempre visibile e non finisce mai nel menu.
+
+```django
+{% block header_nav %}
+  <li class="nav-item"><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+{% endblock %}
+```
+
+---
+
 ## Variabili esposte ai template
 
 Il context processor `agesci_theme.context_processors.agesci_theme` rende
@@ -148,6 +171,7 @@ disponibili queste variabili in **ogni template** (nomi in minuscolo):
 | `agesci_theme_favicon_32` | `AGESCI_THEME_FAVICON_32` |
 | `agesci_theme_favicon_16` | `AGESCI_THEME_FAVICON_16` |
 | `agesci_theme_navbar_testo_scuro` | `AGESCI_THEME_NAVBAR_TESTO_SCURO` |
+| `agesci_theme_header_nav_overflow` | `AGESCI_THEME_HEADER_NAV_OVERFLOW` |
 
 ---
 

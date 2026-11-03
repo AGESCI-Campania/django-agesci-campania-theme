@@ -160,6 +160,18 @@ Python (template tag, context processor), immagini e `_palette.scss`, mentre il
   `/accounts/login/` nel browser: il commento multi-riga di `p.html`
   compariva come testo visibile nella pagina.
 
+- **Widget e tag dei componenti nuovi di Bootstrap 6** (`agesci_theme/forms.py`, `ag_accordion`…
+  `ag_carousel`): solo tema base, nessuna copia CoreUI (tranne `avatar.html`/`chip.html`, che includono
+  quelli di `agesci_coreui`). Trappole verificate nel browser su `6.0.0-alpha.1`: il datepicker si crea
+  al caricamento SOLO con `data-bs-selected-dates` (altrimenti al focus: il valore ISO resta visibile),
+  e `SelettoreData` lo aggiunge; chip input non crea un campo da inviare (`chip-input.js`);
+  combobox multiplo scrive "N selected" fisso (`combobox.js`); nav overflow conta solo `li.nav-item`;
+  toggler su attributo confronta stringhe (`hidden="true"`, non `hidden`); `.nav-link:focus` ha sfondo
+  chiaro (coperto in `_header.scss`). Testi inglesi di default: passali in italiano (`data-bs-more-text`,
+  messaggi della password strength, etichette del carousel).
+- **`color.adjust($c, $lightness: …)` non limita il risultato**: col generico dava `hsl(…, 102%)`.
+  In `_branche.scss` (e copia CoreUI) usa `schiarisci()`, che tiene la luminosità entro il 95%.
+
 - **Istruzioni per gli assistenti dei consumer** (diverse da questo file): `docs/assistenti-ai.md`,
   `skills/django-agesci-theme/SKILL.md` e `llms.txt`/`llms-full.txt` (generati da
   `scripts/build_llms_txt.py` dal toctree di `docs/index.md`, pubblicati da `docs/conf.py`, verificati in
@@ -226,18 +238,18 @@ npm run watch:css    # ricompila lo SCSS in tempo reale
 agesci_theme/                  # il package Python distribuibile
   static/agesci_theme/scss/    # sorgenti SCSS (vedi sezione sopra)
   static/agesci_theme/css/     # CSS compilato (committato)
-  static/agesci_theme/js/      # script JS (sidebar.js, password-toggle.js)
+  static/agesci_theme/js/      # script JS (sidebar.js, password-toggle.js, multiselect-dropdown.js, chip-input.js, combobox.js)
   static/agesci_theme/img/     # loghi, emblemi, zone, favicon
   templates/agesci_theme/
     base.html                  # template base da estendere (blocchi bootstrap_css / bootstrap_js)
     partials/                  # header.html, sidebar.html, footer.html, breadcrumb.html
-    components/                # 13 template dei componenti opzionali
+    components/                # 18 template dei componenti opzionali (+ partial _*.html)
   templates/django/forms/      # override Bootstrap 6 per AgesciFormRenderer (opt-in)
   templates/allauth/           # override Bootstrap 6 per django-allauth (opt-in)
   templatetags/
     agesci_tags.py             # emblema_zona, branca_bg, zone_disponibili, ag_js, ag_home_url
-    agesci_components.py       # 13 inclusion tag (ag_hero, ag_feature_grid, ag_password_field, ag_multiselect_dropdown, ecc.)
-  forms.py                     # AgesciFormRenderer — vedi docs/forms.md
+    agesci_components.py       # 18 inclusion tag (ag_hero, …, ag_multiselect_dropdown; BS6: ag_accordion, ag_avatar, ag_chip, ag_stepper, ag_carousel)
+  forms.py                     # AgesciFormRenderer + widget (SelectMultiploADiscesa, widget BS6: SelettoreData, CodiceOTP, …) — vedi docs/forms.md
   context_processors.py        # espone le settings AGESCI_THEME_* ai template
 coreui/                        # secondo pacchetto: django-agesci-campania-coreui-theme
   pyproject.toml               # dipende da django-agesci-campania-theme (workspace)

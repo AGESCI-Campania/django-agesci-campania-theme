@@ -27,8 +27,12 @@
       text-align: center;
       padding: .4rem .75rem;
 
+      // :focus e .show: Bootstrap 6 da' lo sfondo chiaro a .nav-link:focus, che
+      // resterebbe sotto il testo bianco (es. il pulsante "Altro" del nav overflow).
       &:hover,
-      &.active {
+      &:focus,
+      &.active,
+      &.show {
         opacity: 1;
         background-color: rgba(0, 0, 0, .12);
         border-radius: .375rem;
@@ -39,6 +43,13 @@
         margin: 0 auto .2rem;
       }
     }
+  }
+
+  // AGESCI_THEME_HEADER_NAV_OVERFLOW: il wrapper .nav-overflow di Bootstrap 6
+  // prende tutto lo spazio libero (flex: 1 1 0) e la nav resta allineata a
+  // destra, come senza overflow.
+  .ag-header-nav-overflow > .ag-header-nav {
+    justify-content: flex-end;
   }
 
   .ag-header-toggler {

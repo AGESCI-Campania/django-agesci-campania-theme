@@ -49,6 +49,7 @@ Documentazione completa: https://django-agesci-campania-theme.readthedocs.io/it/
 - Commenti Django `{# … #}` su UNA riga: su più righe finiscono nell'HTML.
 - Niente link `"/…"` fissi: `{% url %}` o `{% ag_home_url %}`.
 - Form: i campi sono avvolti in `<div class="form-field">`, mai `<p>` (il browser chiude il `<p>` e rompe `.invalid-feedback`).
+- Con `AGESCI_THEME_HEADER_NAV_OVERFLOW = True` le voci di `header_nav` sono `<li class="nav-item">`, altrimenti non entrano mai nel menu «Altro».
 - Colori: niente esadecimali. Il colore segue la branca (`AGESCI_THEME_BRANCA`: `generico, capi, lc, eg, rs, viola, generico2`, scritta in
   `data-branca` su `<html>`): usa `var(--ag-primary)`, `bg-ag-*`/`text-ag-*` o `theme-primary`.
 - Il CSS del progetto è fuori dai `@layer` di Bootstrap 6 e li batte: un `display:` incondizionato annulla `d-none`/`lg:d-none`.
@@ -58,7 +59,10 @@ Documentazione completa: https://django-agesci-campania-theme.readthedocs.io/it/
 ## Componenti
 
 `{% load agesci_components %}`: `ag_hero`, `ag_feature_card`, `ag_feature_grid`, `ag_jumbotron`, `ag_badge`, `ag_button`,
-`ag_breadcrumb`, `ag_dropdown`, `ag_list_group`, `ag_modal_trigger`, `ag_masonry_grid`, `ag_password_field`, `ag_multiselect_dropdown`.
+`ag_breadcrumb`, `ag_dropdown`, `ag_list_group`, `ag_modal_trigger`, `ag_masonry_grid`, `ag_password_field`, `ag_multiselect_dropdown`,
+`ag_accordion`, `ag_avatar`, `ag_chip`, `ag_stepper`, `ag_carousel` (gli ultimi cinque: Bootstrap 6).
+Widget di `agesci_theme.forms` per i controlli nuovi di Bootstrap 6 (solo tema base): `SelettoreData`, `CodiceOTP`,
+`PasswordConRobustezza`, `InputConAdorno`, `Combobox`/`ComboboxMultiplo`, `InputChip`/`CampoChip`, `Cursore` (`docs/forms.md`).
 `{% load agesci_tags %}`: `emblema_zona`, `zone_disponibili`, `branca_bg`, `ag_home_url`. CoreUI aggiunge `ag_nav_item`, `ag_nav_title`,
 `ag_callout`, `ag_avatar`, `ag_chip` (`{% load agesci_coreui %}`). Parametri in `docs/templatetags.md` e `docs/componenti.md`.
 

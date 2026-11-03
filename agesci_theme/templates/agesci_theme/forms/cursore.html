@@ -1,0 +1,9 @@
+{# Range Bootstrap 6 (Cursore): il JS di Bootstrap riempie la traccia, disegna la bolla e le tacche del <datalist>. #}
+<div class="form-range"{% if widget.bolla %} data-bs-bubble{% endif %}>
+  {% include "django/forms/widgets/input.html" %}
+</div>
+{% if widget.tacche %}
+  <datalist id="{{ widget.attrs.list }}">
+    {% for tacca in widget.tacche %}<option value="{{ tacca.valore }}"{% if tacca.etichetta %} label="{{ tacca.etichetta }}"{% endif %}></option>{% endfor %}
+  </datalist>
+{% endif %}

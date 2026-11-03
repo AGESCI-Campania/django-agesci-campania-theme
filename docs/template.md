@@ -85,13 +85,13 @@ secondo il pattern Bootstrap "headers":
 
 ```django
 {% block header_nav %}
-  <li>
+  <li class="nav-item">
     <a href="/" class="nav-link active">
       <span class="ag-nav-icon">{% bs_icon "house-fill" %}</span>
       Home
     </a>
   </li>
-  <li>
+  <li class="nav-item">
     <a href="/eventi/" class="nav-link">
       <span class="ag-nav-icon">{% bs_icon "calendar-event" %}</span>
       Eventi

@@ -1,0 +1,9 @@
+{# Chip input Bootstrap 6 (InputChip / CampoChip). Bootstrap non invia i chip col form: #}
+{# agesci_theme/js/chip-input.js tiene aggiornato l'<input type="hidden"> sotto (valori uniti da virgola). #}
+<div class="chip-input theme-primary{% if widget.invalido %} is-invalid{% endif %}" data-bs-chips data-ag-chip-input{% if widget.max_chip %} data-bs-max-chips="{{ widget.max_chip }}"{% endif %}>
+  {% for valore in widget.value %}
+    <span class="chip" data-bs-chip-value="{{ valore }}">{{ valore }}<button type="button" class="chip-dismiss" aria-label="Rimuovi {{ valore }}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg></button></span>
+  {% endfor %}
+  <input type="text" class="form-ghost"{% if widget.attrs.id %} id="{{ widget.attrs.id }}"{% endif %}{% if widget.placeholder %} placeholder="{{ widget.placeholder }}"{% endif %} autocomplete="off"{% for nome, valore in widget.attrs.items %}{% if nome == "aria-describedby" or nome == "aria-invalid" %} {{ nome }}="{{ valore }}"{% endif %}{% endfor %}{% if widget.attrs.disabled %} disabled{% endif %}>
+  <input type="hidden" name="{{ widget.name }}" value="{{ widget.valore_unito }}">
+</div>

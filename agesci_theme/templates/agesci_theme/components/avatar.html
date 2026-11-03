@@ -1,0 +1,4 @@
+<span class="avatar{% if size and size != "md" %} avatar-{{ size }}{% endif %}{% if not image_url %}{% if theme %} theme-{{ theme }}{% endif %}{% if subtle %} avatar-subtle{% endif %}{% endif %}"{% if not image_url %} title="{{ name }}"{% endif %}>
+  {% if image_url %}<img class="avatar-img" src="{{ image_url }}" alt="{{ name }}">{% else %}<span aria-hidden="true">{{ iniziali }}</span><span class="visually-hidden">{{ name }}</span>{% endif %}
+  {% if stato %}<span class="avatar-status status-{{ stato }}" role="img" aria-label="{{ stato_etichetta }}"></span>{% endif %}
+</span>

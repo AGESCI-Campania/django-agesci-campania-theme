@@ -1,0 +1,16 @@
+{# Stepper Bootstrap 6: .active colora i passi fatti e la linea che li unisce; aria-current segna quello corrente. #}
+{% if not vertical %}<div class="stepper-overflow">{% endif %}
+{% if con_link %}
+  <nav class="stepper{% if not vertical %} stepper-horizontal{% endif %}" aria-label="Passi">
+    {% for passo in passi %}
+      <a href="{{ passo.url|default:'#' }}" class="stepper-item{% if passo.fatto %} active{% endif %}"{% if passo.corrente %} aria-current="step"{% endif %}>{{ passo.label }}</a>
+    {% endfor %}
+  </nav>
+{% else %}
+  <ol class="stepper{% if not vertical %} stepper-horizontal{% endif %}">
+    {% for passo in passi %}
+      <li class="stepper-item{% if passo.fatto %} active{% endif %}"{% if passo.corrente %} aria-current="step"{% endif %}>{{ passo.label }}</li>
+    {% endfor %}
+  </ol>
+{% endif %}
+{% if not vertical %}</div>{% endif %}
