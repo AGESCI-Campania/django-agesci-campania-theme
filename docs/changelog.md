@@ -5,7 +5,7 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
-## [Non rilasciato]
+## [3.0.0a4] — 2026-11-25 (pre-release)
 
 ### Modificato
 
