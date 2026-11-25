@@ -72,6 +72,11 @@ def genera(uscita):
         "> componenti `ag_*`, colore per branca (`AGESCI_THEME_BRANCA`), renderer dei form e override di django-allauth.",
         "> Non è Bootstrap 5: classi, JavaScript e browser minimi sono diversi. Leggi per prima la pagina sugli assistenti AI.",
         "",
+        "Fallback per browser vecchi: la serie 2.7 (Bootstrap 5.3), per l'intera app, con "
+        '`uv add "django-agesci-campania-theme>=2.7,<3"` (branch `bootstrap-5`). '
+        "La 3.x mostra solo un avviso (`AGESCI_THEME_AVVISO_BROWSER`) e non ricade su Bootstrap 5. "
+        "Nei progetti sulla 2.7 le regole Bootstrap 6 di questa documentazione non valgono.",
+        "",
         "Il testo completo del manuale in un solo file è in "
         f"[llms-full.txt]({DOCS_URL}/llms-full.txt).",
         "",

@@ -67,7 +67,8 @@ Python (template tag, context processor), immagini e `_palette.scss`, mentre il
   `<script type="module">`: non esiste `window.bootstrap`. `<html>` ha
   `data-bs-theme="light"` (BS6 segue altrimenti `prefers-color-scheme`). Browser minimi:
   Chrome/Edge 138, Firefox 147, Safari 26. Ad ogni alpha: vedi `docs/sviluppo.md`
-  ("Aggiornare Bootstrap 6").
+  ("Aggiornare Bootstrap 6"). Nessun fallback a Bootstrap 5: `browser-check.js` (ES5, script classico, stili inline)
+  mostra un avviso in base alle funzionalità CSS/JS, non alla versione; per browser vecchi c'è la 2.7.
 - **Sidebar = `<dialog class="lg:drawer drawer-start">`** (non `<nav>`): da 1024px è
   in flusso e visibile senza `open`; sotto è un drawer a tutta altezza
   (`--bs-drawer-inset:0px; --bs-drawer-border-radius:0`). Il menu utente è un `.menu`
@@ -240,7 +241,7 @@ npm run watch:css    # ricompila lo SCSS in tempo reale
 agesci_theme/                  # il package Python distribuibile
   static/agesci_theme/scss/    # sorgenti SCSS (vedi sezione sopra)
   static/agesci_theme/css/     # CSS compilato (committato)
-  static/agesci_theme/js/      # script JS (sidebar.js, password-toggle.js, multiselect-dropdown.js, combobox.js)
+  static/agesci_theme/js/      # script JS (sidebar.js, password-toggle.js, multiselect-dropdown.js, combobox.js, browser-check.js)
   static/agesci_theme/img/     # loghi, emblemi, zone, favicon
   templates/agesci_theme/
     base.html                  # template base da estendere (blocchi bootstrap_css / bootstrap_js)
@@ -289,7 +290,7 @@ example_project/               # progetto Django demo (/, /components/, /account
   `footer`, `footer_brand_text`, `footer_columns`, `footer_col1_title`,
   `footer_col1_links`, `footer_col2_title`, `footer_col2_links`, `footer_text`,
   `footer_copyright`, `footer_links`, `extra_js`, e dalla 3.0 `bootstrap_css`,
-  `bootstrap_js`.
+  `bootstrap_js`, `browser_warning`.
 - `breadcrumb_items` nel contesto della view attiva la breadcrumb automaticamente
   nella barra inferiore dell'header (`ag-header-bottom`). Lista di dict
   `{"label": "...", "url": "..."}` — l'ultimo elemento è `active` senza link.

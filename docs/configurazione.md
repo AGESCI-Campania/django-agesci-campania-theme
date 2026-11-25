@@ -156,6 +156,24 @@ Un semplice `<li>` resta sempre visibile e non finisce mai nel menu.
 
 ---
 
+### `AGESCI_THEME_AVVISO_BROWSER`
+
+**Tipo:** `bool` o `str` — **Default:** `True`
+
+Mostra un avviso in cima alla pagina nei browser che non supportano le funzionalità di base di Bootstrap 6
+(`light-dark()`, `oklch()`, `color-mix()`, `:has()`, `@layer`, container query, `<dialog>`, moduli JS).
+Controlla le **funzionalità**, non la versione: un browser sotto i minimi ufficiali ma funzionante non lo vede.
+
+```python
+AGESCI_THEME_AVVISO_BROWSER = "Per usare il portale aggiorna il browser."  # testo proprio
+AGESCI_THEME_AVVISO_BROWSER = False                                         # nessun avviso
+```
+
+È solo un avviso, non un fallback a Bootstrap 5: vedi
+[Browser vecchi: restare sulla 2.7](migrazione-bootstrap-6.md#browser-vecchi-restare-sulla-2-7). Non c'è nel tema CoreUI.
+
+---
+
 ## Variabili esposte ai template
 
 Il context processor `agesci_theme.context_processors.agesci_theme` rende
@@ -172,6 +190,7 @@ disponibili queste variabili in **ogni template** (nomi in minuscolo):
 | `agesci_theme_favicon_16` | `AGESCI_THEME_FAVICON_16` |
 | `agesci_theme_navbar_testo_scuro` | `AGESCI_THEME_NAVBAR_TESTO_SCURO` |
 | `agesci_theme_header_nav_overflow` | `AGESCI_THEME_HEADER_NAV_OVERFLOW` |
+| `agesci_theme_avviso_browser` | `AGESCI_THEME_AVVISO_BROWSER` |
 
 ---
 

@@ -38,7 +38,13 @@ risultato non dà errori ma esce rotto (classi che non fanno nulla, modal che no
   si fa `import { … } from "<URL del bundle>"`; la data API (`data-bs-*`) si attiva da sola.
 - Form: il `<select>` ha `form-control` (non `form-select`); checkbox e radio sono `input.check` / `input.radio`
   dentro `.form-field` (non `form-check`).
-- Browser minimi: Chrome/Edge 138, Firefox 147, Safari 26.
+- Browser minimi: Chrome/Edge 138, Firefox 147, Safari 26. Nei browser non compatibili il tema mostra un avviso
+  (`AGESCI_THEME_AVVISO_BROWSER`), **non** ricade su Bootstrap 5: non caricare Bootstrap 5 accanto al 6 e non
+  scrivere markup doppio.
+- **Fallback per browser più vecchi: la serie 2.7** (Bootstrap 5.3) per l'intera app,
+  `uv add "django-agesci-campania-theme>=2.7,<3"`. Passaci solo se lo chiede chi gestisce il progetto.
+  Se il progetto è già bloccato su `<3`, queste regole Bootstrap 6 **non valgono**: scrivi Bootstrap 5
+  (vedi [Browser vecchi: restare sulla 2.7](migrazione-bootstrap-6.md#browser-vecchi-restare-sulla-2-7)).
 
 ### Configurazione
 
@@ -55,7 +61,7 @@ risultato non dà errori ma esce rotto (classi che non fanno nulla, modal che no
 
 - Estendi `base.html` (il tuo, che a sua volta estende `agesci_theme/base.html`) e usa i blocchi esistenti:
   `title`, `extra_head`, `header`, `header_nav`, `offcanvas_nav`, `header_search`, `header_actions`, `sidebar`,
-  `sidebar_items`, `sidebar_user`, `main_class`, `messages`, `content`, `footer*`, `extra_js`, `bootstrap_css`, `bootstrap_js`.
+  `sidebar_items`, `sidebar_user`, `main_class`, `messages`, `content`, `footer*`, `extra_js`, `bootstrap_css`, `bootstrap_js`, `browser_warning`.
 - Un template di allauth che sovrascrivi deve estendere `"base.html"` (letterale), non `"agesci_theme/base.html"`.
 - I commenti Django `{# … #}` stanno su **una riga sola**: su più righe il testo finisce nell'HTML, senza errori.
 - Link interni con `{% url %}` o `{% ag_home_url %}`, mai `"/…"` fissi.

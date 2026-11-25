@@ -15,6 +15,8 @@ Documentazione completa: https://django-agesci-campania-theme.readthedocs.io/it/
 
 1. Capisci quale tema usa il progetto: `agesci_theme` (Bootstrap 6) o anche `agesci_coreui` (CoreUI 5 su Bootstrap 5.3).
    Sono markup diversi e NON intercambiabili. Con CoreUI gli attributi sono `data-coreui-*`.
+   Controlla anche la versione: con `django-agesci-campania-theme<3` (2.7, Bootstrap 5.3) le regole Bootstrap 6 qui sotto
+   NON valgono, scrivi markup Bootstrap 5 e non usare i widget/tag della 3.x.
 2. Leggi il `templates/base.html` del progetto e le `settings.py` (`INSTALLED_APPS`, `FORM_RENDERER`, `AGESCI_THEME_*`).
 3. Per classi che non conosci, controlla il CSS di Bootstrap 6 o la tabella in
    `docs/migrazione-bootstrap-6.md`: non dedurle da Bootstrap 5.
@@ -54,6 +56,9 @@ Documentazione completa: https://django-agesci-campania-theme.readthedocs.io/it/
   `data-branca` su `<html>`): usa `var(--ag-primary)`, `bg-ag-*`/`text-ag-*` o `theme-primary`.
 - Il CSS del progetto è fuori dai `@layer` di Bootstrap 6 e li batte: un `display:` incondizionato annulla `d-none`/`lg:d-none`.
 - Tema solo chiaro (`data-bs-theme="light"`). Browser minimi: Chrome/Edge 138, Firefox 147, Safari 26.
+  Nei browser non compatibili compare un avviso (`AGESCI_THEME_AVVISO_BROWSER`); NON c'è fallback automatico a Bootstrap 5.
+- Fallback per browser più vecchi: serie **2.7** (Bootstrap 5.3) per l'intera app, `uv add "django-agesci-campania-theme>=2.7,<3"`,
+  solo se richiesto. Non mescolare Bootstrap 5 e 6.
 - Pre-release: `uv add --prerelease allow django-agesci-campania-theme`.
 
 ## Componenti

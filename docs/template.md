@@ -422,6 +422,7 @@ parent (es. la libreria Masonry quando usi `ag_masonry_grid`).
 | `footer_copyright` | riga copyright | Anno e nome |
 | `footer_links` | link legali footer | Privacy, contatti |
 | `bootstrap_js` | `<script type="module">` di Bootstrap 6 | Self-hosting / altra versione (dal 3.0) |
+| `browser_warning` | `<script>` di `browser-check.js` | Avviso per browser non compatibili (dalla 3.0.0a5) |
 | `extra_js` | fine `<body>` | Script custom |
 
 ---

@@ -5,6 +5,17 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
+## [Non rilasciato]
+
+### Aggiunto
+
+- **Avviso nei browser non compatibili** con Bootstrap 6 (`browser-check.js`, blocco `browser_warning`, setting
+  `AGESCI_THEME_AVVISO_BROWSER`: `True`, testo proprio o `False`). Riattiva anche lo scroll di pagina,
+  altrimenti il layout fisso nasconderebbe il contenuto.
+- Documentazione, `llms.txt` e skill: la serie 2.7 come fallback per i browser vecchi.
+
+---
+
 ## [3.0.0a4] — 2026-11-25 (pre-release)
 
 ### Modificato

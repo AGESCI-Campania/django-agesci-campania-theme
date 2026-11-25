@@ -31,6 +31,24 @@ class PagineDemoTests(TestCase):
         self.assertContains(r, "alert")
 
 
+class AvvisoBrowserTests(TestCase):
+    """Solo tema Bootstrap 6: il base.html di CoreUI non ha l'avviso."""
+
+    def _html(self, valore):
+        from django.template.loader import render_to_string
+
+        from agesci_theme.context_processors import agesci_theme
+
+        with override_settings(AGESCI_THEME_AVVISO_BROWSER=valore):
+            return render_to_string("agesci_theme/base.html", agesci_theme(None))
+
+    def test_attivo_testo_proprio_e_spento(self):
+        self.assertIn("browser-check.js", self._html(True))
+        self.assertNotIn("data-testo", self._html(True))
+        self.assertIn('data-testo="Aggiorna &lt;ora&gt;"', self._html("Aggiorna <ora>"))
+        self.assertNotIn("browser-check.js", self._html(False))
+
+
 class WidgetBootstrap6Tests(TestCase):
     """Logica lato server dei widget dei componenti form di Bootstrap 6
     (agesci_theme.forms); il comportamento nel browser è del JS di Bootstrap."""

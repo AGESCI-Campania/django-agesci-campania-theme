@@ -122,6 +122,8 @@
   {# Bootstrap 6 e' solo ESM e non espone piu' window.bootstrap: il bundle (con Floating UI) attiva la data API da solo. #}
   {# Per l'API JS: <script type="module">import { Tooltip } from "<stesso URL>"</script> (stessa istanza, il modulo e' in cache). #}
   {% block bootstrap_js %}<script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-+PW0IDVGGwmpaBQvcXY+W0BcpHpITFB3dSfSoGvDdHtLbrLpSbpGcvtQRM/BJpz+" crossorigin="anonymous"></script>{% endblock %}
+  {# Avviso nei browser troppo vecchi per Bootstrap 6: script classico, senza defer (usa document.currentScript). #}
+  {% block browser_warning %}{% if agesci_theme_avviso_browser %}<script src="{% static 'agesci_theme/js/browser-check.js' %}"{% if agesci_theme_avviso_browser is not True %} data-testo="{{ agesci_theme_avviso_browser }}"{% endif %}></script>{% endif %}{% endblock %}
   <script src="{% static 'agesci_theme/js/password-toggle.js' %}" defer></script>
   <script src="{% static 'agesci_theme/js/multiselect-dropdown.js' %}" defer></script>
   <script src="{% static 'agesci_theme/js/combobox.js' %}" defer></script>

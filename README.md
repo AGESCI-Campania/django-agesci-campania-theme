@@ -14,7 +14,7 @@ Tema **Bootstrap 6** riusabile per le applicazioni **Django** dell'**AGESCI Camp
 > **Pre-release 3.0.0a4** — Bootstrap 6 è in alpha (`6.0.0-alpha.2`); installa con
 > `uv add --prerelease allow django-agesci-campania-theme`. Arrivi dalla 2.x? Leggi la
 > [guida alla migrazione](https://django-agesci-campania-theme.readthedocs.io/it/latest/migrazione-bootstrap-6.html) (browser minimi: Chrome/Edge 138,
-> Firefox 147, Safari 26). Il pacchetto CoreUI resta su Bootstrap 5/CoreUI 5.
+> Firefox 147, Safari 26; per browser più vecchi resta sulla 2.7: `"django-agesci-campania-theme>=2.7,<3"`). Il pacchetto CoreUI resta su Bootstrap 5/CoreUI 5.
 
 🔗 **[Demo online](https://agesci-campania.github.io/django-agesci-campania-theme/)**: [tema Bootstrap](https://agesci-campania.github.io/django-agesci-campania-theme/bootstrap/) ·
 [tema CoreUI](https://agesci-campania.github.io/django-agesci-campania-theme/coreui/), aggiornata a ogni modifica di `main`.
@@ -186,6 +186,7 @@ STATIC_URL = "static/"
 | `title` | `<title>` della pagina |
 | `extra_head` | fine `<head>` |
 | `bootstrap_css` / `bootstrap_js` | tag `<link>` / `<script type="module">` di Bootstrap 6 (self-hosting o altra versione) |
+| `browser_warning` | avviso nei browser non compatibili con Bootstrap 6 |
 | `header` | intera testata (sostituzione completa) |
 | `brand_url` | URL brand nella barra superiore |
 | `brand_text` | testo brand nella barra superiore |

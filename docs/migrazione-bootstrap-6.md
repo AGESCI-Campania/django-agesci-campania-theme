@@ -30,6 +30,26 @@ trasparente: leggi solo [Requisiti](#requisiti) e [Rotture nell'API del tema](#r
 - Il tema forza `data-bs-theme="light"` su `<html>`: Bootstrap 6 segue altrimenti
   `prefers-color-scheme` e il tema AGESCI non ha una versione scura.
 
+## Browser vecchi: restare sulla 2.7
+
+La 3.x **non ha un fallback a Bootstrap 5**: il markup è diverso e il tema non può convertire i template del tuo
+progetto. Nei browser senza le funzionalità di base mostra solo un avviso
+([`AGESCI_THEME_AVVISO_BROWSER`](configurazione.md#agesci-theme-avviso-browser)).
+
+I minimi sopra sono quelli ufficiali di Bootstrap. La demo della 3.0.0a4 è stata provata anche con Chromium 130 e
+WebKit 18.0 / 18.4 (build di Playwright) e funziona; Firefox sotto la 147 non è stato provato. Non è una garanzia per le prossime alpha.
+
+Se i tuoi utenti usano browser più vecchi, il fallback è la **serie 2.7** (Bootstrap 5.3, branch
+[`bootstrap-5`](https://github.com/AGESCI-Campania/django-agesci-campania-theme/tree/bootstrap-5)) per tutta l'app:
+
+```bash
+uv add "django-agesci-campania-theme>=2.7,<3"
+pip install "django-agesci-campania-theme>=2.7,<3"
+```
+
+Con la 2.7 si scrive markup Bootstrap 5 (`d-lg-none`, `btn btn-primary`, `data-bs-toggle="modal"`) e i widget e i tag
+nuovi della 3.x non esistono. Non si possono mescolare le due serie nella stessa app.
+
 ## Da alpha.1 ad alpha.2
 
 Se hai già un progetto sulla 3.0 alpha, controlla nei tuoi template e CSS:

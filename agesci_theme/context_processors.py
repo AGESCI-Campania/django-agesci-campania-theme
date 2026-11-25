@@ -31,6 +31,9 @@ DEFAULTS = {
     # Bootstrap 6 nav overflow: le voci di header_nav che non ci stanno
     # finiscono nel menu "Altro" invece di andare a capo
     "AGESCI_THEME_HEADER_NAV_OVERFLOW": False,
+    # avviso nei browser che non supportano Bootstrap 6: True (testo di
+    # default), una stringa (testo proprio) oppure False (nessun avviso)
+    "AGESCI_THEME_AVVISO_BROWSER": True,
 }
 
 
