@@ -74,13 +74,13 @@ Alla creazione della release, GitHub Actions eseguirà automaticamente
 ### Pre-release (serie 3.x su Bootstrap 6 alpha)
 
 Finché Bootstrap 6 è in alpha il tema viene rilasciato come **pre-release PEP 440**
-(`3.0.0a1`, `3.0.0a2`, `3.0.0a3`, `3.0.0a4`, … poi `b`, `rc`, e `3.0.0` quando Bootstrap 6 è stabile):
+(`3.0.0a1`, `3.0.0a2`, `3.0.0a3`, `3.0.0a4`, `3.0.0a5`, … poi `b`, `rc`, e `3.0.0` quando Bootstrap 6 è stabile):
 
 ```bash
-# versione in pyproject.toml: "3.0.0a4"  (CoreUI: "0.2.0a3" in coreui/pyproject.toml)
-git tag v3.0.0a4                          # tema Bootstrap; per CoreUI: coreui-v0.2.0a3
-git push origin v3.0.0a4
-gh release create v3.0.0a4 --verify-tag --prerelease --title "v3.0.0a4" --notes "Pre-release: Bootstrap 6.0.0-alpha.2"
+# versione in pyproject.toml: "3.0.0a5"  (CoreUI: "0.2.0a3" in coreui/pyproject.toml)
+git tag v3.0.0a5                          # tema Bootstrap; per CoreUI: coreui-v0.2.0a3
+git push origin v3.0.0a5
+gh release create v3.0.0a5 --verify-tag --prerelease --title "v3.0.0a5" --notes "Pre-release: Bootstrap 6.0.0-alpha.2"
 ```
 
 - Si rilascia da `main` (Bootstrap 6). Le correzioni alla serie 2.x (Bootstrap 5) si fanno nel branch
