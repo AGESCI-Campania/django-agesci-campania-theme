@@ -319,7 +319,7 @@ Componenti nuovi di Bootstrap 6: `{% ag_accordion %}`, `{% ag_avatar %}`,
 `{% ag_chip %}`, `{% ag_stepper %}` e `{% ag_carousel %}`. Si vedono nella pagina `/components/`
 della demo, e i parametri sono in
 [Template tag → Componenti nuovi di Bootstrap 6](templatetags.md#componenti-nuovi-di-bootstrap-6).
-I controlli dei form (datepicker, OTP, robustezza password, adorn, combobox, chip input, range) sono
+I controlli dei form (datepicker, OTP, robustezza password, adorn, combobox, chip, range) sono
 widget Django: vedi [Form e validazione](forms.md#widget-dei-componenti-form-di-bootstrap-6).
 
 Due componenti di Bootstrap 6 non hanno un tag perché bastano gli attributi:

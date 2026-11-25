@@ -11,10 +11,10 @@
 
 Tema **Bootstrap 6** riusabile per le applicazioni **Django** dell'**AGESCI Campania**.
 
-> **Pre-release 3.0.0a3** — Bootstrap 6 è in alpha (`6.0.0-alpha.1`); installa con
+> **Pre-release 3.0.0a3** — Bootstrap 6 è in alpha (`6.0.0-alpha.2`); installa con
 > `uv add --prerelease allow django-agesci-campania-theme`. Arrivi dalla 2.x? Leggi la
-> [guida alla migrazione](https://django-agesci-campania-theme.readthedocs.io/it/latest/migrazione-bootstrap-6.html) (browser minimi: Chrome/Edge 130,
-> Firefox 132, Safari 18). Il pacchetto CoreUI resta su Bootstrap 5/CoreUI 5.
+> [guida alla migrazione](https://django-agesci-campania-theme.readthedocs.io/it/latest/migrazione-bootstrap-6.html) (browser minimi: Chrome/Edge 138,
+> Firefox 147, Safari 26). Il pacchetto CoreUI resta su Bootstrap 5/CoreUI 5.
 
 🔗 **[Demo online](https://agesci-campania.github.io/django-agesci-campania-theme/)**: [tema Bootstrap](https://agesci-campania.github.io/django-agesci-campania-theme/bootstrap/) ·
 [tema CoreUI](https://agesci-campania.github.io/django-agesci-campania-theme/coreui/), aggiornata a ogni modifica di `main`.

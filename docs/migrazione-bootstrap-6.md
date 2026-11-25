@@ -1,7 +1,7 @@
 # Migrazione a Bootstrap 6 (tema 3.0)
 
 La serie **3.x** del tema passa da Bootstrap 5.3 a **Bootstrap 6**. Bootstrap 6 è
-ancora in alpha (`6.0.0-alpha.1`): il tema lo carica da CDN con versione e hash
+ancora in alpha (`6.0.0-alpha.2`): il tema lo carica da CDN con versione e hash
 SRI pinnati e viene rilasciato come **pre-release** (`3.0.0a1`, `a2`, …) finché
 Bootstrap non è stabile. Questa pagina elenca cosa cambia per chi aggiorna da una 2.x.
 
@@ -22,13 +22,27 @@ trasparente: leggi solo [Requisiti](#requisiti) e [Rotture nell'API del tema](#r
 
 ## Requisiti
 
-- Browser: **Chrome/Edge ≥ 130, Firefox ≥ 132, Safari ≥ 18** (Bootstrap 6 usa
+- Browser: **Chrome/Edge ≥ 138, Firefox ≥ 147, Safari ≥ 26** (Bootstrap 6 usa
   `<dialog>`, `:has()`, container queries, `light-dark()`, `oklch()` e
   `color-mix()` senza fallback né polyfill).
 - Installazione pre-release: `uv add --prerelease allow django-agesci-campania-theme`
   o `pip install --pre django-agesci-campania-theme`.
 - Il tema forza `data-bs-theme="light"` su `<html>`: Bootstrap 6 segue altrimenti
   `prefers-color-scheme` e il tema AGESCI non ha una versione scura.
+
+## Da alpha.1 ad alpha.2
+
+Se hai già un progetto sulla 3.0 alpha, controlla nei tuoi template e CSS:
+
+- **Griglia**: le `.row` usano `gap`, senza margini negativi né padding sulle colonne. `g-*`, `gx-*` e `gy-*`
+  restano; il padding del contenuto va su un elemento interno. Masonry scritto a mano: usa l'opzione `gutter`.
+- **Opacità dei colori**: `bg-20` → `bg-opacity-20` (idem `fg-*`, `border-*`, `underline-*`, da 10 a 100).
+- **Chip input** (`.chip-input`, `data-bs-chips`) → combobox modificabile (`.combobox-control`,
+  `data-bs-toggle="combobox"`). Il combobox multiplo invia un campo per valore (`getlist`).
+- **Drawer**: da chiuso è `display: none`: non dichiarare `display` fuori da una media query. `open` resta fino
+  alla fine dell'uscita: aspetta `hidden.bs.drawer`.
+- **`.btn-close`** non eredita più il colore del testo: su sfondo scuro aggiungi `data-bs-theme="dark"`.
+- **Datepicker**: il form riceve l'ISO e l'input visibile perde l'attributo `name`.
 
 ## Rotture nell'API del tema
 
@@ -155,7 +169,7 @@ Con `AgesciFormRenderer` attivo i template del tema fanno già tutto questo (ved
 - **Token**: rimappa il colore con `--bs-primary-base/-bg/-fg/-border/-contrast…`, non con `--bs-primary` / `--bs-primary-rgb`.
 - I token root sono su `:root, :host`.
 - Il drawer sotto lg è un pannello "floating" (inset + angoli); il tema lo riporta a tutta altezza con
-  `--bs-drawer-inset: 0; --bs-drawer-border-radius: 0`.
+  `--bs-drawer-inset: 0px; --bs-drawer-border-radius: 0`.
 
 ## Utenti del tema CoreUI
 

@@ -50,28 +50,38 @@ class WidgetBootstrap6Tests(TestCase):
             with self.subTest(valore=valore):
                 form = F({"data": valore})
                 self.assertTrue(form.is_valid(), form.errors)
-        # Ridisegnato in ISO e con data-bs-selected-dates, così il datepicker lo mostra subito.
+        # Ridisegnato in ISO: il datepicker lo legge all'avvio e lo mostra come GG/MM/AAAA.
         html = str(F({"data": "26/10/2026"})["data"])
         self.assertIn('value="2026-10-26"', html)
-        self.assertIn("data-bs-selected-dates", html)
 
-    def test_combobox_multiplo_divide_i_valori(self):
+    def test_combobox_multiplo_legge_un_campo_per_valore(self):
         from django import forms
+
+        from django.http import QueryDict
 
         from agesci_theme.forms import ComboboxMultiplo
 
         F = self._form(b=forms.MultipleChoiceField(choices=[("lc", "L/C"), ("eg", "E/G")], widget=ComboboxMultiplo()))
-        form = F({"b": "lc,eg"})
+        form = F(QueryDict("b=lc&b=eg"))
         self.assertTrue(form.is_valid(), form.errors)
         self.assertEqual(form.cleaned_data["b"], ["lc", "eg"])
 
     def test_campo_chip(self):
+        from django.http import QueryDict
+
         from agesci_theme.forms import CampoChip
 
         F = self._form(tag=CampoChip(max_chip=2))
         self.assertEqual(F({"tag": " a, b ,"}).is_valid(), True)
         self.assertFalse(F({"tag": "a,b,c"}).is_valid())
-        self.assertIn('data-bs-max-chips="2"', str(F()["tag"]))
+        # Un campo per chip (Bootstrap 6 alpha.2); senza chip non arriva nulla.
+        form = F(QueryDict("tag=a&tag=b"))
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.cleaned_data["tag"], ["a", "b"])
+        self.assertFalse(F(QueryDict("")).is_valid())
+        html = str(form["tag"])
+        self.assertIn('data-bs-max-items="2"', html)
+        self.assertIn('class="menu-item selected" type="button" data-bs-value="a"', html)
 
     def test_errori_su_contenitore(self):
         from django import forms

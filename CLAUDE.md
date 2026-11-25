@@ -62,15 +62,15 @@ Python (template tag, context processor), immagini e `_palette.scss`, mentre il
   (`--bs-btn-*`…), non esistono più le varianti `-rgb` (usa `color-mix()`), non
   ridefinire `--bs-fg-body` (i sottoalberi `data-bs-theme="dark"`, es. il menu utente,
   devono restare chiari) e NON mettere `a { color }` globale (ricolorerebbe i `.menu-item`).
-- **Bootstrap 6 è pinnato e in alpha**: `base.html` carica `bootstrap@6.0.0-alpha.1`
+- **Bootstrap 6 è pinnato e in alpha**: `base.html` carica `bootstrap@6.0.0-alpha.2`
   (CSS e bundle ESM) con SRI sha384, nei blocchi `bootstrap_css`/`bootstrap_js`. Il JS è
   `<script type="module">`: non esiste `window.bootstrap`. `<html>` ha
   `data-bs-theme="light"` (BS6 segue altrimenti `prefers-color-scheme`). Browser minimi:
-  Chrome/Edge 130, Firefox 132, Safari 18. Ad ogni alpha: vedi `docs/sviluppo.md`
+  Chrome/Edge 138, Firefox 147, Safari 26. Ad ogni alpha: vedi `docs/sviluppo.md`
   ("Aggiornare Bootstrap 6").
 - **Sidebar = `<dialog class="lg:drawer drawer-start">`** (non `<nav>`): da 1024px è
   in flusso e visibile senza `open`; sotto è un drawer a tutta altezza
-  (`--bs-drawer-inset:0; --bs-drawer-border-radius:0`). Il menu utente è un `.menu`
+  (`--bs-drawer-inset:0px; --bs-drawer-border-radius:0`). Il menu utente è un `.menu`
   con `data-bs-strategy="fixed"`, `data-bs-placement="top-start"`.
 - I tag che mappano varianti v5 passano anche `theme` (`_theme()` in
   `agesci_components.py`: `dark`→`inverse`, `light`→`secondary`; BS6 non ha
@@ -162,10 +162,12 @@ Python (template tag, context processor), immagini e `_palette.scss`, mentre il
 
 - **Widget e tag dei componenti nuovi di Bootstrap 6** (`agesci_theme/forms.py`, `ag_accordion`…
   `ag_carousel`): solo tema base, nessuna copia CoreUI (tranne `avatar.html`/`chip.html`, che includono
-  quelli di `agesci_coreui`). Trappole verificate nel browser su `6.0.0-alpha.1`: il datepicker si crea
-  al caricamento SOLO con `data-bs-selected-dates` (altrimenti al focus: il valore ISO resta visibile),
-  e `SelettoreData` lo aggiunge; chip input non crea un campo da inviare (`chip-input.js`);
-  combobox multiplo scrive "N selected" fisso (`combobox.js`); nav overflow conta solo `li.nav-item`;
+  quelli di `agesci_coreui`). Trappole verificate nel browser su `6.0.0-alpha.2`: il datepicker invia l'ISO
+  da un campo nascosto e toglie `name` all'input (in JS non cercarlo con `[name=…]`); il combobox invia un campo
+  per valore (`getlist`, nessuno se vuoto) e ha sostituito il chip input (`InputChip` = `.combobox-control`);
+  i suoi testi sono fissi in inglese ("N selected", "Remove X": tradotti in `combobox.js`); un drawer chiuso è
+  `display:none` (niente `display` incondizionato su `.ag-sidebar`); `--bs-drawer-inset` vuole l'unità (`0px`,
+  entra nei `calc()`); le `.row` usano `gap` (Masonry lo ignora: `.ag-masonry-gutter`); nav overflow conta solo `li.nav-item`;
   toggler su attributo confronta stringhe (`hidden="true"`, non `hidden`); `.nav-link:focus` ha sfondo
   chiaro (coperto in `_header.scss`). Testi inglesi di default: passali in italiano (`data-bs-more-text`,
   messaggi della password strength, etichette del carousel).
@@ -238,7 +240,7 @@ npm run watch:css    # ricompila lo SCSS in tempo reale
 agesci_theme/                  # il package Python distribuibile
   static/agesci_theme/scss/    # sorgenti SCSS (vedi sezione sopra)
   static/agesci_theme/css/     # CSS compilato (committato)
-  static/agesci_theme/js/      # script JS (sidebar.js, password-toggle.js, multiselect-dropdown.js, chip-input.js, combobox.js)
+  static/agesci_theme/js/      # script JS (sidebar.js, password-toggle.js, multiselect-dropdown.js, combobox.js)
   static/agesci_theme/img/     # loghi, emblemi, zone, favicon
   templates/agesci_theme/
     base.html                  # template base da estendere (blocchi bootstrap_css / bootstrap_js)

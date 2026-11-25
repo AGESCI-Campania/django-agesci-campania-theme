@@ -5,7 +5,7 @@ description: Use and migrate the django-agesci-campania-theme package (Bootstrap
 
 # django-agesci-campania-theme
 
-Tema **Bootstrap 6 (alpha, 6.0.0-alpha.1)** per le app Django AGESCI Campania. I modelli conoscono Bootstrap 5:
+Tema **Bootstrap 6 (alpha, 6.0.0-alpha.2)** per le app Django AGESCI Campania. I modelli conoscono Bootstrap 5:
 la maggior parte degli errori su questo tema è markup v5 che non dà errori ma non funziona.
 
 Documentazione completa: https://django-agesci-campania-theme.readthedocs.io/it/latest/llms-full.txt
@@ -53,7 +53,7 @@ Documentazione completa: https://django-agesci-campania-theme.readthedocs.io/it/
 - Colori: niente esadecimali. Il colore segue la branca (`AGESCI_THEME_BRANCA`: `generico, capi, lc, eg, rs, viola, generico2`, scritta in
   `data-branca` su `<html>`): usa `var(--ag-primary)`, `bg-ag-*`/`text-ag-*` o `theme-primary`.
 - Il CSS del progetto è fuori dai `@layer` di Bootstrap 6 e li batte: un `display:` incondizionato annulla `d-none`/`lg:d-none`.
-- Tema solo chiaro (`data-bs-theme="light"`). Browser minimi: Chrome/Edge 130, Firefox 132, Safari 18.
+- Tema solo chiaro (`data-bs-theme="light"`). Browser minimi: Chrome/Edge 138, Firefox 147, Safari 26.
 - Pre-release: `uv add --prerelease allow django-agesci-campania-theme`.
 
 ## Componenti

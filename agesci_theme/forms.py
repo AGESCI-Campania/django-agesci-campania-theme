@@ -165,7 +165,6 @@ class _WidgetBootstrap6:
 
 
 _FORMATO_DATA_IT = re.compile(r"^(\d{1,2})/(\d{1,2})/(\d{4})$")
-_FORMATO_DATA_ISO = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 
 class SelettoreData(_WidgetBootstrap6, forms.DateInput):
@@ -173,9 +172,10 @@ class SelettoreData(_WidgetBootstrap6, forms.DateInput):
     comparsa, Vanilla Calendar Pro già incluso nel bundle).
 
     Il valore viaggia in ISO (``AAAA-MM-GG``): il datepicker lo legge
-    all'avvio e lo mostra come ``GG/MM/AAAA``. Al submit il campo contiene
-    ``GG/MM/AAAA``: ``value_from_datadict`` lo riconverte in ISO, così il
-    ``DateField`` lo accetta qualunque sia ``LANGUAGE_CODE``.
+    all'avvio, lo mostra come ``GG/MM/AAAA`` e invia di nuovo l'ISO. Se il JS
+    non è caricato il campo può contenere ``GG/MM/AAAA``:
+    ``value_from_datadict`` lo riconverte in ISO, così il ``DateField`` lo
+    accetta qualunque sia ``LANGUAGE_CODE``.
 
     Uso::
 
@@ -201,15 +201,11 @@ class SelettoreData(_WidgetBootstrap6, forms.DateInput):
         attrs["data-bs-toggle"] = "datepicker"
         attrs["data-bs-locale"] = self.locale
         attrs["data-bs-date-format"] = '{"day":"2-digit","month":"2-digit","year":"numeric"}'
+        attrs["data-bs-invalid-date-message"] = "Inserisci una data valida tra quelle disponibili nel calendario."
         if self.data_min:
             attrs["data-bs-date-min"] = str(self.data_min)
         if self.data_max:
             attrs["data-bs-date-max"] = str(self.data_max)
-        # Con una data già presente il datepicker va creato al caricamento (non al
-        # focus), altrimenti il campo mostra l'ISO finché non lo si tocca.
-        valore = context["widget"]["value"]
-        if isinstance(valore, str) and _FORMATO_DATA_ISO.match(valore):
-            attrs["data-bs-selected-dates"] = json.dumps([valore])
         return context
 
     def value_from_datadict(self, data, files, name):
@@ -319,8 +315,8 @@ class InputConAdorno(_WidgetBootstrap6, forms.TextInput):
 
 class _ComboboxMixin:
     """Combobox di Bootstrap 6: bottone + menu, il JS crea un
-    ``<input type="hidden" name=...>`` col valore (più valori separati da
-    virgola, per la variante multipla)."""
+    ``<input type="hidden" name=...>`` col valore (uno per ogni voce scelta,
+    nella variante multipla)."""
 
     template_name = "agesci_theme/forms/combobox.html"
     option_template_name = "agesci_theme/forms/combobox_opzione.html"
@@ -363,20 +359,18 @@ class ComboboxMultiplo(_ComboboxMixin, forms.SelectMultiple):
             return valori
         if isinstance(valori, str):  # dati in un dict semplice, non in una QueryDict
             valori = [valori]
-        # Il JS invia un solo campo hidden con i valori separati da virgola.
-        if len(valori) == 1 and "," in valori[0]:
-            valori = valori[0].split(",")
         return [v for v in valori if v]
 
 
 class InputChip(forms.Widget):
-    """Campo che trasforma ogni voce in un chip (chip input di Bootstrap 6):
-    Invio o la virgola creano il chip, Backspace o la "x" lo rimuovono.
+    """Campo che trasforma ogni voce in un chip (combobox modificabile di
+    Bootstrap 6, che dalla alpha.2 sostituisce il chip input): Invio o la
+    virgola creano il chip, Backspace o la "x" lo rimuovono.
 
-    Bootstrap 6 non crea un campo da inviare col form: lo mantiene
-    ``agesci_theme/js/chip-input.js`` (``<input type="hidden">`` con i
-    valori uniti da virgola). ``value_from_datadict`` restituisce una lista
-    di stringhe senza vuoti. Stessa API dell'``InputChip`` di CoreUI.
+    Il JS di Bootstrap invia un ``<input type="hidden" name=...>`` per chip
+    (nessuno se non ci sono chip). ``value_from_datadict`` restituisce una
+    lista di stringhe senza vuoti e accetta anche un solo valore con le voci
+    unite da virgola. Stessa API dell'``InputChip`` di CoreUI.
     """
 
     template_name = "agesci_theme/forms/input_chip.html"
@@ -399,17 +393,17 @@ class InputChip(forms.Widget):
         widget["placeholder"] = self.placeholder
         widget["max_chip"] = self.max_chip
         widget["invalido"] = _ha_errori(widget["attrs"])
-        widget["valore_unito"] = ",".join(widget["value"])
         return context
 
     def value_from_datadict(self, data, files, name):
-        raw = data.get(name)
-        if raw is None:
-            return None
-        return self.format_value(raw)
+        valori = data.getlist(name) if hasattr(data, "getlist") else data.get(name)
+        if isinstance(valori, (list, tuple)):
+            return [voce for valore in valori for voce in self.format_value(valore)]
+        return self.format_value(valori)
 
     def value_omitted_from_data(self, data, files, name):
-        return name not in data
+        # Senza chip il browser non invia nulla: non si distingue da un campo omesso.
+        return False
 
 
 class CampoChip(forms.Field):

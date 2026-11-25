@@ -164,7 +164,7 @@ class DemoFormBootstrap6(DemoForm):
         required=False,
         max_chip=5,
         widget=InputChip(placeholder="Scrivi e premi Invio…"),
-        help_text="CampoChip / InputChip (chip input di Bootstrap 6), max 5 voci.",
+        help_text="CampoChip / InputChip (combobox modificabile di Bootstrap 6), max 5 voci.",
     )
     partecipanti = forms.IntegerField(
         label="Partecipanti",

@@ -208,7 +208,7 @@ Widget e tag condividono lo stesso partial di markup
 ## Widget dei componenti form di Bootstrap 6
 
 Bootstrap 6 introduce nuovi controlli per i form: datepicker, OTP input, indicatore di robustezza della
-password, form adorn, combobox, chip input e range con bolla. `agesci_theme.forms` li espone come
+password, form adorn, combobox (anche a chip) e range con bolla. `agesci_theme.forms` li espone come
 widget Django. Valgono le stesse regole di `SelectMultiploADiscesa`: sono **opt-in per singolo campo**,
 hanno template nel namespace proprio `agesci_theme/forms/...` e **non richiedono** `AgesciFormRenderer`
 (il renderer serve solo per le classi e gli errori dei campi normali). Calcolano da soli le classi Bootstrap
@@ -226,7 +226,7 @@ usa i widget di `agesci_coreui.forms` (es. `InputChip` / `CampoChip`).
 | `PasswordConRobustezza` | `CharField` | Password strength + toggle mostra/nascondi del tema |
 | `InputConAdorno` | `CharField`, `DecimalField`, `EmailField`… | Form adorn |
 | `Combobox` / `ComboboxMultiplo` | `ChoiceField` / `MultipleChoiceField` | Combobox |
-| `InputChip` (con `CampoChip`) | `CampoChip` (lista di stringhe) | Chip input |
+| `InputChip` (con `CampoChip`) | `CampoChip` (lista di stringhe) | Combobox modificabile (ex chip input) |
 | `Cursore` | `IntegerField` | Range |
 
 La demo li usa tutti in `/form-demo/` (`DemoFormBootstrap6` in `example_project/app/views.py`).
@@ -241,10 +241,10 @@ data = forms.DateField(widget=SelettoreData(data_min="2026-01-01", data_max="202
 
 Parametri: `data_min`, `data_max` (`"AAAA-MM-GG"` o `date`) e `locale` (default `"it-IT"`: mesi in
 italiano, settimana da lunedì). Il campo mostra `GG/MM/AAAA`. Il server scrive il valore in ISO e il
-datepicker lo riformatta. Al submit `value_from_datadict` riconverte `GG/MM/AAAA` in ISO, quindi il
-`DateField` lo accetta con qualunque `LANGUAGE_CODE`. Quando c'è già una data, il widget aggiunge
-`data-bs-selected-dates`: senza, Bootstrap crea il datepicker solo al primo focus e il campo
-mostrerebbe la data in ISO. Gestisce una sola data, non gli intervalli.
+datepicker lo riformatta al caricamento; al submit Bootstrap invia la data in ISO (`AAAA-MM-GG`). Una data non
+valida o fuori dai limiti blocca l'invio con un messaggio in italiano. Senza JS `value_from_datadict` accetta anche
+`GG/MM/AAAA`, con qualunque `LANGUAGE_CODE`. Attenzione: il datepicker toglie l'attributo `name` dall'input
+visibile, quindi in JS cercalo per `id`. Gestisce una sola data, non gli intervalli.
 
 ### `CodiceOTP`
 
@@ -297,8 +297,8 @@ branche = forms.MultipleChoiceField(choices=BRANCHE, widget=ComboboxMultiplo(pla
 ```
 
 `ricerca=True` aggiunge un campo che filtra le voci, e le `choices` raggruppate diventano intestazioni
-del menu. Il JS di Bootstrap crea l'`<input type="hidden">` da inviare. Nella variante multipla i
-valori sono uniti da virgola e `ComboboxMultiplo` li divide di nuovo. Le scelte con valore vuoto (es.
+del menu. Il JS di Bootstrap crea l'`<input type="hidden">` da inviare. Nella variante multipla
+c'è un campo per ogni voce scelta (`request.POST.getlist`), come in un `<select multiple>`. Le scelte con valore vuoto (es.
 `"---------"` dei `ModelChoiceField`) sono omesse e al loro posto c'è il placeholder. Bootstrap 6 scrive
 nel bottone "*N* selected" in inglese, senza un'opzione per cambiarlo: lo traduce in "*N* selezionate"
 `agesci_theme/js/combobox.js`, caricato da `base.html`. Senza JS il campo non invia nulla.
@@ -312,9 +312,11 @@ tag = CampoChip(required=False, max_chip=5, widget=InputChip(placeholder="Scrivi
 ```
 
 L'API è la stessa del `CampoChip` di CoreUI: `CampoChip` restituisce una lista di stringhe e
-`max_chip` limita le voci sia nel browser sia nella validazione. Bootstrap 6 non crea un campo da
-inviare col form: lo mantiene `agesci_theme/js/chip-input.js` (caricato da `base.html`) sull'evento
-`change.bs.chips`.
+`max_chip` limita le voci sia nel browser sia nella validazione. Il widget usa il
+combobox modificabile di Bootstrap 6 (dalla alpha.2 ha sostituito il chip input): invia un
+`<input type="hidden">` per chip e nessuno se non ce ne sono. Invio, la virgola e l'uscita dal campo
+creano il chip; i chip rimossi restano come suggerimenti nel menu. Gli eventi JS sono
+`change.bs.combobox`, `add.bs.combobox` e `remove.bs.combobox`.
 
 ### `Cursore`
 

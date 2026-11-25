@@ -4,8 +4,8 @@
 
 - Python **3.12** o superiore
 - Django **6.0** o superiore
-- Bootstrap **6** (alpha: 6.0.0-alpha.1, caricato da CDN con SRI, non serve installarlo)
-- Browser moderni: Chrome/Edge ≥ 130, Firefox ≥ 132, Safari ≥ 18 (Bootstrap 6 usa
+- Bootstrap **6** (alpha: 6.0.0-alpha.2, caricato da CDN con SRI, non serve installarlo)
+- Browser moderni: Chrome/Edge ≥ 138, Firefox ≥ 147, Safari ≥ 26 (Bootstrap 6 usa
   `<dialog>`, `:has()`, `light-dark()`, `oklch()` senza fallback)
 
 ---

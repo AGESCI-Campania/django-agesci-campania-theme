@@ -5,6 +5,34 @@ Il formato segue [Keep a Changelog](https://keepachangelog.com/it/1.0.0/).
 
 ---
 
+## [Non rilasciato]
+
+### Modificato
+
+- **Bootstrap 6.0.0-alpha.1 → 6.0.0-alpha.2** (versione e hash SRI in `base.html`).
+- **Browser minimi più alti**: Chrome/Edge 138, Firefox 147, Safari 26 (prima 130 / 132 / 18).
+- `InputChip` / `CampoChip` usano il combobox modificabile, che in Bootstrap ha sostituito il chip input:
+  un campo inviato per chip, eventi `*.bs.combobox` al posto di `*.bs.chips`. L'API Python non cambia.
+- `ComboboxMultiplo` riceve un campo per valore; non divide più sulla virgola, quindi anche
+  i valori che la contengono funzionano.
+- `SelettoreData`: il browser invia la data in ISO; messaggio di data non valida in italiano.
+- `combobox.js` traduce anche i testi dei chip («Rimuovi …») e gli annunci per gli screen reader.
+
+### Rimosso
+
+- `agesci_theme/js/chip-input.js` (non serve più): se hai una copia completa di `base.html`, togli lo `<script>`.
+
+### Corretto
+
+- Sidebar come drawer: il `display: flex` incondizionato la teneva renderizzata anche da chiusa.
+- Drawer dell'header e della sidebar: `--bs-drawer-inset` senza unità rendeva invalidi i `calc()` di
+  Bootstrap (niente animazione di apertura, larghezza oltre lo schermo sotto i 400 px).
+- `ag_masonry_grid`: spazio tra le colonne con le nuove `.row` a `gap`.
+
+Nei tuoi template: vedi [Da alpha.1 ad alpha.2](migrazione-bootstrap-6.md#da-alpha-1-ad-alpha-2).
+
+---
+
 ## [3.0.0a3] — 2026-11-03 (pre-release)
 
 ### Aggiunto

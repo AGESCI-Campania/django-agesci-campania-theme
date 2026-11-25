@@ -24,7 +24,7 @@ risultato non dà errori ma esce rotto (classi che non fanno nulla, modal che no
 
 ### Bootstrap 6, non 5
 
-- Il tema carica `bootstrap@6.0.0-alpha.1` da CDN. Nessuna classe o attributo di Bootstrap 5
+- Il tema carica `bootstrap@6.0.0-alpha.2` da CDN. Nessuna classe o attributo di Bootstrap 5
   va dato per buono: se non sei sicuro, controlla il [CSS](https://getbootstrap.com/llms.txt) o la
   [tabella di conversione](migrazione-bootstrap-6.md).
 - Responsive **a prefisso**: `lg:d-none`, `md:col-6` (mai `d-lg-none`, `col-md-6`). Breakpoint: `lg` = 1024px, `2xl` (non `xxl`).
@@ -38,7 +38,7 @@ risultato non dà errori ma esce rotto (classi che non fanno nulla, modal che no
   si fa `import { … } from "<URL del bundle>"`; la data API (`data-bs-*`) si attiva da sola.
 - Form: il `<select>` ha `form-control` (non `form-select`); checkbox e radio sono `input.check` / `input.radio`
   dentro `.form-field` (non `form-check`).
-- Browser minimi: Chrome/Edge 130, Firefox 132, Safari 18.
+- Browser minimi: Chrome/Edge 138, Firefox 147, Safari 26.
 
 ### Configurazione
 

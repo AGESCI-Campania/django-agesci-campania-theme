@@ -58,7 +58,7 @@ il proprio markup (Bootstrap 5/CoreUI 5: dalla 3.0 il tema base è su Bootstrap 
 Vedi [Tema CoreUI](coreui.md).
 
 ```{warning}
-**Dalla 3.0 il tema passa a Bootstrap 6** (oggi alpha: 6.0.0-alpha.1) con markup, classi,
+**Dalla 3.0 il tema passa a Bootstrap 6** (oggi alpha: 6.0.0-alpha.2) con markup, classi,
 JavaScript e browser minimi diversi da Bootstrap 5. Se aggiorni da una 2.x leggi la
 [guida alla migrazione](migrazione-bootstrap-6.md).
 ```
